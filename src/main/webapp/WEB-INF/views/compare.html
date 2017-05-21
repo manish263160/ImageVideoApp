@@ -1,0 +1,149 @@
+<div>
+	<TopSec showGateway={this.state.showGateway} device={this.state.device} />
+	<div id="ioMainContainer" className="container">
+		<div className="row io-row">
+			<div className="col l8 m12 s12 ioColListing no-pad">
+
+				<div id="selItemEditDiv" style="":this.state.showCOntroll ? 'block' : 'none'}}>
+					<table className="responsive-table">
+						<tbody>
+							<tr className="ioGLListControlTR" id="control-sel">
+								<td colspan="6">
+									<h6 className="ioGLControlTitle">Control Setting for
+										Gateway 0091</h6>
+									<form action="#">
+										<div className="ioControlTable">
+											<div className="ioControlTableRow">
+												<div className="ioControlTableCol third">
+													<label className="ioControlHeadLbl">Change Status</label>
+													<p className="ioControlContainerP">
+														<input className="with-gap" name="group1" type="radio"
+															id="test11" checked="" /> <label
+															className="ioControlElemLbl" for="test11">Active</label>
+														<input className="with-gap" name="group1" type="radio"
+															id="test12" /> <label
+															className="ioControlElemLbl forInActive" for="test12">In-Active</label>
+													</p>
+													<label className="ioControlHeadLbl">Select
+														Luminaire Type</label>
+													<p className="ioControlContainerP">
+														<select className="ioControlSelect">
+															<option value="" disabled="" selected="">Battery
+																Type</option>
+															<option value="1">Option 1</option>
+															<option value="2">Option 2</option>
+															<option value="3">Option 3</option>
+														</select> <select className="ioControlSelect">
+															<option value="" disabled="" selected="">System
+																Type</option>
+															<option value="1">Option 1</option>
+															<option value="2">Option 2</option>
+															<option value="3">Option 3</option>
+														</select> <select className="ioControlSelect">
+															<option value="" disabled="" selected="">System
+																Type</option>
+															<option value="1">Option 1</option>
+															<option value="2">Option 2</option>
+															<option value="3">Option 3</option>
+														</select>
+													</p>
+												</div>
+
+												<div className="ioControlTableCol third">
+													<label className="ioControlHeadLbl">Dimmer</label>
+													<p className="ioControlContainerP noMargBot">
+														<label className="ioControlElemLbl" for="test11">
+															Level 1 <span className="ioControlRangeValSpan">50
+																%</span>
+														</label> <input className="ioControlRange" type="range"
+															id="test11" min="0" max="100" /> <i
+															className="material-icons ioIconBright ioIconBrightLow"></i>
+														<i
+															className="material-icons ioIconBright ioIconBrightHigh"></i>
+													</p>
+													<p className="ioControlContainerP">
+														<label className="ioControlElemLbl" for="test11">
+															Level 1 <span className="ioControlRangeValSpan">50
+																%</span>
+														</label> <input className="ioControlRange" type="range"
+															id="test11" min="0" max="100" /> <i
+															className="material-icons ioIconBright ioIconBrightLow"></i>
+														<i
+															className="material-icons ioIconBright ioIconBrightHigh"></i>
+													</p>
+												</div>
+
+												<div className="ioControlTableCol sixth">
+													<label className="ioControlHeadLbl">Dimming Time</label>
+													<p className="ioControlContainerP clearfix noMargBot">
+														<label className="ioControlElemLbl">Time 1</label> <br
+															className="hide-on-med-and-down" /> <input type="text"
+															className="ioControlInputTime" placeholder="HH" /> <input
+															type="text" className="ioControlInputTime"
+															placeholder="MM" />
+													</p>
+													<p className="ioControlContainerP clearfix noMargBot">
+														<label className="ioControlElemLbl">Time 1</label> <br
+															className="hide-on-med-and-down" /> <input type="text"
+															className="ioControlInputTime" placeholder="HH" /> <input
+															type="text" className="ioControlInputTime"
+															placeholder="MM" />
+													</p>
+													<p className="ioControlContainerP clearfix">
+														<span className="ioControlMiscInfo">*24 hours
+															format</span>
+													</p>
+												</div>
+											</div>
+										</div>
+										<div className="ioControlActionFooter">
+											<button data-for="gateway" data-isforsel="true"
+												data-ref="control-sel"
+												className="ioListBtn ioListControlSaveBtn right">Save</button>
+											<button data-for="gateway" data-isforsel="true"
+												data-ref="control-sel"
+												className="ioListBtn ioListControlCancelBtn right">Cancel</button>
+										</div>
+									</form>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+
+				<div className="ioTabContainer" id="listTabContainer">
+					<div className="ioTab">
+						<button className="tablinks active" data-ref="tabAll">Luminaires
+							( 2346 )</button>
+					</div>
+
+					<div id="tabAll" className="tabcontent" style=""display: 'block' }}>
+						<ul className="collection ioGLCollection">
+
+							{this.state.gatewayLuminiersData.map((device) => {
+							console.log("----devie--", device); return
+							<LuminaireListItem apiService={this.state.apiService}
+								key={device.id} device={device} />
+							})}
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div className="col l4 hide-on-med-and-down no-pad">
+				<div className="ioListMapContainer">
+					<MapView className="ioListMap" markers={this.props.markers} />
+					<div className="ioListMapFooter">
+						<span className="ioListMapFooterSpanL left"> <i
+							className="material-icons"></i> Gateways
+						</span> <span className="ioListMapFooterSpanR right"> <i
+							className="material-icons"></i>
+						</span>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>

@@ -1,0 +1,53 @@
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td bgcolor="#ffffff" align="center" style="padding: 15px;" class="section-padding">
+            <!--[if (gte mso 9)|(IE)]>
+            <table align="center" border="0" cellspacing="0" cellpadding="0" width="500">
+            <tr>
+            <td align="center" valign="top" width="500">
+            <![endif]-->
+            <table border="0" cellpadding="0" cellspacing="0" width="98%" class="responsive-table">
+                <tr>
+                    <td>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td>
+                                    <!-- COPY -->
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">Hi,</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">${inviterUser}  invited you to join <a href="http://www.tomorrowsone.com">TomorrowsOne.com</a></td>
+                                        </tr>
+										<tr>
+                                            <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">
+                                            	<p><a href="http://www.tomorrowsone.com">TomorrowsOne.com</a> deliver a quality global online marketplace platform which fulfills every need of users across Business, Knowledge and Culture through the largest online network and to provide services at the best possible value.</p>
+												<p><a href="http://www.tomorrowsone.com">TomorrowsOne.com</a> is an integrated approach which focuses on enabling transactions and tie-ups across our three focus verticals.</p>
+												<p>It enables you to post your Need or an Offering and helps you match it with another user to complete the transaction.</p>
+												<p>Towards this end, TomorrowsOne is a 360° global requirement and fulfillment online marketplace for every user in the Business, Knowledge and Culture verticals.</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">Please <a href="${registerUrl}">click here</a> to register yourself with us.</td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">Regards,<br/>${fromUserName}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <!--[if (gte mso 9)|(IE)]>
+            </td>
+            </tr>
+            </table>
+            <![endif]-->
+        </td>
+    </tr>
+    
+</table>

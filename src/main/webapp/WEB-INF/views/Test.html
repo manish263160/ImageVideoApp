@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="html">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>iOEye</title>
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+
+  <body>
+    
+
+    <div class="topsec topsecList">
+      <div class="container">
+        <!--first row - for search and energy consumed panel-->
+        <div class="row io-row io-row-search clearfix">
+          <!--search content-->
+          <div class="col l8 m12 s12">
+            <div class="searchbox">               
+                <input placeholder="Search Gateways" id="first_name" type="text" class="validate">
+                <input type="submit" class="waves-effect waves-light btn" value="Search" name="">            
+            </div>
+          </div>
+          <!--energy consumed panel-->
+          <div class="col l4 m12 s12">
+            <div class="ioInfoPanelRight">
+              <img class="ioIcoPower" src="images/ico3.png">
+              <p>
+                <span class="ioInfoPanelKeySpan">Energy Consumed</span><br>
+                <span class="ioInfoPanelValSpan ioOrange">6785</span>
+                <span class="ioInfoPanelUnitSpan">Kwh</span>
+              </p>
+              <img class="ioIcoAlert" src="images/alert.png">
+              <p>
+                <span class="ioInfoPanelKeySpan">Alerts</span><br>
+                <span class="ioInfoPanelValSpan ioRed">02</span>
+              </p>
+            </div>          
+          </div>
+        </div>
+      </div>
+      <div class="selectionDetailSec">
+      <div class="container">
+        <!--row for selected gateway detail-->
+        <div class="row io-row">
+          <div class="col l12 no-pad">
+            <p class="selDetailLastSeenP">
+              Last seen on Apr 19, 2017 2:20:00 PM. Last seen on Apr 19, 2017 2:20:00 PM
+            </p>
+            <table class="responsive-table io-tbl-listing1" id="gateway-sel">              
+              <tbody>
+                <tr>
+                  <td>
+                    <h6 class="ioListItemTitle">Gateway 0091</h6>
+                    <span class="ioListItemDetailSpan ioListItemCitySpan">Philips Noida</span>
+                    <span class="ioListItemDetailSpan ioListItemAddrSpan">C-47, Latest Gateway</span>
+                  </td>
+                  <td>
+                    <span class="ioListItemDetailSpan ioListItemKeySpan">Status</span>
+                    <span class="ioListItemDetailSpan ioListItemValSpan ioGreen">Active</span>
+                  </td>
+                  <td>
+                    <span class="ioListItemDetailSpan ioListItemKeySpan">Alerts</span>
+                    <span class="ioListItemDetailSpan ioListItemValSpan ioRed">02</span>
+                  </td>
+                  <td>
+                    <span class="ioListItemDetailSpan ioListItemKeySpan">Luminaires</span>
+                    <span class="ioListItemDetailSpan ioListItemValSpan">567</span>
+                  </td>
+                  <td>
+                    <span class="ioListItemDetailSpan ioListItemKeySpan">Sensors</span>
+                    <span class="ioListItemDetailSpan ioListItemValSpan">24</span>
+                  </td>
+                  <td>
+                    <span class="ioListItemDetailSpan ioListItemKeySpan">dB</span>
+                    <span class="ioListItemDetailSpan ioListItemValSpan">- 67</span>
+                  </td>
+                  <td>
+                    <span class="ioListItemDetailSpan ioListItemKeySpan">UpTime</span>
+                    <span class="ioListItemDetailSpan ioListItemValSpan">68 %</span>
+                  </td>
+                  <td>
+                    <button data-for="gateway" data-isforsel="true" data-ref="control-sel" class="ioListBtn ioListControlBtn right">Control</button>
+                  </td>
+                  <td class="ioSelDetMoreTD">
+                    <a class="ioSelDetMoreLink" href="#">
+                      <i class="material-icons">&#xE5D4;</i>
+                    </a>
+                  </td>
+                </tr>                
+              </tbody>
+            </table>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>   
+    
+    <div id="ioMainContainer" class="container ioContainerPDPList">
+      <div class="row io-row">
+        <div class="col l8 m12 s12 ioColListing no-pad">
+          <!--div for selected gateway edit-->
+          <div id="selItemEditDiv">
+            <table class="responsive-table">
+              <tbody>
+                <tr class="ioGLListControlTR" id="control-sel">
+                  <td colspan="6">
+                    <h6 class="ioGLControlTitle">Control Setting for Gateway 0091</h6>
+                    <form action="#">
+                    <div class="ioControlTable">
+                      <div class="ioControlTableRow">
+                        <div class="ioControlTableCol third">
+                          <label class="ioControlHeadLbl">Change Status</label>
+                          <p class="ioControlContainerP">
+                            <input class="with-gap" name="group1" type="radio" id="test11" checked="">
+                            <label class="ioControlElemLbl" for="test11">Active</label>
+                            <input class="with-gap" name="group1" type="radio" id="test12">
+                            <label class="ioControlElemLbl forInActive" for="test12">In-Active</label>
+                          </p>
+                          <label class="ioControlHeadLbl">Select Luminaire Type</label>
+                          <p class="ioControlContainerP">
+                            <select class="ioControlSelect">
+                              <option value="" disabled="" selected="">Battery Type</option>
+                              <option value="1">Option 1</option>
+                              <option value="2">Option 2</option>
+                              <option value="3">Option 3</option>
+                            </select>
+                            <select class="ioControlSelect">
+                              <option value="" disabled="" selected="">System Type</option>
+                              <option value="1">Option 1</option>
+                              <option value="2">Option 2</option>
+                              <option value="3">Option 3</option>
+                            </select>
+                            <select class="ioControlSelect">
+                              <option value="" disabled="" selected="">System Type</option>
+                              <option value="1">Option 1</option>
+                              <option value="2">Option 2</option>
+                              <option value="3">Option 3</option>
+                            </select>
+                          </p>
+                        </div>
+                        
+                        <div class="ioControlTableCol third">
+                          <label class="ioControlHeadLbl">Dimmer</label>
+                          <p class="ioControlContainerP noMargBot">
+                            <label class="ioControlElemLbl" for="test11">
+                              Level 1
+                              <span class="ioControlRangeValSpan">50 %</span>
+                            </label>
+                            <input class="ioControlRange" type="range" id="test11" min="0" max="100">
+                            <i class="material-icons ioIconBright ioIconBrightLow"></i>
+                            <i class="material-icons ioIconBright ioIconBrightHigh"></i>
+                          </p>
+                          <p class="ioControlContainerP">
+                            <label class="ioControlElemLbl" for="test11">
+                              Level 1
+                              <span class="ioControlRangeValSpan">50 %</span>
+                            </label>
+                            <input class="ioControlRange" type="range" id="test11" min="0" max="100">
+                            <i class="material-icons ioIconBright ioIconBrightLow"></i>
+                            <i class="material-icons ioIconBright ioIconBrightHigh"></i>
+                          </p>
+                        </div>
+                        
+                        <div class="ioControlTableCol sixth">
+                          <label class="ioControlHeadLbl">Dimming Time</label>
+                          <p class="ioControlContainerP clearfix noMargBot">
+                            <label class="ioControlElemLbl">Time 1</label>
+                            <br class="hide-on-med-and-down">
+                            <input type="text" class="ioControlInputTime" placeholder="HH">
+                            <input type="text" class="ioControlInputTime" placeholder="MM">
+                          </p>
+                          <p class="ioControlContainerP clearfix noMargBot">
+                            <label class="ioControlElemLbl">Time 1</label>
+                            <br class="hide-on-med-and-down">
+                            <input type="text" class="ioControlInputTime" placeholder="HH">
+                            <input type="text" class="ioControlInputTime" placeholder="MM">
+                          </p>
+                          <p class="ioControlContainerP clearfix">
+                           <span class="ioControlMiscInfo">*24 hours format</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ioControlActionFooter">
+                      <button data-for="gateway" data-isforsel="true" data-ref="control-sel" class="ioListBtn ioListControlSaveBtn right">Save</button>
+                      <button data-for="gateway" data-isforsel="true" data-ref="control-sel" class="ioListBtn ioListControlCancelBtn right">Cancel</button>
+                    </div>
+                    </form>
+                  </td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="ioTabContainer" id="listTabContainer">
+            <div class="ioTab">
+              <button class="tablinks active" data-ref="tabAll">Luminaires ( 2346 )</button>
+            </div>
+
+            <div id="tabAll" class="tabcontent" style="display: block;">
+              <ul class="collection ioGLCollection">
+                <li class="collection-item" id="luminaire-111">
+                  <table class="responsive-table io-tbl-listing">              
+                    <tbody>
+                      <tr>
+                        <td>
+                          <h6 class="ioListItemTitle">Luminaire Name 1</h6>
+                          <span class="ioListItemDetailSpan ioListItemAddrSpan">Bluetooth Device :</span>
+                          <span class="ioListItemDetailSpan ioListItemAddrSpan">Philips Solar Luminaire : S-1.0.0</span>
+                        </td>
+                        <td>
+                          <div class="switch ioListSwitch">
+                            <label>
+                              <input type="checkbox">
+                              <span class="lever"></span>
+                            </label>
+                          </div>
+                        </td>
+                        <td>
+                          <span class="ioListItemDetailSpan ioListItemKeySpan">Alerts</span>
+                          <span class="ioListItemDetailSpan ioListItemValSpan ioRed">02</span>
+                        </td>
+                        <td>
+                          <span class="ioListItemDetailSpan ioListItemKeySpan">Sensors</span>
+                          <span class="ioListItemDetailSpan ioListItemValSpan">24</span>
+                        </td>
+                        <td>
+                          <button data-for="luminaire" data-ref="control-111" class="ioListBtn ioListControlBtn right">Control</button>
+                          <input type="checkbox" class="filled-in ioControlCheckBox" id="check-111" />
+                          <label class="ioControlCheckBoxLbl" for="check-111"></label>
+                        </td>
+                      </tr>
+                      <tr class="ioGLListControlTR" id="control-111">
+                      <td colspan="6">
+                        <h6 class="ioGLControlTitle">Control Setting for Gateway 0091</h6>
+                        <form action="#">
+                        <div class="ioControlTable">
+                          <div class="ioControlTableRow">
+                            <div class="ioControlTableCol third">
+                              <label class="ioControlHeadLbl">Dimmer</label>
+                              <p class="ioControlContainerP noMargBot">
+                                <label class="ioControlElemLbl" for="test11">
+                                  Level 1
+                                  <span class="ioControlRangeValSpan">50 %</span>
+                                </label>
+                                <input class="ioControlRange" type="range" id="test11" min="0" max="100" />
+                                <i class="material-icons ioIconBright ioIconBrightLow">&#xE430;</i>
+                                <i class="material-icons ioIconBright ioIconBrightHigh">&#xE430;</i>
+                              </p>
+                              <p class="ioControlContainerP">
+                                <label class="ioControlElemLbl" for="test11">
+                                  Level 1
+                                  <span class="ioControlRangeValSpan">50 %</span>
+                                </label>
+                                <input class="ioControlRange" type="range" id="test11" min="0" max="100" />
+                                <i class="material-icons ioIconBright ioIconBrightLow">&#xE430;</i>
+                                <i class="material-icons ioIconBright ioIconBrightHigh">&#xE430;</i>
+                              </p>
+                            </div>
+                            
+                            <div class="ioControlTableCol sixth">
+                              <label class="ioControlHeadLbl">Dimming Time</label>
+                              <p class="ioControlContainerP clearfix noMargBot">
+                                <label class="ioControlElemLbl">Time 1</label>
+                                <br class="hide-on-med-and-down">
+                                <input type="text" class="ioControlInputTime" placeholder="HH">
+                                <input type="text" class="ioControlInputTime" placeholder="MM">
+                              </p>
+                              <p class="ioControlContainerP clearfix noMargBot">
+                                <label class="ioControlElemLbl">Time 1</label>
+                                <br class="hide-on-med-and-down">
+                                <input type="text" class="ioControlInputTime" placeholder="HH">
+                                <input type="text" class="ioControlInputTime" placeholder="MM">
+                              </p>
+                              <p class="ioControlContainerP clearfix">
+                               <span class="ioControlMiscInfo">*24 hours format</span>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="ioControlActionFooter">
+                          <button data-for="luminaire" data-ref="control-111" class="ioListBtn ioListControlSaveBtn right">Save</button>
+                          <button data-for="luminaire" data-ref="control-111" class="ioListBtn ioListControlCancelBtn right">Cancel</button>
+                        </div>
+                        </form>
+                      </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </li>
+                <li class="collection-item" id="luminaire-222">
+                  <table class="responsive-table io-tbl-listing">              
+                    <tbody>
+                      <tr>
+                        <td>
+                          <h6 class="ioListItemTitle">Luminaire Name 1</h6>
+                          <span class="ioListItemDetailSpan ioListItemAddrSpan">Bluetooth Device :</span>
+                          <span class="ioListItemDetailSpan ioListItemAddrSpan">Philips Solar Luminaire : S-1.0.0</span>
+                        </td>
+                        <td>
+                          <div class="switch ioListSwitch">
+                            <label>
+                              <input type="checkbox">
+                              <span class="lever"></span>
+                            </label>
+                          </div>
+                        </td>
+                        <td>
+                          <span class="ioListItemDetailSpan ioListItemKeySpan">Alerts</span>
+                          <span class="ioListItemDetailSpan ioListItemValSpan ioRed">02</span>
+                        </td>
+                        <td>
+                          <span class="ioListItemDetailSpan ioListItemKeySpan">Sensors</span>
+                          <span class="ioListItemDetailSpan ioListItemValSpan">24</span>
+                        </td>
+                        <td>
+                          <button data-for="luminaire" data-ref="control-222" class="ioListBtn ioListControlBtn right">Control</button>
+                          <input type="checkbox" class="filled-in ioControlCheckBox" id="check-222" />
+                          <label class="ioControlCheckBoxLbl" for="check-222"></label>
+                        </td>
+                      </tr>
+                      <tr class="ioGLListControlTR" id="control-222">
+                      <td colspan="6">
+                        <h6 class="ioGLControlTitle">Control Setting for Gateway 0091</h6>
+                        <form action="#">
+                        <div class="ioControlTable">
+                          <div class="ioControlTableRow">
+                            <div class="ioControlTableCol third">
+                              <label class="ioControlHeadLbl">Dimmer</label>
+                              <p class="ioControlContainerP noMargBot">
+                                <label class="ioControlElemLbl" for="test11">
+                                  Level 1
+                                  <span class="ioControlRangeValSpan">50 %</span>
+                                </label>
+                                <input class="ioControlRange" type="range" id="test11" min="0" max="100" />
+                                <i class="material-icons ioIconBright ioIconBrightLow">&#xE430;</i>
+                                <i class="material-icons ioIconBright ioIconBrightHigh">&#xE430;</i>
+                              </p>
+                              <p class="ioControlContainerP">
+                                <label class="ioControlElemLbl" for="test11">
+                                  Level 1
+                                  <span class="ioControlRangeValSpan">50 %</span>
+                                </label>
+                                <input class="ioControlRange" type="range" id="test11" min="0" max="100" />
+                                <i class="material-icons ioIconBright ioIconBrightLow">&#xE430;</i>
+                                <i class="material-icons ioIconBright ioIconBrightHigh">&#xE430;</i>
+                              </p>
+                            </div>
+                            
+                            <div class="ioControlTableCol sixth">
+                              <label class="ioControlHeadLbl">Dimming Time</label>
+                              <p class="ioControlContainerP clearfix noMargBot">
+                                <label class="ioControlElemLbl">Time 1</label>
+                                <br class="hide-on-med-and-down">
+                                <input type="text" class="ioControlInputTime" placeholder="HH">
+                                <input type="text" class="ioControlInputTime" placeholder="MM">
+                              </p>
+                              <p class="ioControlContainerP clearfix noMargBot">
+                                <label class="ioControlElemLbl">Time 1</label>
+                                <br class="hide-on-med-and-down">
+                                <input type="text" class="ioControlInputTime" placeholder="HH">
+                                <input type="text" class="ioControlInputTime" placeholder="MM">
+                              </p>
+                              <p class="ioControlContainerP clearfix">
+                               <span class="ioControlMiscInfo">*24 hours format</span>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="ioControlActionFooter">
+                          <button data-for="luminaire" data-ref="control-222" class="ioListBtn ioListControlSaveBtn right">Save</button>
+                          <button data-for="luminaire" data-ref="control-222" class="ioListBtn ioListControlCancelBtn right">Cancel</button>
+                        </div>
+                        </form>
+                      </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </li>
+                <li class="collection-item" id="luminaire-333">
+                  <table class="responsive-table io-tbl-listing">              
+                    <tbody>
+                      <tr>
+                        <td>
+                          <h6 class="ioListItemTitle">Luminaire Name 1</h6>
+                          <span class="ioListItemDetailSpan ioListItemAddrSpan">Bluetooth Device :</span>
+                          <span class="ioListItemDetailSpan ioListItemAddrSpan">Philips Solar Luminaire : S-1.0.0</span>
+                        </td>
+                        <td>
+                          <div class="switch ioListSwitch">
+                            <label>
+                              <input type="checkbox">
+                              <span class="lever"></span>
+                            </label>
+                          </div>
+                        </td>
+                        <td>
+                          <span class="ioListItemDetailSpan ioListItemKeySpan">Alerts</span>
+                          <span class="ioListItemDetailSpan ioListItemValSpan ioRed">02</span>
+                        </td>
+                        <td>
+                          <span class="ioListItemDetailSpan ioListItemKeySpan">Sensors</span>
+                          <span class="ioListItemDetailSpan ioListItemValSpan">24</span>
+                        </td>
+                        <td>
+                          <button data-for="luminaire" data-ref="control-333" class="ioListBtn ioListControlBtn right">Control</button>
+                          <input type="checkbox" class="filled-in ioControlCheckBox" id="check-333" />
+                          <label class="ioControlCheckBoxLbl" for="check-333"></label>
+                        </td>
+                      </tr>
+                      <tr class="ioGLListControlTR" id="control-333">
+                      <td colspan="6">
+                        <h6 class="ioGLControlTitle">Control Setting for Gateway 0091</h6>
+                        <form action="#">
+                        <div class="ioControlTable">
+                          <div class="ioControlTableRow">
+                            <div class="ioControlTableCol third">
+                              <label class="ioControlHeadLbl">Dimmer</label>
+                              <p class="ioControlContainerP noMargBot">
+                                <label class="ioControlElemLbl" for="test11">
+                                  Level 1
+                                  <span class="ioControlRangeValSpan">50 %</span>
+                                </label>
+                                <input class="ioControlRange" type="range" id="test11" min="0" max="100" />
+                                <i class="material-icons ioIconBright ioIconBrightLow">&#xE430;</i>
+                                <i class="material-icons ioIconBright ioIconBrightHigh">&#xE430;</i>
+                              </p>
+                              <p class="ioControlContainerP">
+                                <label class="ioControlElemLbl" for="test11">
+                                  Level 1
+                                  <span class="ioControlRangeValSpan">50 %</span>
+                                </label>
+                                <input class="ioControlRange" type="range" id="test11" min="0" max="100" />
+                                <i class="material-icons ioIconBright ioIconBrightLow">&#xE430;</i>
+                                <i class="material-icons ioIconBright ioIconBrightHigh">&#xE430;</i>
+                              </p>
+                            </div>
+                            
+                            <div class="ioControlTableCol sixth">
+                              <label class="ioControlHeadLbl">Dimming Time</label>
+                              <p class="ioControlContainerP clearfix noMargBot">
+                                <label class="ioControlElemLbl">Time 1</label>
+                                <br class="hide-on-med-and-down">
+                                <input type="text" class="ioControlInputTime" placeholder="HH">
+                                <input type="text" class="ioControlInputTime" placeholder="MM">
+                              </p>
+                              <p class="ioControlContainerP clearfix noMargBot">
+                                <label class="ioControlElemLbl">Time 1</label>
+                                <br class="hide-on-med-and-down">
+                                <input type="text" class="ioControlInputTime" placeholder="HH">
+                                <input type="text" class="ioControlInputTime" placeholder="MM">
+                              </p>
+                              <p class="ioControlContainerP clearfix">
+                               <span class="ioControlMiscInfo">*24 hours format</span>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="ioControlActionFooter">
+                          <button data-for="luminaire" data-ref="control-333" class="ioListBtn ioListControlSaveBtn right">Save</button>
+                          <button data-for="luminaire" data-ref="control-333" class="ioListBtn ioListControlCancelBtn right">Cancel</button>
+                        </div>
+                        </form>
+                      </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </li>
+                <li class="collection-item" id="luminaire-444">
+                  <table class="responsive-table io-tbl-listing">              
+                    <tbody>
+                      <tr>
+                        <td>
+                          <h6 class="ioListItemTitle">Luminaire Name 1</h6>
+                          <span class="ioListItemDetailSpan ioListItemAddrSpan">Bluetooth Device :</span>
+                          <span class="ioListItemDetailSpan ioListItemAddrSpan">Philips Solar Luminaire : S-1.0.0</span>
+                        </td>
+                        <td>
+                          <div class="switch ioListSwitch">
+                            <label>
+                              <input type="checkbox">
+                              <span class="lever"></span>
+                            </label>
+                          </div>
+                        </td>
+                        <td>
+                          <span class="ioListItemDetailSpan ioListItemKeySpan">Alerts</span>
+                          <span class="ioListItemDetailSpan ioListItemValSpan ioRed">02</span>
+                        </td>
+                        <td>
+                          <span class="ioListItemDetailSpan ioListItemKeySpan">Sensors</span>
+                          <span class="ioListItemDetailSpan ioListItemValSpan">24</span>
+                        </td>
+                        <td>
+                          <button data-for="luminaire" data-ref="control-444" class="ioListBtn ioListControlBtn right">Control</button>
+                          <input type="checkbox" class="filled-in ioControlCheckBox" id="check-444" />
+                          <label class="ioControlCheckBoxLbl" for="check-444"></label>
+                        </td>
+                      </tr>
+                      <tr class="ioGLListControlTR" id="control-444">
+                      <td colspan="6">
+                        <h6 class="ioGLControlTitle">Control Setting for Gateway 0091</h6>
+                        <form action="#">
+                        <div class="ioControlTable">
+                          <div class="ioControlTableRow">
+                            <div class="ioControlTableCol third">
+                              <label class="ioControlHeadLbl">Dimmer</label>
+                              <p class="ioControlContainerP noMargBot">
+                                <label class="ioControlElemLbl" for="test11">
+                                  Level 1
+                                  <span class="ioControlRangeValSpan">50 %</span>
+                                </label>
+                                <input class="ioControlRange" type="range" id="test11" min="0" max="100" />
+                                <i class="material-icons ioIconBright ioIconBrightLow">&#xE430;</i>
+                                <i class="material-icons ioIconBright ioIconBrightHigh">&#xE430;</i>
+                              </p>
+                              <p class="ioControlContainerP">
+                                <label class="ioControlElemLbl" for="test11">
+                                  Level 1
+                                  <span class="ioControlRangeValSpan">50 %</span>
+                                </label>
+                                <input class="ioControlRange" type="range" id="test11" min="0" max="100" />
+                                <i class="material-icons ioIconBright ioIconBrightLow">&#xE430;</i>
+                                <i class="material-icons ioIconBright ioIconBrightHigh">&#xE430;</i>
+                              </p>
+                            </div>
+                            
+                            <div class="ioControlTableCol sixth">
+                              <label class="ioControlHeadLbl">Dimming Time</label>
+                              <p class="ioControlContainerP clearfix noMargBot">
+                                <label class="ioControlElemLbl">Time 1</label>
+                                <br class="hide-on-med-and-down">
+                                <input type="text" class="ioControlInputTime" placeholder="HH">
+                                <input type="text" class="ioControlInputTime" placeholder="MM">
+                              </p>
+                              <p class="ioControlContainerP clearfix noMargBot">
+                                <label class="ioControlElemLbl">Time 1</label>
+                                <br class="hide-on-med-and-down">
+                                <input type="text" class="ioControlInputTime" placeholder="HH">
+                                <input type="text" class="ioControlInputTime" placeholder="MM">
+                              </p>
+                              <p class="ioControlContainerP clearfix">
+                               <span class="ioControlMiscInfo">*24 hours format</span>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="ioControlActionFooter">
+                          <button data-for="luminaire" data-ref="control-444" class="ioListBtn ioListControlSaveBtn right">Save</button>
+                          <button data-for="luminaire" data-ref="control-444" class="ioListBtn ioListControlCancelBtn right">Cancel</button>
+                        </div>
+                        </form>
+                      </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </li>
+                <li class="collection-item" id="luminaire-555">
+                  <table class="responsive-table io-tbl-listing">              
+                    <tbody>
+                      <tr>
+                        <td>
+                          <h6 class="ioListItemTitle">Luminaire Name 1</h6>
+                          <span class="ioListItemDetailSpan ioListItemAddrSpan">Bluetooth Device :</span>
+                          <span class="ioListItemDetailSpan ioListItemAddrSpan">Philips Solar Luminaire : S-1.0.0</span>
+                        </td>
+                        <td>
+                          <div class="switch ioListSwitch">
+                            <label>
+                              <input type="checkbox">
+                              <span class="lever"></span>
+                            </label>
+                          </div>
+                        </td>
+                        <td>
+                          <span class="ioListItemDetailSpan ioListItemKeySpan">Alerts</span>
+                          <span class="ioListItemDetailSpan ioListItemValSpan ioRed">02</span>
+                        </td>
+                        <td>
+                          <span class="ioListItemDetailSpan ioListItemKeySpan">Sensors</span>
+                          <span class="ioListItemDetailSpan ioListItemValSpan">24</span>
+                        </td>
+                        <td>
+                          <button data-for="luminaire" data-ref="control-555" class="ioListBtn ioListControlBtn right">Control</button>
+                          <input type="checkbox" class="filled-in ioControlCheckBox" id="check-555" />
+                          <label class="ioControlCheckBoxLbl" for="check-555"></label>
+                        </td>
+                      </tr>
+                      <tr class="ioGLListControlTR" id="control-555">
+                      <td colspan="6">
+                        <h6 class="ioGLControlTitle">Control Setting for Gateway 0091</h6>
+                        <form action="#">
+                        <div class="ioControlTable">
+                          <div class="ioControlTableRow">
+                            <div class="ioControlTableCol third">
+                              <label class="ioControlHeadLbl">Dimmer</label>
+                              <p class="ioControlContainerP noMargBot">
+                                <label class="ioControlElemLbl" for="test11">
+                                  Level 1
+                                  <span class="ioControlRangeValSpan">50 %</span>
+                                </label>
+                                <input class="ioControlRange" type="range" id="test11" min="0" max="100" />
+                                <i class="material-icons ioIconBright ioIconBrightLow">&#xE430;</i>
+                                <i class="material-icons ioIconBright ioIconBrightHigh">&#xE430;</i>
+                              </p>
+                              <p class="ioControlContainerP">
+                                <label class="ioControlElemLbl" for="test11">
+                                  Level 1
+                                  <span class="ioControlRangeValSpan">50 %</span>
+                                </label>
+                                <input class="ioControlRange" type="range" id="test11" min="0" max="100" />
+                                <i class="material-icons ioIconBright ioIconBrightLow">&#xE430;</i>
+                                <i class="material-icons ioIconBright ioIconBrightHigh">&#xE430;</i>
+                              </p>
+                            </div>
+                            
+                            <div class="ioControlTableCol sixth">
+                              <label class="ioControlHeadLbl">Dimming Time</label>
+                              <p class="ioControlContainerP clearfix noMargBot">
+                                <label class="ioControlElemLbl">Time 1</label>
+                                <br class="hide-on-med-and-down">
+                                <input type="text" class="ioControlInputTime" placeholder="HH">
+                                <input type="text" class="ioControlInputTime" placeholder="MM">
+                              </p>
+                              <p class="ioControlContainerP clearfix noMargBot">
+                                <label class="ioControlElemLbl">Time 1</label>
+                                <br class="hide-on-med-and-down">
+                                <input type="text" class="ioControlInputTime" placeholder="HH">
+                                <input type="text" class="ioControlInputTime" placeholder="MM">
+                              </p>
+                              <p class="ioControlContainerP clearfix">
+                               <span class="ioControlMiscInfo">*24 hours format</span>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="ioControlActionFooter">
+                          <button data-for="luminaire" data-ref="control-555" class="ioListBtn ioListControlSaveBtn right">Save</button>
+                          <button data-for="luminaire" data-ref="control-555" class="ioListBtn ioListControlCancelBtn right">Cancel</button>
+                        </div>
+                        </form>
+                      </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </li>
+              </ul>
+            </div>
+
+            <!--right hand action items - sort and all-->
+            <ul class="ioListRHAction">
+              <!-- Dropdown Trigger -->
+              <li>
+                  <a class="dropdown-button io-dropdown-btn" href="#!" data-activates="sortdropdown">
+                    Sort
+                    <i class="material-icons right io-nav-dropdown-arrow">&#xE313;</i>
+                  </a>
+                  <!-- Dropdown Structure -->
+                  <ul id="sortdropdown" class="dropdown-content">
+                    <li><a href="#!">one</a></li>
+                    <li><a href="#!">two</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#!">three</a></li>
+                  </ul>
+              </li>
+              <li><a href="#" id="ctrlMultiBtn">Control Multiple</a></li>
+            </ul>            
+          </div>
+
+          <div class="ioMultiControlSecCntr" id="multiControlSecCntr">
+            <table class="responsive-table ioMultiControlTable">
+              <tbody>
+                <tr class="ioGLListControlTR" id="control-multi" style="display: table-row;">
+                  <td colspan="6">
+                    <h6 class="ioGLControlTitle">Control Setting for Gateway 0091</h6>
+                    <form action="#">
+                    <div class="ioControlTable">
+                      <div class="ioControlTableRow">
+                        <div class="ioControlTableCol third">
+                          <label class="ioControlHeadLbl">Change Status</label>
+                          <p class="ioControlContainerP">
+                            <input class="with-gap" name="group1" type="radio" id="test11" checked="">
+                            <label class="ioControlElemLbl" for="test11">Active</label>
+                            <input class="with-gap" name="group1" type="radio" id="test12">
+                            <label class="ioControlElemLbl forInActive" for="test12">In-Active</label>
+                          </p>
+                          <label class="ioControlHeadLbl">Select Luminaire Type</label>
+                          <p class="ioControlContainerP">
+                            <select class="ioControlSelect">
+                              <option value="" disabled="" selected="">Battery Type</option>
+                              <option value="1">Option 1</option>
+                              <option value="2">Option 2</option>
+                              <option value="3">Option 3</option>
+                            </select>
+                            <select class="ioControlSelect">
+                              <option value="" disabled="" selected="">System Type</option>
+                              <option value="1">Option 1</option>
+                              <option value="2">Option 2</option>
+                              <option value="3">Option 3</option>
+                            </select>
+                            <select class="ioControlSelect">
+                              <option value="" disabled="" selected="">System Type</option>
+                              <option value="1">Option 1</option>
+                              <option value="2">Option 2</option>
+                              <option value="3">Option 3</option>
+                            </select>
+                          </p>
+                        </div>
+                        
+                        <div class="ioControlTableCol third">
+                          <label class="ioControlHeadLbl">Dimmer</label>
+                          <p class="ioControlContainerP noMargBot">
+                            <label class="ioControlElemLbl" for="test11">
+                              Level 1
+                              <span class="ioControlRangeValSpan">50 %</span>
+                            </label>
+                            <input class="ioControlRange" type="range" id="test11" min="0" max="100">
+                            <i class="material-icons ioIconBright ioIconBrightLow"></i>
+                            <i class="material-icons ioIconBright ioIconBrightHigh"></i>
+                          </p>
+                          <p class="ioControlContainerP">
+                            <label class="ioControlElemLbl" for="test11">
+                              Level 1
+                              <span class="ioControlRangeValSpan">50 %</span>
+                            </label>
+                            <input class="ioControlRange" type="range" id="test11" min="0" max="100">
+                            <i class="material-icons ioIconBright ioIconBrightLow"></i>
+                            <i class="material-icons ioIconBright ioIconBrightHigh"></i>
+                          </p>
+                        </div>
+                        
+                        <div class="ioControlTableCol sixth">
+                          <label class="ioControlHeadLbl">Dimming Time</label>
+                          <p class="ioControlContainerP clearfix noMargBot">
+                            <label class="ioControlElemLbl">Time 1</label>
+                            <br class="hide-on-med-and-down">
+                            <input type="text" class="ioControlInputTime" placeholder="HH">
+                            <input type="text" class="ioControlInputTime" placeholder="MM">
+                          </p>
+                          <p class="ioControlContainerP clearfix noMargBot">
+                            <label class="ioControlElemLbl">Time 1</label>
+                            <br class="hide-on-med-and-down">
+                            <input type="text" class="ioControlInputTime" placeholder="HH">
+                            <input type="text" class="ioControlInputTime" placeholder="MM">
+                          </p>
+                          <p class="ioControlContainerP clearfix">
+                           <span class="ioControlMiscInfo">*24 hours format</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ioControlActionFooter">
+                      <button id="multiSecSaveBtn" class="ioListBtn ioMultiSecSaveBtn right">Save</button>
+                      <button id="multiSecCancelBtn" class="ioListBtn ioMultiSecCancelBtn right">Cancel</button>
+                    </div>
+                    </form>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col l4 hide-on-med-and-down no-pad">
+          <div class="ioListMapContainer">
+            <iframe class="ioListMap" src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d14036.27931671943!2d77.04019869999999!3d28.417149750000004!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1492768949516" width="100%" height="488" frameborder="0" style="border:0" allowfullscreen></iframe>
+            <div class="ioListMapFooter">
+              <span class="ioListMapFooterSpanL left">
+                <i class="material-icons">&#xE55F;</i>
+                Gateways
+              </span>
+              <span class="ioListMapFooterSpanR right">
+                <i class="material-icons">&#xE56B;</i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mutliControlSec" id="mutliControlSec">
+      <div class="container io-container">
+        <div class="row io-row">
+          <div class="col l8 m12 s12">
+            <div class="checkDiv left">
+              <input type="checkbox" class="filled-in ioMultiCheckBox" id="check-multi" />
+              <label class="ioMultCheckBoxLbl" for="check-multi"></label>
+              <span class="ioMultiSelectedInfo">15 Selected</span>
+            </div>
+            <div class="btnDiv right">
+              <button id="multiSetBtn" class="ioListBtn ioListMultiSetBtn right">Set Controls</button>
+              <button id="mutliCancelBtn" class="ioListBtn ioListMutliCancelBtn right">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--script-->
+    <script type="text/javascript" src="js/script.js"></script>
+  </body>
+</html>
