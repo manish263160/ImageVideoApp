@@ -9,7 +9,6 @@ public class UploadedImage implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	private long id;
 	private long userId;
 	private String imageUrl;
@@ -18,6 +17,8 @@ public class UploadedImage implements Serializable{
 	private Date createdOn;
 	private String createdBy;
 	private Integer linkType;
+	private String imageName;
+	private String newSetDate;
 	public long getUserId() {
 		return userId;
 	}
@@ -65,6 +66,18 @@ public class UploadedImage implements Serializable{
 	}
 	public void setId(long id) {
 		this.id = id;
+	}
+	public String getImageName() {
+		return imageName;
+	}
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+	public String getNewSetDate() {
+		return newSetDate;
+	}
+	public void setNewSetDate(String newSetDate) {
+		this.newSetDate = newSetDate;
 	}
 	
 }

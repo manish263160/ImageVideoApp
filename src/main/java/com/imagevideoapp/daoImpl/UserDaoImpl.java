@@ -206,13 +206,41 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 	}
 
 	@Override
-	public List<UploadedImage> getAllImages(Long userId) {
+	public List<UploadedImage> getAllImages(Long userId, String date) {
 		List<UploadedImage> allImages = null;
 		try {
+			StringBuilder query = new StringBuilder();
+			if(userId == null && date.equals("all")){
+				query.append("select * from uploaded_image where created_on between date_add(now(), interval -6 day) and now() ").append(" order by created_on desc ;");
+				allImages = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class));
+				return allImages; 
+			
+			}
+			if(userId !=null && date.equals("all")){
+				query.append("select * from uploaded_image where created_on >= CURDATE() ").append(" and user_id=? ").append(" order by created_on desc ;");
+				allImages = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class),userId);
+				return allImages;
+			}
+			/*if (date != null ) {
+				if (userId != null && !date.equals("all")) {
+					System.out.println("------------date1----" + date);
+					String datepreappend = date.trim() + " 00:00:00";
+					String datepostAppend = date.trim() + " 23:59:59";
+					query.append("select * from uploaded_image ").append(" where created_on between ")
+							.append("\'" + datepreappend + "\'").append(" and ").append("\'" + datepostAppend + "\'")
+							.append(" and user_id=? ").append(" order by created_on desc ;");
+				}
+				
+				else {
+					query.append("select * from uploaded_image where created_on between date_add(now(), interval -6 day) and now() ").append(" order by created_on desc ;");
+					allImages = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class));
+					return allImages; 
+				}
+			} else {
+				query.append("select * from uploaded_image where created_on >= CURDATE() ").append(" and user_id=? ").append(" order by created_on desc ;");
+			}
 
-			String query = "select * from uploaded_image order by id desc;";
-			allImages = getJdbcTemplate().query(query, new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class));
-
+			allImages = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class),userId);*/
 		} catch (EmptyResultDataAccessException e) {
 			logger.error(" getRegistrationToken() EmptyResultDataAccessException");
 		} catch (DataAccessException e) {
@@ -285,5 +313,7 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 
 		return returndata;
 	}
+
+	
 
 }

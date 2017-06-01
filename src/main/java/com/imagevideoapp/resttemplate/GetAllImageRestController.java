@@ -22,7 +22,7 @@ public class GetAllImageRestController {
 	
 	@RequestMapping(value = "/getALlImages", method = RequestMethod.GET ,consumes="application/json")
     public ResponseEntity<List<UploadedImage>> listAllUsers() {
-        List<UploadedImage> uploadedimage = userService.getAllImages(null);
+        List<UploadedImage> uploadedimage = userService.getAllImages(null, "all");
         if(uploadedimage.isEmpty()){
             return new ResponseEntity<List<UploadedImage>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }

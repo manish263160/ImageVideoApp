@@ -22,7 +22,7 @@
 						<p>This Image is uploaded successfully.</p>
 					</div>
 					<div class="card-action">
-						<a href="${imgvids}/user/homepage" class="btn waves-effect waves-red light-blue darken-4">OK</a>
+						<a href="${imgvids}/user/uploadImage" class="btn waves-effect waves-red light-blue darken-4">Upload More</a>
 					</div>
 				</div>
 			</div>

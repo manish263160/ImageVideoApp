@@ -6,6 +6,13 @@
 	<title>Image Upload</title>
 	<jsp:include page="../fragments/header.jsp" />
 	 <link href="${imgvids}/static/lib/css/dropify.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+	 <style type="text/css">
+#input_file-error{
+	color: red !important;
+	padding-top:  5% !important;
+}
+</style>
+	 
 	</head>
 	<body class="${themecolor }">
 	
@@ -100,10 +107,10 @@
 	        
 	        $("#formupload").validate({
 	            rules: {
-	            	imageLink: {
+	            	/* imageLink: {
 	                    required: true,
 	                   
-	                },
+	                }, */
 	                file :{
 	                	required: true,
 	                },

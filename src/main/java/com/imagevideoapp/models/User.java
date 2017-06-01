@@ -2,55 +2,27 @@ package com.imagevideoapp.models;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
-
-
-
-public class User implements Serializable{
-
-
-	/**
-	 * 
-	 */
+public class User implements Serializable {
 	private static final long serialVersionUID = -6130270477630445783L;
-
 	private Long userId;
-
 	private Integer userType;
-	
 	private String email;
-		
 	private String password;
-	
 	private String userImage;
-	
 	private String mobileNo;
-
 	private String name;
-
 	private String gender;
-	
 	private int status;
-	
 	@JsonIgnore
 	private Date createdOn;
-	
 	private String createBy;
-	
 	@JsonIgnore
 	private Date modifiedOn;
-	
 	private String modifiedBy;
-
-
-	private String token; 
-
-
+	private String token;
 	private String shopkeeperName;
 	private String shopName;
 	private String shopDescription;
@@ -58,7 +30,7 @@ public class User implements Serializable{
 	private int shopType;
 
 	public int getShopType() {
-		return shopType;
+		return this.shopType;
 	}
 
 	public void setShopType(int shopType) {
@@ -66,16 +38,15 @@ public class User implements Serializable{
 	}
 
 	public Integer getUserType() {
-		return userType;
+		return this.userType;
 	}
 
 	public void setUserType(Integer userType) {
 		this.userType = userType;
 	}
-	
 
 	public String getShopAddress() {
-		return shopAddress;
+		return this.shopAddress;
 	}
 
 	public void setShopAddress(String shopAddress) {
@@ -83,7 +54,7 @@ public class User implements Serializable{
 	}
 
 	public String getShopkeeperName() {
-		return shopkeeperName;
+		return this.shopkeeperName;
 	}
 
 	public void setShopkeeperName(String shopkeeperName) {
@@ -91,15 +62,15 @@ public class User implements Serializable{
 	}
 
 	public String getShopName() {
-		return shopName;
+		return this.shopName;
 	}
 
 	public void setShopName(String shopName) {
 		this.shopName = shopName;
 	}
-	
+
 	public String getCreateBy() {
-		return createBy;
+		return this.createBy;
 	}
 
 	public void setCreateBy(String createBy) {
@@ -107,7 +78,7 @@ public class User implements Serializable{
 	}
 
 	public String getToken() {
-		return token;
+		return this.token;
 	}
 
 	public void setToken(String token) {
@@ -115,17 +86,15 @@ public class User implements Serializable{
 	}
 
 	public Long getUserId() {
-		return userId;
+		return this.userId;
 	}
 
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
-	
-
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public void setEmail(String email) {
@@ -133,7 +102,7 @@ public class User implements Serializable{
 	}
 
 	public String getPassword() {
-		return password;
+		return this.password;
 	}
 
 	public void setPassword(String password) {
@@ -141,7 +110,7 @@ public class User implements Serializable{
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -149,7 +118,7 @@ public class User implements Serializable{
 	}
 
 	public String getGender() {
-		return gender;
+		return this.gender;
 	}
 
 	public void setGender(String gender) {
@@ -157,7 +126,7 @@ public class User implements Serializable{
 	}
 
 	public Date getCreatedOn() {
-		return createdOn;
+		return this.createdOn;
 	}
 
 	public void setCreatedOn(Date createdOn) {
@@ -165,7 +134,7 @@ public class User implements Serializable{
 	}
 
 	public Date getModifiedOn() {
-		return modifiedOn;
+		return this.modifiedOn;
 	}
 
 	public void setModifiedOn(Date modifiedOn) {
@@ -173,59 +142,57 @@ public class User implements Serializable{
 	}
 
 	public String getModifiedBy() {
-		return modifiedBy;
+		return this.modifiedBy;
 	}
 
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
 
-	
-
-	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
-		result = prime * result + ((userType == null) ? 0 : userType.hashCode());
-		return result;
+		boolean prime = true;
+		byte result = 1;
+		int result1 = 31 * result + (this.userId == null ? 0 : this.userId.hashCode());
+		result1 = 31 * result1 + (this.userType == null ? 0 : this.userType.hashCode());
+		return result1;
 	}
 
-	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		} else if (obj == null) {
 			return false;
-		if (!(obj instanceof User))
+		} else if (!(obj instanceof User)) {
 			return false;
-		User other = (User) obj;
-		if (userId == null) {
-			if (other.userId != null)
+		} else {
+			User other = (User) obj;
+			if (this.userId == null) {
+				if (other.userId != null) {
+					return false;
+				}
+			} else if (!this.userId.equals(other.userId)) {
 				return false;
-		} else if (!userId.equals(other.userId))
-			return false;
-		if (userType == null) {
-			if (other.userType != null)
+			}
+
+			if (this.userType == null) {
+				if (other.userType != null) {
+					return false;
+				}
+			} else if (!this.userType.equals(other.userType)) {
 				return false;
-		} else if (!userType.equals(other.userType))
-			return false;
-		return true;
+			}
+
+			return true;
+		}
 	}
 
-	/*
-	 * DO-NOT-INCLUDE passwords in toString function.
-	 * It is done here just for convenience purpose.
-	 */
-	@Override
 	public String toString() {
-		return "User [id=" + userId + ", userType=" + userType + ", password=" + password
-				+ ", Name=" + name+ ","
-				+ ", email=" + email + "]";
+		return "User [id=" + this.userId + ", userType=" + this.userType + ", password=" + this.password + ", Name="
+				+ this.name + ",, email=" + this.email + "]";
 	}
 
 	public int getStatus() {
-		return status;
+		return this.status;
 	}
 
 	public void setStatus(int status) {
@@ -233,7 +200,7 @@ public class User implements Serializable{
 	}
 
 	public String getMobileNo() {
-		return mobileNo;
+		return this.mobileNo;
 	}
 
 	public void setMobileNo(String mobileNo) {
@@ -241,7 +208,7 @@ public class User implements Serializable{
 	}
 
 	public String getUserImage() {
-		return userImage;
+		return this.userImage;
 	}
 
 	public void setUserImage(String userImage) {
@@ -249,13 +216,10 @@ public class User implements Serializable{
 	}
 
 	public String getShopDescription() {
-		return shopDescription;
+		return this.shopDescription;
 	}
 
 	public void setShopDescription(String shopDescription) {
 		this.shopDescription = shopDescription;
 	}
-
-
-	
 }

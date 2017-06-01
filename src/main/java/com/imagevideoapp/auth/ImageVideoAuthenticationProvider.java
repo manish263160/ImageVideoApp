@@ -1,5 +1,6 @@
 package com.imagevideoapp.auth;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,15 +49,15 @@ public class ImageVideoAuthenticationProvider implements AuthenticationProvider 
 			User user = userService.userLogin(userName, password);
 
 			if (user == null) {
-				throw new UsernameNotFoundException(String.format("Invalid Email OR password", authentication.getPrincipal()));
+				throw new UsernameNotFoundException(String.format(URLEncoder.encode("Invalid Email OR password", "UTF-8"), authentication.getPrincipal()));
 			}
 			
 			if (STATUS.INACTIVE.ID == user.getStatus()) {
-				throw new UsernameNotFoundException(String.format("You are not active", authentication.getPrincipal()));
+				throw new UsernameNotFoundException(String.format(URLEncoder.encode("You are not active", "UTF-8"), authentication.getPrincipal()));
 			}
 			
 			if (STATUS.BLOCK.ID == user.getStatus()) {
-				throw new UsernameNotFoundException(String.format("You are blocked. Please contact admin", authentication.getPrincipal()));
+				throw new UsernameNotFoundException(String.format(URLEncoder.encode("You are blocked. Please contact admin", "UTF-8"), authentication.getPrincipal()));
 			}
 			List<String> roles=null;
 			if(user != null){

@@ -1,37 +1,32 @@
 package com.imagevideoapp.service;
 
-import java.util.List;
-
 import com.imagevideoapp.exception.GenericException;
 import com.imagevideoapp.models.UploadedImage;
 import com.imagevideoapp.models.User;
+import java.util.List;
 
 public interface UserService {
-	
-	public String isValid();
-	
-	User userLogin(String email,String password) throws GenericException;
-	
-	long insertUser(User user) throws GenericException;
+	String isValid();
 
-	
-	public void sendUserActivationMail(User user,String requestUrl) throws Exception;
+	User userLogin(String arg0, String arg1) throws GenericException;
 
-	String activateUser(String token) throws Exception;
+	long insertUser(User arg0) throws GenericException;
 
-	List<String> getUserRoles(Long userId);
+	void sendUserActivationMail(User arg0, String arg1) throws Exception;
 
-	String insertFile(User user, String value, String columnName,  String tableName, UploadedImage uploadedImage) throws GenericException;
+	String activateUser(String arg0) throws Exception;
 
-	List<String> getAllImagesForUser(Long userId, String tablename);
+	List<String> getUserRoles(Long arg0);
 
-	public List<UploadedImage> getAllImages(Long userId);
+	String insertFile(User arg0, String arg1, String arg2, String arg3, UploadedImage arg4) throws GenericException;
 
-	public UploadedImage getImageByImgId(int editImageInfo);
+	List<String> getAllImagesForUser(Long arg0, String arg1);
 
-	public boolean editImageUpload(UploadedImage uploadedImage);
+	List<UploadedImage> getAllImages(Long arg0, String arg1);
 
-	public boolean deleteImages(String imageId);
+	UploadedImage getImageByImgId(int arg0);
 
-	
+	boolean editImageUpload(UploadedImage arg0);
+
+	boolean deleteImages(String arg0);
 }

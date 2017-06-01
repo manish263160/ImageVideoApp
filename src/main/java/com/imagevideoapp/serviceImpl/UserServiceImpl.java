@@ -2,6 +2,7 @@ package com.imagevideoapp.serviceImpl;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -148,23 +149,31 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UploadedImage> getAllImages(Long userId) {
+	public List<UploadedImage> getAllImages(Long userId, String date) {
 		// TODO Auto-generated method stub
 		
-		List<UploadedImage> uploadImg= userDao.getAllImages(userId);
-		List<UploadedImage> arraylist=new ArrayList<UploadedImage>();
+		List<UploadedImage> uploadImg= userDao.getAllImages(userId, date);
 		
 		uploadImg.forEach((imgObj) -> {
 			Long usrid=null;
+			String url="";
 			if(userId == null){
-				usrid=1l;
+//				usrid=1l;
+				url= this.applicationProperties.getProperty("appPath") + imgObj.getUserId()
+						+ this.applicationProperties.getProperty("uploadImageFolder") + imgObj.getImageUrl();
 			}else{
 				usrid=userId;
+				url= this.applicationProperties.getProperty("appPath") + usrid
+						+ this.applicationProperties.getProperty("uploadImageFolder") + imgObj.getImageUrl();
 			}
-		String url=applicationProperties.getProperty(ApplicationConstants.APP_PATH) + usrid
-		+ applicationProperties.getProperty(ApplicationConstants.UPLOADED_IMAGE) + imgObj.getImageUrl();
-		imgObj.setImageUrl(url);
-				logger.info("-------------"+imgObj.getImageUrl());
+			imgObj.setImageName(imgObj.getImageUrl());
+			 
+			imgObj.setImageUrl(url);
+			if (imgObj.getCreatedOn() != null) {
+				imgObj.setNewSetDate((new SimpleDateFormat("dd-MM-yyyy")).format(imgObj.getCreatedOn()));
+			}
+
+			logger.info("-------------" + imgObj.getImageUrl() + "-----newDateFormat===" + imgObj.getNewSetDate());
 				
 		}
 				);

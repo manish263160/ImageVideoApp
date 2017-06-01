@@ -1,39 +1,36 @@
+/*** Eclipse Class Decompiler plugin, copyright (c) 2016 Chen Chao (cnfree2000@hotmail.com) ***/
 package com.imagevideoapp.dao;
-
-import java.util.List;
 
 import com.imagevideoapp.models.UploadedImage;
 import com.imagevideoapp.models.User;
+import java.util.List;
 
 public interface UserDao {
+	User validateUser(String arg0, String arg1);
 
-	User validateUser(String email, String password);
+	User checkUserByEmail(String arg0);
 
-	User checkUserByEmail(String email);
+	long insertUser(User arg0);
 
-	long insertUser(User user);
+	void insertRegistraionToken(Long arg0, String arg1, String arg2);
 
-	void insertRegistraionToken(Long userId, String plainText, String string);
+	User getRegistrationTokenAndStatus(long arg0);
 
-	User getRegistrationTokenAndStatus(long userId);
+	void activateUser(long arg0);
 
-	void activateUser(long userId);
+	List<String> getUserRoles(Long arg0);
 
-	List<String> getUserRoles(Long userId);
+	void insertUserRole(long arg0);
 
-	void insertUserRole(long userUid);
+	String insertFile(User arg0, String arg1, String arg2, String arg3, UploadedImage arg4);
 
-	String insertFile(User user, String value, String columnName,
-			String tableName, UploadedImage uploadedImage);
+	List<String> getAllImagesForUser(Long arg0, String arg1);
 
-	List<String> getAllImagesForUser(Long userId, String tablename);
+	List<UploadedImage> getAllImages(Long arg0, String arg1);
 
-	List<UploadedImage> getAllImages(Long userId);
+	UploadedImage getImageByImgId(int arg0);
 
-	UploadedImage getImageByImgId(int editImageInfo);
+	boolean editImageUpload(UploadedImage arg0);
 
-	boolean editImageUpload(UploadedImage uploadedImage);
-
-	boolean deleteImages(String imageId);
-
+	boolean deleteImages(String arg0);
 }

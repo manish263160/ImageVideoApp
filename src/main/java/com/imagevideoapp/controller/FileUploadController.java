@@ -3,6 +3,10 @@ package com.imagevideoapp.controller;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -10,7 +14,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,191 +26,184 @@ import org.springframework.web.multipart.MultipartFile;
 import com.imagevideoapp.models.UploadedImage;
 import com.imagevideoapp.models.User;
 import com.imagevideoapp.service.UserService;
-import com.imagevideoapp.utils.ApplicationConstants;
 import com.imagevideoapp.utils.ApplicationProperties;
 import com.imagevideoapp.utils.GenUtilitis;
 
 @Controller
 public class FileUploadController {
-
-	
-private static final Logger logger = Logger.getLogger(FileUploadController.class);
-	
+	private static final Logger logger = Logger.getLogger(FileUploadController.class);
 	@Autowired
 	UserService userService;
-	
-	private @Autowired ApplicationProperties applicationProperties;
-	
+	@Autowired
+	private ApplicationProperties applicationProperties;
 	private static final int PROFILE_IMG_MAIN_WIDTH = 206;
 	private static final int IMG_MAIN_HEIGHT = 206;
 	private static final int IMG_HEADER_WIDTH = 60;
 	private static final int IMG_HEADER_HEIGHT = 60;
 	private static final int IMG_PEOPLE_WIDTH = 75;
 	private static final int IMG_PEOPLE_HEIGHT = 75;
-	
-	@RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
-	public String uploadImage(@RequestParam(value="file", required=false) MultipartFile file,ModelMap model
-			,@ModelAttribute("uploadedImage") UploadedImage uploadedImage ) {
+
+	@RequestMapping(value = { "/uploadImage" }, method = { RequestMethod.POST })
+	public String uploadImage(@RequestParam(value = "file", required = false) MultipartFile file, ModelMap model,
+			@ModelAttribute("uploadedImage") UploadedImage uploadedImage) {
 		logger.info(" uploadImage() Start------");
-		String returnFilePath="";
-		
-		if(uploadedImage.getLinkType() == null){
-			uploadedImage.setLinkType(1);
+		String returnFilePath = "";
+		if (uploadedImage.getLinkType() == null) {
+			uploadedImage.setLinkType(Integer.valueOf(1));
 		}
-		
+
 		try {
-			User user = GenUtilitis.getLoggedInUser();
+			User e = GenUtilitis.getLoggedInUser();
 			String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."),
 					file.getOriginalFilename().length());
-			
-			String orgFileName = file.getOriginalFilename();
-			String fileName = file.getOriginalFilename() ;
-	/*		String fileNameHeader = String.valueOf(user.getUserId()) + "_HEADER" + fileExtension;
-			String fileNamePeople = String.valueOf(user.getUserId()) + "_PEOPLE" + fileExtension;*/
-			
-			String imagePath = applicationProperties.getProperty(ApplicationConstants.IMAGE_FOLDER);
-			imagePath = imagePath + user.getUserId() + applicationProperties.getProperty(ApplicationConstants.UPLOADED_IMAGE);
-			
-			File newFile = GenUtilitis.uploadFile(imagePath, orgFileName, file);
-			
+			SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd_hh-mm-ss");
+			Date date = new Date();
+			String fileName = formatter.format(date) + file.getOriginalFilename();
+			String imagePath = this.applicationProperties.getProperty("imageFolder");
+			imagePath = imagePath + e.getUserId() + this.applicationProperties.getProperty("uploadImageFolder");
+			File newFile = GenUtilitis.uploadFile(imagePath, fileName, file);
 			if (newFile != null) {
 				fileExtension = fileExtension.replaceFirst("\\.", "");
 				BufferedImage originalImage = ImageIO.read(newFile);
-
-				BufferedImage profileMain = GenUtilitis.getScaledInstance(originalImage, PROFILE_IMG_MAIN_WIDTH, IMG_MAIN_HEIGHT,
+				BufferedImage profileMain = GenUtilitis.getScaledInstance(originalImage, 206, 206,
 						RenderingHints.VALUE_INTERPOLATION_BILINEAR, true);
 				boolean isUploaded = ImageIO.write(originalImage, fileExtension, new File(imagePath + fileName));
-
-				/*BufferedImage profileHeader = GenUtilitis.getScaledInstance(originalImage, IMG_HEADER_WIDTH, IMG_HEADER_HEIGHT,
-						RenderingHints.VALUE_INTERPOLATION_BILINEAR, true);
-				ImageIO.write(profileHeader, fileExtension, new File(imagePath + fileNameHeader));
-
-				BufferedImage peopleProfile = GenUtilitis.getScaledInstance(originalImage, IMG_PEOPLE_WIDTH, IMG_PEOPLE_HEIGHT,
-						RenderingHints.VALUE_INTERPOLATION_BILINEAR, true);
-				ImageIO.write(peopleProfile, fileExtension, new File(imagePath + fileNamePeople));*/
-				
 				if (isUploaded) {
-					String status = userService.insertFile(user, fileName, "imageUrl", "uploaded_image",uploadedImage);
-					if (ApplicationConstants.SUCCESS.equals(status)) {
-					String filepath=	setUserUploadedFilePath(user, fileName,"image");
-					returnFilePath = filepath;
-					model.addAttribute("imagepath", returnFilePath);
+					String status = this.userService.insertFile(e, fileName, "imageUrl", "uploaded_image",
+							uploadedImage);
+					if ("success".equals(status)) {
+						String filepath = this.setUserUploadedFilePath(e, fileName, "image");
+						model.addAttribute("imagepath", filepath);
 					}
 				}
-				
-//				newFile.delete(); //deleting file after resizing
 			}
-			
-			
-			return "imageUpload/uploadSuccessFull";
-			
-		} catch (Exception e) {
 
-			logger.info("error in file upload=="+e);
-			return "redirect:user/uploadImage?error="+e.getMessage();
+			return "imageUpload/uploadSuccessFull";
+		} catch (Exception arg16) {
+			logger.info("error in file upload==" + arg16);
+			return "redirect:user/uploadImage?error=" + arg16.getMessage();
 		}
-		
 	}
 
-	
-	@RequestMapping(value = "/uploadVideo", method = RequestMethod.POST)
-	public String uploadVideo(@RequestParam("file") MultipartFile file,ModelMap model) {
+	@RequestMapping(value = { "/uploadVideo" }, method = { RequestMethod.POST })
+	public String uploadVideo(@RequestParam("file") MultipartFile file, ModelMap model) {
 		logger.info(" uploadVideo() Start------");
-		String returnFilePath="";
+		String returnFilePath = "";
+
 		try {
-			User user = GenUtilitis.getLoggedInUser();
+			User e = GenUtilitis.getLoggedInUser();
 			String orgFileName = file.getOriginalFilename();
-			
 			String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."),
 					file.getOriginalFilename().length());
-			
-			String videopath = applicationProperties.getProperty(ApplicationConstants.IMAGE_FOLDER);
-			videopath = videopath + user.getUserId() + applicationProperties.getProperty(ApplicationConstants.UPLOADED_VIDEO);
-			
+			String videopath = this.applicationProperties.getProperty("imageFolder");
+			videopath = videopath + e.getUserId() + this.applicationProperties.getProperty("uploadVideoFolder");
 			File newFile = GenUtilitis.uploadFile(videopath, orgFileName, file);
-			
 			if (newFile != null) {
-
-					String status = userService.insertFile(user, orgFileName, "video_url", "uploaded_video",null);
-					if (ApplicationConstants.SUCCESS.equals(status)) {
-					String filepath=	setUserUploadedFilePath(user, orgFileName,"video");
-					returnFilePath = filepath;
-					model.addAttribute("imagepath", returnFilePath);
-					
+				String status = this.userService.insertFile(e, orgFileName, "video_url", "uploaded_video",
+						(UploadedImage) null);
+				if ("success".equals(status)) {
+					String filepath = this.setUserUploadedFilePath(e, orgFileName, "video");
+					model.addAttribute("imagepath", filepath);
 				}
-				
-//				newFile.delete(); //deleting file after resizing
 			}
-			
-			
+
 			return "videoUpload/uploadVideoSuccessFull";
-			
-		} catch (Exception e) {
-
-			logger.info("error in file upload=="+e);
-			return "redirect:user/uploadImage?error="+e.getMessage();
+		} catch (Exception arg10) {
+			logger.info("error in file upload==" + arg10);
+			return "redirect:user/uploadImage?error=" + arg10.getMessage();
 		}
-		
 	}
-	
-	private String setUserUploadedFilePath(User user, String fileName ,String fileType) {
 
-		String url =null;
-		if(fileType.equals("image")){
+	private String setUserUploadedFilePath(User user, String fileName, String fileType) {
+		String url = null;
+		if (fileType.equals("image")) {
+			url = this.applicationProperties.getProperty("appPath") + user.getUserId()
+					+ this.applicationProperties.getProperty("uploadImageFolder") + fileName;
+		} else if (fileType.equals("video")) {
+			url = this.applicationProperties.getProperty("appPath") + user.getUserId()
+					+ this.applicationProperties.getProperty("uploadVideoFolder") + fileName;
+		}
 
-			 url=applicationProperties.getProperty(ApplicationConstants.APP_PATH) + user.getUserId() + 
-					applicationProperties.getProperty(ApplicationConstants.UPLOADED_IMAGE) + fileName;	
-		}
-		else if(fileType.equals("video")){
-			url=applicationProperties.getProperty(ApplicationConstants.APP_PATH) + user.getUserId() + 
-					applicationProperties.getProperty(ApplicationConstants.UPLOADED_VIDEO) + fileName;
-		}
 		return url;
 	}
-	
-	@RequestMapping(value = "/editImageInfo", method = RequestMethod.GET)
-	public String editImageInfo(@RequestParam("imageId" ) int editImageInfo,ModelMap model,@RequestParam(name="error",required=false) String error) {
-	
-		UploadedImage upload=userService.getImageByImgId(editImageInfo);
-		model.addAttribute("imageInfo",upload);
-		model.addAttribute("error",error);
-		model.addAttribute("themecolor",applicationProperties.getProperty(ApplicationConstants.THEME_COLOR));
+
+	@RequestMapping(value = { "/editImageInfo" }, method = { RequestMethod.GET })
+	public String editImageInfo(@RequestParam("imageId") int editImageInfo, ModelMap model,
+			@RequestParam(name = "error", required = false) String error) {
+		UploadedImage upload = this.userService.getImageByImgId(editImageInfo);
+		model.addAttribute("imageInfo", upload);
+		model.addAttribute("error", error);
+		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
 		return "imageUpload/editImageById";
 	}
-	
-	@RequestMapping(value = "/editImageUpload", method = RequestMethod.POST)
-	public String editImageUpload(@ModelAttribute("uploadedImage") UploadedImage uploadedImage,ModelMap model) {
-	
+
+	@RequestMapping(value = { "/editImageUpload" }, method = { RequestMethod.POST })
+	public String editImageUpload(@ModelAttribute("uploadedImage") UploadedImage uploadedImage, ModelMap model) {
 		try {
-			boolean upload=userService.editImageUpload(uploadedImage);
-			model.addAttribute("isEdited",upload);
-			model.addAttribute("themecolor",applicationProperties.getProperty(ApplicationConstants.THEME_COLOR));
+			boolean e = this.userService.editImageUpload(uploadedImage);
+			model.addAttribute("isEdited", Boolean.valueOf(e));
+			model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
 			return "imageUpload/editImageById";
-		} catch(EmptyResultDataAccessException e){
+		} catch (EmptyResultDataAccessException arg3) {
 			logger.error(" editImageUpload() EmptyResultDataAccessException");
-			return "redirect:editImageInfo?error="+e.getMessage();
-		}catch(DataAccessException e){
+			return "redirect:editImageInfo?error=" + arg3.getMessage();
+		} catch (DataAccessException arg4) {
 			logger.error(" getRegistrationToken() DataAccessException");
-			return "redirect:editImageInfo?error="+e.getMessage();
+			return "redirect:editImageInfo?error=" + arg4.getMessage();
 		}
 	}
-	@RequestMapping(value = "/deleteImages", method = RequestMethod.GET)
+
+	@RequestMapping(value = { "/deleteImages" }, method = { RequestMethod.GET })
 	@ResponseBody
-	public String deleteImages(@RequestParam("imageId") String imageId) {
-	
+	public String deleteImages(@RequestParam("imageId") String imageId,
+			@RequestParam(value = "imageUrl", required = false) String imageUrl) throws IOException {
 		try {
-			boolean upload=userService.deleteImages(imageId);
-			if(upload)
-			return "success";
-			else
-				return "fail";
-		} catch(EmptyResultDataAccessException e){
+			User user = GenUtilitis.getLoggedInUser();
+			boolean filedete = false;
+			String imagePath = this.applicationProperties.getProperty("imageFolder");
+			imagePath = imagePath + user.getUserId() + this.applicationProperties.getProperty("uploadImageFolder");
+			if (imageId != null) {
+				File isDeleted;
+				if (imageId.equals("All")) {
+					isDeleted = new File(imagePath);
+					filedete = GenUtilitis.fileFolderdeteUtils(isDeleted);
+				} else if (!imageId.equalsIgnoreCase("cronstart") && imageUrl != null
+						&& !imageUrl.equals("undefined")) {
+					imagePath = imagePath + "/" + imageUrl;
+					isDeleted = new File(imagePath);
+					filedete = GenUtilitis.fileFolderdeteUtils(isDeleted);
+				}
+			}
+
+			boolean isDeleted1 = this.userService.deleteImages(imageId);
+			return isDeleted1 ? "success" : "fail";
+		} catch (EmptyResultDataAccessException arg6) {
 			logger.error(" deleteImages() EmptyResultDataAccessException");
 			return "fail";
-		}catch(DataAccessException e){
+		} catch (DataAccessException arg7) {
 			logger.error(" deleteImages() DataAccessException");
 			return "fail";
 		}
 	}
-	
+
+	@RequestMapping(value = { "/getImageBydate" }, method = { RequestMethod.GET })
+	@ResponseBody
+	public List<UploadedImage> getImageBydate(@RequestParam("searchDate") String searchDate) throws IOException {
+		try {
+			User e = GenUtilitis.getLoggedInUser();
+			boolean filedete = false;
+			String imagePath = this.applicationProperties.getProperty("imageFolder");
+			(new StringBuilder()).append(imagePath).append(e.getUserId())
+					.append(this.applicationProperties.getProperty("uploadImageFolder")).toString();
+			logger.info("searchDate=====" + searchDate);
+			List allfileList = this.userService.getAllImages(e.getUserId(), searchDate);
+			return allfileList;
+		} catch (EmptyResultDataAccessException arg5) {
+			logger.error(" deleteImages() EmptyResultDataAccessException");
+			return null;
+		} catch (DataAccessException arg6) {
+			logger.error(" deleteImages() DataAccessException");
+			return null;
+		}
+	}
 }
