@@ -33,4 +33,6 @@ public interface UserDao {
 	boolean editImageUpload(UploadedImage arg0);
 
 	boolean deleteImages(String arg0);
+
+	boolean resetPassword(User isemailExist, String newpassword);
 }

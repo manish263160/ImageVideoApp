@@ -29,4 +29,8 @@ public interface UserService {
 	boolean editImageUpload(UploadedImage arg0);
 
 	boolean deleteImages(String arg0);
+
+	User checkUserByEmail(String email);
+
+	boolean resetPassword(User isemailExist, String newpassword);
 }

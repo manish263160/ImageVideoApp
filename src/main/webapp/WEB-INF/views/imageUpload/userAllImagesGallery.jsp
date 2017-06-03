@@ -17,7 +17,7 @@
 	<div class="section">
             <p class="caption">All Images that uploaded by ${user.name }</p>
             <div class="row">
-			<p class="col s3"><a class="waves-effect waves-light btn tooltipped" href="#modal1" data-position="bottom" data-delay="50" data-tooltip="Delete all Image">Delete All Images</a>
+			<p class="col s3"><a class="waves-effect waves-light btn tooltipped modal-trigger" href="#modal1" data-position="bottom" data-delay="50" data-tooltip="Delete all Image">Delete All Images</a>
 			<p class="col s3">
 			<a href="${imgvids}/user/uploadImage" class="btn-floating btn-large waves-effect waves-light green accent-3 tooltipped"
 			data-position="bottom" data-delay="50" data-tooltip="Upload an Image" >
@@ -124,7 +124,7 @@
     $(document).ready(function(){
 	    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     	$('.tooltipped').tooltip({delay: 50});
-    	$('#modal1').modal();
+//     	$('#modal1').modal();
     	$('.datepicker').pickadate({
     	    selectMonths: true, 
     	    selectYears: 15,
@@ -160,10 +160,16 @@
           preload: [0,1] // Will preload 0 - before current, and 1 after the current image
         },
         image: {
+        	 
           verticalFit: true,
           tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
+          cursor: 'mfp-zoom-out-cur', 
           titleSrc: function(item) {
-            return '<span class="row"><a class="btn waves-effect waves-light col l6" onclick="deleteAllImg(\''+item.el.attr('imgid')+'\',\''+item.el.attr('imageName')+'\')" >Delete</a> <a class="btn waves-effect waves-light col l6" href="${imgvids}/editImageInfo?imageId='+item.el.attr('imgid')+'" type="button" name="action">Edit</a></span>';
+            return '<div class="row">'+
+            			'<a class="btn waves-effect waves-light col l12 s12 " onclick="deleteAllImg(\''+item.el.attr('imgid')+'\',\''+item.el.attr('imageName')+'\')" >Delete</a>'+
+            			'</div><div class="row">'+
+            		' <a class="btn waves-effect waves-light col l21 s12" href="${imgvids}/editImageInfo?imageId='+item.el.attr('imgid')+'" type="button" name="action">Edit</a></span>'+
+            				'</div>';
 		          },
         zoom: {
           enabled: true,

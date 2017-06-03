@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         
         // The pages does not require login
     	http.addFilterBefore(new CORSFilter(), ChannelProcessingFilter.class);   
-        http.authorizeRequests().antMatchers("/", "/welcome", "/login", "/logout","/user/insertUser","/restcontroller/**").permitAll();
+        http.authorizeRequests().antMatchers("/", "/welcome", "/login", "/logout","/user/insertUser","/restcontroller/**","/forgotpassword.json").permitAll();
         http.authorizeRequests().antMatchers("/user/userregistration").anonymous();
  
         // /userInfo page requires login as USER or ADMIN.

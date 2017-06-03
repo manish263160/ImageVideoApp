@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,6 +33,7 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 
 	private static final String GET_USER = "select u.* from user u " + " where u.email=? and u.password=?";
 
+	private static final SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 	public User validateUser(final String emailId, final String password) {
 		logger.debug("validateUser() email: " + emailId);
 		User user = null;
@@ -76,7 +79,9 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 	public long insertUser(final User user) {
 
 		logger.info("::insertUser()");
-		final String query = "INSERT INTO user(email,mobile_no,password,name,status,created_on)VALUES(?,?,?,?,?,now());";
+		Date date=new Date();
+		String currentTime = sdf.format(date);
+		final String query = "INSERT INTO user(email,mobile_no,password,name,status,created_on)VALUES(?,?,?,?,?,'"+currentTime+"');";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		getJdbcTemplate().update(new PreparedStatementCreator() {
 
@@ -154,6 +159,8 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 			UploadedImage uploadedImage) {
 		logger.info("updateUserDetails userId" + user.getUserId() + "value.." + value + " column name " + columnName
 				+ " tableName:" + tableName);
+		Date date=new Date();
+		String currentTime = sdf.format(date);
 		long userid = user.getUserId();
 		// String idColumn =
 		// tableName.equals("uploaded_image")||tableName.equals("uploaded_video")?"user_id":"id";
@@ -161,12 +168,12 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 		int rowInsert = 0;
 		if (tableName.equals("uploaded_image") && uploadedImage != null) {
 			Sqlquery = "INSERT INTO " + tableName + " ( user_id , " + columnName
-					+ " , created_on ,created_by ,image_link , image_description , link_type) VALUES (?,?,now(),?, ? ,? ,?)";
+					+ " , created_on ,created_by ,image_link , image_description , link_type) VALUES (?,?,'"+currentTime+"',?, ? ,? ,?)";
 			rowInsert = getJdbcTemplate().update(Sqlquery, userid, value, user.getName(), uploadedImage.getImageLink(),
 					uploadedImage.getImageDescription(), uploadedImage.getLinkType());
 		} else if (tableName.equals("uploaded_video")) {
 			Sqlquery = "INSERT INTO " + tableName + " ( user_id , " + columnName
-					+ " , created_on ,created_by) VALUES (?,?,now(),?)";
+					+ " , created_on ,created_by) VALUES (?,?,'"+currentTime+"',?)";
 			rowInsert = getJdbcTemplate().update(Sqlquery, userid, value, user.getName());
 		}
 
@@ -208,16 +215,21 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 	@Override
 	public List<UploadedImage> getAllImages(Long userId, String date) {
 		List<UploadedImage> allImages = null;
+		Date curdate=new Date();
+//		SimpleDateFormat sdf1=new SimpleDateFormat("yyyy-MM-dd"); 
+		String currentdate = sdf.format(curdate);
 		try {
 			StringBuilder query = new StringBuilder();
 			if(userId == null && date.equals("all")){
-				query.append("select * from uploaded_image where created_on between date_add(now(), interval -6 day) and now() ").append(" order by created_on desc ;");
+				query.append("select * from uploaded_image where created_on between date_add('"+currentdate+"', interval -6 day) and '"+currentdate+"' ").append(" order by created_on desc ;");
+				logger.info("query---"+query.toString());
 				allImages = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class));
 				return allImages; 
 			
 			}
 			if(userId !=null && date.equals("all")){
-				query.append("select * from uploaded_image where created_on >= CURDATE() ").append(" and user_id=? ").append(" order by created_on desc ;");
+				query.append("select * from uploaded_image where created_on between date_add('"+currentdate+"', interval -6 day) and '"+currentdate+"' ").append(" and user_id=? ").append(" order by created_on desc ;");
+				logger.info("query---"+query.toString());
 				allImages = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class),userId);
 				return allImages;
 			}
@@ -258,9 +270,9 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 			umg = getJdbcTemplate().queryForObject(query, new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class),
 					editImageInfo);
 		} catch (EmptyResultDataAccessException e) {
-			logger.error(" getRegistrationToken() EmptyResultDataAccessException");
+			logger.error(" UploadedImage() EmptyResultDataAccessException");
 		} catch (DataAccessException e) {
-			logger.error(" getRegistrationToken() DataAccessException");
+			logger.error(" UploadedImage() DataAccessException");
 		}
 
 		return umg;
@@ -288,6 +300,8 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 	@Override
 	public boolean deleteImages(String imageId) {
 		boolean returndata = false;
+		Date curdate=new Date();
+		String currentTime = sdf.format(curdate);
 		User user = GenUtilitis.getLoggedInUser();
 		logger.info("------imageIg---" + imageId);
 		final StringBuilder sql = new StringBuilder();
@@ -297,7 +311,7 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 			rowcount = getJdbcTemplate().update(sql.toString(), user.getUserId());
 
 		} else if (imageId != null && imageId.equalsIgnoreCase("cronstart")) {
-			sql.append("delete from  uploaded_image where  created_on < (DATE_SUB(NOW(), INTERVAL 7 DAY));");
+			sql.append("delete from  uploaded_image where  created_on < (DATE_SUB('"+currentTime+"', INTERVAL 7 DAY));");
 			rowcount = getJdbcTemplate().update(sql.toString());
 
 		} else {
@@ -312,6 +326,21 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 		}
 
 		return returndata;
+	}
+
+	@Override
+	public boolean resetPassword(User user, String newpassword) {
+		
+		try {
+			String query = "update user set password=? where user_id=?;";
+			getJdbcTemplate().update(query,newpassword ,user.getUserId());
+			return true;
+		} catch (EmptyResultDataAccessException e) {
+			logger.error(" resetPassword() EmptyResultDataAccessException");
+		} catch (DataAccessException e) {
+			logger.error(" resetPassword() DataAccessException");
+		}
+		return false;
 	}
 
 	

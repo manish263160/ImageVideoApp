@@ -29,7 +29,10 @@
                       </button>
                     </div>
  </c:if>   
-
+  <div class="container">
+<div class="progress" style="display: none;">
+      <div class="indeterminate"></div>
+  </div>
   <div id="login-page" class="row">
     <div class="col s12 z-depth-4 card-panel">
     <c:url var="loginUrl" value="/login"/>
@@ -70,17 +73,48 @@
          <%--  <div class="input-field col s6 m6 l6">
             <p class="margin medium-small"><a href="${imgvids}/user/userregistration">Register Now!</a></p>
           </div> --%>
-         <!--  <div class="input-field col s6 m6 l6">
-              <p class="margin right-align medium-small"><a href="forgotpassword.htm">Forgot password ?</a></p>
-          </div>     -->      
+           <div class="input-field col s6 m6 l6">
+              <p class="margin right-align medium-small"><a class="tooltipped modal-trigger" href="#modal1" data-position="bottom" data-delay="50" data-tooltip="Forgot Password">Forgot password ?</a></p>
+          </div>           
         </div>
 
       </form>
     </div>
   </div>
-<jsp:include page="includes/include_js.jsp" />
-<script type="text/javascript" src="${imgvids}/static/lib/js/plugins.min.js"></script>
+  
+  <div id="modal1" class="modal modal-fixed-footer  lighten-3">
+		<form name="fogotpassform" id="fogotpassform" action="#">
+			<div class="modal-content ">
+				<div id="alertmsg"></div>
+				<h4>Forgot Password</h4>
+				<p>Please enter your registered email Id and new password</p>
+				<div class="input-field col s12">
+					<input id="forgotemail" name="forgotemail" type="text"> <label 
+						for="username" class="center-align">Email</label>
+				</div>
+				<div class="input-field col s12">
+					<input id="newpassword" name="newpassword" type="password"> <label
+						for="username" class="center-align">New Password</label>
+				</div>
+				
+				<div class="input-field col s12">
+					<input id="newpasswordcopy" name="newpasswordcopy" type="text"> <label
+						for="username" class="center-align">Confirm Password</label>
+				</div>
+			</div>
+			<div class="modal-footer card-action pink lighten-4">
+				<input  type="button"  class="waves-effect waves-green btn-flat modal-action  pink-text"
+					 onclick="forgotpassword()" value="Submit "/> 
+			<a href="#" class="waves-effect waves-red btn-flat modal-action modal-close pink-text">Close</a>
+			</div>
+		</form>
+	</div>
+</div>
+	<jsp:include page="includes/include_js.jsp" />
+<%-- <script type="text/javascript" src="${imgvids}/static/lib/js/plugins.min.js"></script> --%>
 </body>
+	
+
 <script type="text/javascript">
     $("#formValidate").validate({
         rules: {
@@ -107,5 +141,91 @@
           }
         }
      });
+    
+    $("#fogotpassform").validate({
+        rules: {
+        	forgotemail: {
+                required: true,
+                email:true
+               
+            },
+            newpassword: {
+                required: true,
+               
+            },
+            newpasswordcopy :{
+            	required: true,
+            	equalTo: "#newpassword"
+            }
+       },
+        //For custom messages
+        messages: {
+
+        },
+        errorElement : 'div',
+        errorPlacement: function(error, element) {
+          var placement = $(element).data('error');
+          if (placement) {
+            $(placement).append(error)
+          } else {
+            error.insertAfter(element);
+          }
+        }
+     });
+    
+    $(document).ready(function(){
+	    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    	$('.tooltipped').tooltip({delay: 50});
+//     	$('.modal').modal();
+    	
+    	$("#alertmsg").html("");	
+
+	  });
+    function forgotpassword(){
+    	if($('#fogotpassform').valid()){
+    	var email=$("#forgotemail").val();
+    	var newpassword=$("#newpassword").val()
+    	 console.log("email===="+email+"  ---"+newpassword)
+    	 var json = { "email" : email, "newpassword" : newpassword};
+    	if(email !== '' && newpassword !== ''){
+    		 $(".progress").show();
+    		  $.ajax({
+      		    url: '${imgvids}/forgotpassword.json?email='+email+"&newpassword="+newpassword,
+      		    type: 'GET',
+	      		 
+      		    success: function(result) {
+      		        console.log("result=="+result)
+      		        if(result === 'NOT_FOUND'){
+					var alertmsg='<div id="card-alert" class="card red">'+
+	                '      <div class="card-content white-text">'+
+                   ' <p>DANGER : This Email is not exist.</p>'+
+                  '</div>'+
+                  /* '<button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">'+
+                  '  <span aria-hidden="true">×</span>'+
+                 ' </button>'+ */
+                '</div>';
+                $("#alertmsg").html("");
+                    $("#alertmsg").html(alertmsg);
+      		        }
+      		        if(result === 'success'){
+      		        	var alertmsg='<div id="card-alert" class="card green">'+
+    	                '      <div class="card-content white-text">'+
+                       ' <p>SUCCESS : Password reset successful.</p>'+
+                      '</div>'+
+                     /*  '<button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">'+
+                      '  <span aria-hidden="true">×</span>'+
+                     ' </button>'+ */
+                    '</div>';
+                    $("#alertmsg").html("");	
+                        $("#alertmsg").html(alertmsg);	
+      		        }
+      		      $("#fogotpassform")[0].reset();
+       		      	  $(".progress").hide();	 
+      		        
+      		    }
+      		});
+    	}
+    	}
+    }
     </script>
 </html>

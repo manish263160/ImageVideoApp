@@ -1,12 +1,15 @@
 package com.imagevideoapp.controller;
 
-import com.imagevideoapp.controller.AppController;
-import com.imagevideoapp.utils.ApplicationProperties;
+import java.io.IOException;
 import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -16,13 +19,25 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.imagevideoapp.models.User;
+import com.imagevideoapp.service.MailingService;
+import com.imagevideoapp.service.UserService;
+import com.imagevideoapp.utils.ApplicationProperties;
 
 @Controller
 public class MainController {
 	private static final Logger logger = Logger.getLogger(AppController.class);
 	@Autowired
 	private ApplicationProperties applicationProperties;
+	
+	@Autowired
+	private MailingService mailService;
+	
+	@Autowired
+	private UserService userService ;
 
 	@RequestMapping(value = { "/", "/welcome" }, method = { RequestMethod.GET })
 	public String welcomePage(Model model) {
@@ -57,6 +72,44 @@ public class MainController {
 		return "redirect:/loginpage?logout";
 	}
 
+	@RequestMapping(value = { "/forgotpassword" }, method = { RequestMethod.GET})
+	@ResponseBody
+	public String deleteImages(@RequestParam("email") String email , @RequestParam("newpassword") String newpassword) throws IOException {
+		try {
+			logger.info("email for forgot password==="+email+" newpassword ="+newpassword);
+			 User isemailExist= userService.checkUserByEmail(email);
+			 boolean bool=false;
+			 if(isemailExist == null){
+				 return "NOT_FOUND";
+			 }else{
+				 bool= userService.resetPassword(isemailExist,newpassword);
+				 if(bool){
+				 return "success";
+				 }else{
+					 return "fail";
+				 }
+			 }
+			/*try {
+				Map<String, Object> storemap = new HashMap<String, Object>();
+				storemap.put("fromUseerName", ApplicationConstants.TEAM_NAME);
+				storemap.put("url", url);
+				String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine,
+						"email_Templates/verificationEmail.vm", "UTF-8", storemap);
+
+				mailService.sendMail(senderMailId, new String[] { user.getEmail() }, null, "Registration Activation", text);
+			} catch (Exception e) {
+				logger.error("::runProfileIncompleteCron()  exception ==" + e);
+			}*/
+			
+		} catch (EmptyResultDataAccessException arg6) {
+			logger.error(" deleteImages() EmptyResultDataAccessException");
+			return "fail";
+		} catch (DataAccessException arg7) {
+			logger.error(" deleteImages() DataAccessException");
+			return "fail";
+		}
+	}
+	
 	@RequestMapping(value = { "/admin" }, method = { RequestMethod.GET })
 	public String adminPage(Model model) {
 		return "adminPage";
