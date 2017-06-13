@@ -1,5 +1,9 @@
 package com.imagevideoapp.controller;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.LinkedHashSet;
 import java.util.List;
 
@@ -17,12 +21,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.imagevideoapp.exception.GenericException;
 import com.imagevideoapp.models.UploadedImage;
 import com.imagevideoapp.models.User;
 import com.imagevideoapp.service.UserService;
+import com.imagevideoapp.utils.AESEncrypter;
 import com.imagevideoapp.utils.ApplicationProperties;
 import com.imagevideoapp.utils.GenUtilitis;
 
@@ -129,5 +135,50 @@ public class UserController {
 		model.addAttribute("allfileList", allfileList);
 		model.addAttribute("uniqueDate", uniqueDate);
 		return pathvariable.equals("image") ? "imageUpload/userAllImagesGallery" : "videoUpload/userAllVideoGallery";
+	}
+	
+	@RequestMapping(value = { "/generateNewPass/{token}" }, method = { RequestMethod.GET })
+	public String generateNewPass(@PathVariable String token, Model model, HttpServletRequest request) throws Exception {
+		String error="";
+		try {
+			String accesstoken=AESEncrypter.decrypt(token);
+			String getaccess=URLDecoder.decode(accesstoken, "UTF-8");
+			String userId=getaccess.split("##")[1];
+			logger.info("userId===="+userId);
+			if(userId!=null){
+			String getpassGenToken=userService.getpassGenToken(Long.parseLong(userId));
+			if(getpassGenToken.equals(token)){
+				model.addAttribute("userId", AESEncrypter.encrypt(userId));
+				return "user/newGenratePassword";
+				
+			}else{
+				error="Your Token is expire, Please try again.";
+				return "redirect:/login.htm?error="+URLEncoder.encode(error,"UTF-8");
+			}
+			}else{
+				error="Something went wrong, Please try again.";
+				return "redirect:/login.htm?error="+URLEncoder.encode(error,"UTF-8");
+			}
+		} catch (UnsupportedEncodingException e) {
+			logger.error(e.getMessage());
+			error="Your Token is expire, Please try again.";
+			return "redirect:/login.htm?error="+error;
+		}
+	}
+	
+	@RequestMapping(value = { "/newGenPassword/{userId}" }, method = { RequestMethod.GET})
+	@ResponseBody
+	public boolean newGenPassword(@PathVariable("userId") String userId,@RequestParam(value="newpassword",required=false) String newpassword,HttpServletRequest request) throws Exception {
+		String getuserId="";
+		if(userId != null){
+			getuserId=AESEncrypter.decrypt(userId);
+			User user=userService.checkUserByEmailorID(getuserId);
+			boolean bool= userService.resetPassword(user,newpassword);
+			
+			return bool;
+		}
+		
+		return false;
+		
 	}
 }

@@ -8,7 +8,7 @@ import java.util.List;
 public interface UserDao {
 	User validateUser(String arg0, String arg1);
 
-	User checkUserByEmail(String arg0);
+	User checkUserByEmailorID(String emailorID);
 
 	long insertUser(User arg0);
 
@@ -35,4 +35,8 @@ public interface UserDao {
 	boolean deleteImages(String arg0);
 
 	boolean resetPassword(User isemailExist, String newpassword);
+
+	boolean insertPassGenToken(Long userId, String token);
+
+	String getpassGenToken(long userId);
 }

@@ -30,7 +30,11 @@ public interface UserService {
 
 	boolean deleteImages(String arg0);
 
-	User checkUserByEmail(String email);
+	User checkUserByEmailorID(String email);
 
 	boolean resetPassword(User isemailExist, String newpassword);
+
+	boolean insertPassGenToken(Long userId, String token);
+
+	String getpassGenToken(long parseLong);
 }

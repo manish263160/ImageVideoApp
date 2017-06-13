@@ -34,6 +34,10 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 	private static final String GET_USER = "select u.* from user u " + " where u.email=? and u.password=?";
 
 	private static final SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+	
+	private Date curdate=new Date();
+	private String currentTime = sdf.format(curdate);
+	
 	public User validateUser(final String emailId, final String password) {
 		logger.debug("validateUser() email: " + emailId);
 		User user = null;
@@ -62,12 +66,12 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 
 	}
 
-	public User checkUserByEmail(final String email) {
+	public User checkUserByEmailorID(final String emailorID) {
 		logger.info("::checkUserByEmail()");
 		User user = null;
-		final String query = "select * from user where email=?";
+		final String query = "select * from user where email=? or user_id=?";
 		try {
-			user = getJdbcTemplate().queryForObject(query, new BeanPropertyRowMapper<User>(User.class), email);
+			user = getJdbcTemplate().queryForObject(query, new BeanPropertyRowMapper<User>(User.class), emailorID,emailorID);
 		} catch (EmptyResultDataAccessException e) {
 			logger.error(" checkUserByEmail() EmptyResultDataAccessException");
 		} catch (DataAccessException e) {
@@ -341,6 +345,32 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 			logger.error(" resetPassword() DataAccessException");
 		}
 		return false;
+	}
+
+	@Override
+	public boolean insertPassGenToken(Long userId,String token) {
+		
+		String query = "update user set pass_gen_token=?, modified_on=?  where user_id=?;";
+		int get=getJdbcTemplate().update(query, token,currentTime,userId);
+		if(get>0)
+		return true;
+		
+		return false;
+	}
+
+	@Override
+	public String getpassGenToken(long userId) {
+		String passGenToken=null;
+		try {
+			String query = "select pass_gen_token from user where user_id=? and modified_on > (DATE_SUB('"+currentTime+"', INTERVAL 1 DAY));";
+			Object[] inputs = new Object[] {userId};
+			passGenToken= getJdbcTemplate().queryForObject(query, inputs, String.class);
+		} catch (EmptyResultDataAccessException e) {
+			logger.error(" getRegistrationToken() EmptyResultDataAccessException");
+		} catch (DataAccessException e) {
+			logger.error(" getRegistrationToken() DataAccessException");
+		}
+		return passGenToken;
 	}
 
 	

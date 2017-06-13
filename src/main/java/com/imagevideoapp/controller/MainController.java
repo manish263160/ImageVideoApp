@@ -1,13 +1,18 @@
 package com.imagevideoapp.controller;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.Authentication;
@@ -16,6 +21,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.ui.velocity.VelocityEngineUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +31,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.imagevideoapp.models.User;
 import com.imagevideoapp.service.MailingService;
 import com.imagevideoapp.service.UserService;
+import com.imagevideoapp.utils.AESEncrypter;
+import com.imagevideoapp.utils.ApplicationConstants;
 import com.imagevideoapp.utils.ApplicationProperties;
 
 @Controller
@@ -35,6 +43,11 @@ public class MainController {
 	
 	@Autowired
 	private MailingService mailService;
+	
+	private @Autowired VelocityEngine velocityEngine;
+	
+	@Value("${mail.username}")
+	private String senderMailId;
 	
 	@Autowired
 	private UserService userService ;
@@ -74,38 +87,43 @@ public class MainController {
 
 	@RequestMapping(value = { "/forgotpassword" }, method = { RequestMethod.GET})
 	@ResponseBody
-	public String deleteImages(@RequestParam("email") String email , @RequestParam("newpassword") String newpassword) throws IOException {
+	public String deleteImages(@RequestParam("email") String email , @RequestParam(value="newpassword",required=false) String newpassword,HttpServletRequest request) throws IOException {
 		try {
 			logger.info("email for forgot password==="+email+" newpassword ="+newpassword);
-			 User isemailExist= userService.checkUserByEmail(email);
+			 User existuser= userService.checkUserByEmailorID(email);
 			 boolean bool=false;
-			 if(isemailExist == null){
+			 if(existuser == null){
 				 return "NOT_FOUND";
 			 }else{
-				 bool= userService.resetPassword(isemailExist,newpassword);
-				 if(bool){
-				 return "success";
-				 }else{
-					 return "fail";
-				 }
-			 }
-			/*try {
-				Map<String, Object> storemap = new HashMap<String, Object>();
-				storemap.put("fromUseerName", ApplicationConstants.TEAM_NAME);
-				storemap.put("url", url);
-				String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine,
-						"email_Templates/verificationEmail.vm", "UTF-8", storemap);
+//				 bool= userService.resetPassword(isemailExist,newpassword);
+				 try {
+					 String plainText = System.currentTimeMillis() + "##" + existuser.getUserId();
+					 String token = AESEncrypter.encrypt(plainText);
+					 String url=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+					 url+="/user/generateNewPass/"+URLEncoder.encode(token, "UTF-8");
+					 logger.info("url for mail ==="+url);
+					 userService.insertPassGenToken(existuser.getUserId(),token);
+						Map<String, Object> storemap = new HashMap<String, Object>();
+						storemap.put("fromUserName", ApplicationConstants.TEAM_NAME);
+						storemap.put("url", url);
+						String text = VelocityEngineUtils.mergeTemplateIntoString(velocityEngine,
+								"email_Templates/forgotPasswordEmail.vm", "UTF-8", storemap);
 
-				mailService.sendMail(senderMailId, new String[] { user.getEmail() }, null, "Registration Activation", text);
-			} catch (Exception e) {
-				logger.error("::runProfileIncompleteCron()  exception ==" + e);
-			}*/
+						mailService.sendMail(senderMailId, new String[] { existuser.getEmail() }, null, "Forgot Password", text);
+						return "success";
+					} catch (Exception e) {
+						logger.error("::runProfileIncompleteCron()  exception ==" + e);
+						return "fail";
+					} 
+				 
+			 }
+		
 			
 		} catch (EmptyResultDataAccessException arg6) {
-			logger.error(" deleteImages() EmptyResultDataAccessException");
+			logger.error(" EmptyResultDataAccessException");
 			return "fail";
 		} catch (DataAccessException arg7) {
-			logger.error(" deleteImages() DataAccessException");
+			logger.error(" DataAccessException");
 			return "fail";
 		}
 	}

@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional(rollbackFor = Throwable.class)
 	public long insertUser(User user) throws GenericException {
 		logger.info("::userRegistration()");
-		User checkUser = checkUserByEmail(user.getEmail());
+		User checkUser = checkUserByEmailorID(user.getEmail());
 		if (checkUser != null) {
 			GenericException exception = new GenericException();
 			exception.setMessage("Email already registered!!");
@@ -202,13 +202,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User checkUserByEmail(String email) {
-		return userDao.checkUserByEmail(email);
+	public User checkUserByEmailorID(String emailorID) {
+		return userDao.checkUserByEmailorID(emailorID);
 	}
 
 	@Override
 	public boolean resetPassword(User isemailExist, String newpassword) {
 		return userDao.resetPassword(isemailExist,newpassword);
+	}
+
+	@Override
+	public boolean insertPassGenToken(Long userId,String token) {
+
+		return userDao.insertPassGenToken(userId,token);
+	}
+
+	@Override
+	public String getpassGenToken(long userId) {
+		return userDao.getpassGenToken(userId);
 	}
 
 }

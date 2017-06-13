@@ -87,12 +87,12 @@
 			<div class="modal-content ">
 				<div id="alertmsg"></div>
 				<h4>Forgot Password</h4>
-				<p>Please enter your registered email Id and new password</p>
+				<p>Please enter your registered email Id.</p>
 				<div class="input-field col s12">
 					<input id="forgotemail" name="forgotemail" type="text"> <label 
 						for="username" class="center-align">Email</label>
 				</div>
-				<div class="input-field col s12">
+				<!-- <div class="input-field col s12">
 					<input id="newpassword" name="newpassword" type="password"> <label
 						for="username" class="center-align">New Password</label>
 				</div>
@@ -100,7 +100,7 @@
 				<div class="input-field col s12">
 					<input id="newpasswordcopy" name="newpasswordcopy" type="text"> <label
 						for="username" class="center-align">Confirm Password</label>
-				</div>
+				</div> -->
 			</div>
 			<div class="modal-footer card-action pink lighten-4">
 				<input  type="button"  class="waves-effect waves-green btn-flat modal-action  pink-text"
@@ -149,14 +149,14 @@
                 email:true
                
             },
-            newpassword: {
+            /* newpassword: {
                 required: true,
                
             },
             newpasswordcopy :{
             	required: true,
             	equalTo: "#newpassword"
-            }
+            } */
        },
         //For custom messages
         messages: {
@@ -184,21 +184,19 @@
     function forgotpassword(){
     	if($('#fogotpassform').valid()){
     	var email=$("#forgotemail").val();
-    	var newpassword=$("#newpassword").val()
-    	 console.log("email===="+email+"  ---"+newpassword)
-    	 var json = { "email" : email, "newpassword" : newpassword};
-    	if(email !== '' && newpassword !== ''){
+//     	var newpassword=$("#newpassword").val()
+//     	 var json = { "email" : email, "newpassword" : newpassword};
+    	if(email !== '' ){
     		 $(".progress").show();
     		  $.ajax({
-      		    url: '${imgvids}/forgotpassword.json?email='+email+"&newpassword="+newpassword,
+      		    url: '${imgvids}/forgotpassword.json?email='+email,
       		    type: 'GET',
 	      		 
       		    success: function(result) {
-      		        console.log("result=="+result)
       		        if(result === 'NOT_FOUND'){
 					var alertmsg='<div id="card-alert" class="card red">'+
 	                '      <div class="card-content white-text">'+
-                   ' <p>DANGER : This Email is not exist.</p>'+
+                   ' <p>DANGER : This Email does not exist.</p>'+
                   '</div>'+
                   /* '<button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">'+
                   '  <span aria-hidden="true">×</span>'+
@@ -210,7 +208,7 @@
       		        if(result === 'success'){
       		        	var alertmsg='<div id="card-alert" class="card green">'+
     	                '      <div class="card-content white-text">'+
-                       ' <p>SUCCESS : Password reset successful.</p>'+
+                       ' <p>SUCCESS : Please check your email for generate new password.</p>'+
                       '</div>'+
                      /*  '<button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">'+
                       '  <span aria-hidden="true">×</span>'+
@@ -219,6 +217,18 @@
                     $("#alertmsg").html("");	
                         $("#alertmsg").html(alertmsg);	
       		        }
+      		      if(result === 'fail'){
+      		    	var alertmsg='<div id="card-alert" class="card red">'+
+	                '      <div class="card-content white-text">'+
+                   ' <p>DANGER : Something went wrong.</p>'+
+                  '</div>'+
+                  /* '<button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">'+
+                  '  <span aria-hidden="true">×</span>'+
+                 ' </button>'+ */
+                '</div>';
+                $("#alertmsg").html("");
+                    $("#alertmsg").html(alertmsg);
+      		      }
       		      $("#fogotpassform")[0].reset();
        		      	  $(".progress").hide();	 
       		        

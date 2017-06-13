@@ -16,6 +16,7 @@ public class User implements Serializable {
 	private String name;
 	private String gender;
 	private int status;
+	private String passGenToken;
 	@JsonIgnore
 	private Date createdOn;
 	private String createBy;
@@ -221,5 +222,13 @@ public class User implements Serializable {
 
 	public void setShopDescription(String shopDescription) {
 		this.shopDescription = shopDescription;
+	}
+
+	public String getPassGenToken() {
+		return passGenToken;
+	}
+
+	public void setPassGenToken(String passGenToken) {
+		this.passGenToken = passGenToken;
 	}
 }
