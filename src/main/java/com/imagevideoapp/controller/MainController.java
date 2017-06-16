@@ -99,7 +99,7 @@ public class MainController {
 				 try {
 					 String plainText = System.currentTimeMillis() + "##" + existuser.getUserId();
 					 String token = AESEncrypter.encrypt(plainText);
-					 String url=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath();
+					 String url=applicationProperties.getProperty("appUrl");
 					 url+="/user/generateNewPass/"+URLEncoder.encode(token, "UTF-8");
 					 logger.info("url for mail ==="+url);
 					 userService.insertPassGenToken(existuser.getUserId(),token);
