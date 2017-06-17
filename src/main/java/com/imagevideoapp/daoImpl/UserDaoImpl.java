@@ -164,16 +164,19 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 		long userid = user.getUserId();
 		// String idColumn =
 		// tableName.equals("uploaded_image")||tableName.equals("uploaded_video")?"user_id":"id";
+		SimpleDateFormat sdf1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		
+		String currentTime1 = sdf1.format(curdate);
 		String Sqlquery = "";
 		int rowInsert = 0;
 		if (tableName.equals("uploaded_image") && uploadedImage != null) {
 			Sqlquery = "INSERT INTO " + tableName + " ( user_id , " + columnName
-					+ " , created_on ,created_by ,image_link , image_description , link_type) VALUES (?,?,'"+currentTime+"',?, ? ,? ,?)";
+					+ " , created_on ,created_by ,image_link , image_description , link_type) VALUES (?,?,'"+currentTime1+"',?, ? ,? ,?)";
 			rowInsert = getJdbcTemplate().update(Sqlquery, userid, value, user.getName(), uploadedImage.getImageLink(),
 					uploadedImage.getImageDescription(), uploadedImage.getLinkType());
 		} else if (tableName.equals("uploaded_video")) {
 			Sqlquery = "INSERT INTO " + tableName + " ( user_id , " + columnName
-					+ " , created_on ,created_by) VALUES (?,?,'"+currentTime+"',?)";
+					+ " , created_on ,created_by) VALUES (?,?,'"+currentTime1+"',?)";
 			rowInsert = getJdbcTemplate().update(Sqlquery, userid, value, user.getName());
 		}
 
@@ -215,20 +218,19 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 	@Override
 	public List<UploadedImage> getAllImages(Long userId, String date) {
 		List<UploadedImage> allImages = null;
-		Date curdate=new Date();
-//		SimpleDateFormat sdf1=new SimpleDateFormat("yyyy-MM-dd"); 
-		String currentdate = sdf.format(curdate);
+		String exactDate=currentTime.trim()+" 23:59:59";
 		try {
 			StringBuilder query = new StringBuilder();
 			if(userId == null && date.equals("all")){
-				query.append("select * from uploaded_image where created_on between date_add('"+currentdate+"', interval - 6 day) and '"+currentdate+"' ").append(" order by created_on desc ;");
+				query.append("select * from uploaded_image where created_on between date_add('"+exactDate+"', interval - 6 day) and '"+exactDate+"' ").append(" order by created_on desc ;");
 				logger.info("query---"+query.toString());
 				allImages = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class));
 				return allImages; 
 			
 			}
 			if(userId !=null && date.equals("all")){
-				query.append("select * from uploaded_image where created_on between date_add('"+currentdate+"', interval - 6 day) and '"+currentdate+"' ").append(" and user_id=? ").append(" order by created_on desc ;");
+			
+				query.append("select * from uploaded_image where created_on between date_add('"+exactDate+"', interval - 6 day) and '"+exactDate+"' ").append(" and user_id=? ").append(" order by created_on desc ;");
 				logger.info("query---"+query.toString());
 				allImages = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class),userId);
 				return allImages;
@@ -309,7 +311,7 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 			rowcount = getJdbcTemplate().update(sql.toString(), user.getUserId());
 
 		} else if (imageId != null && imageId.equalsIgnoreCase("cronstart")) {
-			sql.append("delete from  uploaded_image where  created_on < (DATE_SUB('"+currentTime+"', INTERVAL 6 DAY));");
+			sql.append("delete from  uploaded_image where  created_on < (DATE_SUB('"+currentTime+" 23:59:59', INTERVAL 6 DAY));");
 			rowcount = getJdbcTemplate().update(sql.toString());
 
 		} else {
