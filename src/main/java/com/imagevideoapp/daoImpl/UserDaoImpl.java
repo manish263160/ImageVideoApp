@@ -33,10 +33,9 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 
 	private static final String GET_USER = "select u.* from user u " + " where u.email=? and u.password=?";
 
-	private static final SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); 
 	
-	private Date curdate=new Date();
-	private String currentTime = sdf.format(curdate);
+	
+	
 	
 	public User validateUser(final String emailId, final String password) {
 		logger.debug("validateUser() email: " + emailId);
@@ -81,7 +80,9 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 	}
 
 	public long insertUser(final User user) {
-
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+		Date curdate=new Date();
+		String currentTime = sdf.format(curdate);
 		logger.info("::insertUser()");
 		final String query = "INSERT INTO user(email,mobile_no,password,name,status,created_on)VALUES(?,?,?,?,?,'"+currentTime+"');";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -165,8 +166,8 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 		// String idColumn =
 		// tableName.equals("uploaded_image")||tableName.equals("uploaded_video")?"user_id":"id";
 		SimpleDateFormat sdf1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-		
-		String currentTime1 = sdf1.format(curdate);
+		Date curdate1=new Date();
+		String currentTime1 = sdf1.format(curdate1);
 		String Sqlquery = "";
 		int rowInsert = 0;
 		if (tableName.equals("uploaded_image") && uploadedImage != null) {
@@ -218,6 +219,9 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 	@Override
 	public List<UploadedImage> getAllImages(Long userId, String date) {
 		List<UploadedImage> allImages = null;
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		Date curdate=new Date();
+		String currentTime = sdf.format(curdate);
 		String exactDate=currentTime.trim()+" 23:59:59";
 		try {
 			StringBuilder query = new StringBuilder();
@@ -305,6 +309,9 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 		User user = GenUtilitis.getLoggedInUser();
 		logger.info("------imageIg---" + imageId);
 		final StringBuilder sql = new StringBuilder();
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+		Date curdate=new Date();
+		String currentTime = sdf.format(curdate);
 		int rowcount = 0;
 		if (imageId != null && imageId.equals("All")) {
 			sql.append("delete from uploaded_image where user_id= ? ");
@@ -345,7 +352,9 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 
 	@Override
 	public boolean insertPassGenToken(Long userId,String token) {
-		
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date curdate=new Date();
+		String currentTime = sdf.format(curdate);
 		String query = "update user set pass_gen_token=?, modified_on=?  where user_id=?;";
 		int get=getJdbcTemplate().update(query, token,currentTime,userId);
 		if(get>0)
@@ -356,6 +365,9 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 
 	@Override
 	public String getpassGenToken(long userId) {
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date curdate=new Date();
+		String currentTime = sdf.format(curdate);
 		String passGenToken=null;
 		try {
 			String query = "select pass_gen_token from user where user_id=? and modified_on > (DATE_SUB('"+currentTime+"', INTERVAL 1 DAY));";

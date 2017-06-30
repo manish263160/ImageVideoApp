@@ -279,6 +279,13 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/springmvc.breadcrumb-0.0.1-SNAPSHOT.jar</systemPath>
 		</dependency>
+	<!-- this is for GCM for google mobile notification -->
+	<dependency>
+		<groupId>com.ganyo</groupId>
+		<artifactId>gcm-server</artifactId>
+		<version>1.0.2</version>
+	</dependency>
+		
 	</dependencies>
 
 	<build>

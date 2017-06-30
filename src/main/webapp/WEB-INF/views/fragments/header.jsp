@@ -18,12 +18,14 @@
       <h1 class="logo-wrapper"><a href="#!" class="brand-logo darken-1"><img alt="abatar" src="${imgvids}/static/images/materialize-logo.png"> </a></h1>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
        <ul class="right hide-on-med-and-down">
-       <security:authorize access="hasRole('ROLE_USER')">
+       <security:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
        <li><a href="${imgvids}/user/homepage">Home</a></li>
         <li><a href="${imgvids}/user/image/getAllFile">All Images</a></li>
 <%--         <li><a href="${imgvids}/user/video/getAllFile">All Videos</a></li> --%>
         </security:authorize>
-       
+       <security:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+       <li><a href="${imgvids}/appNotification/notificationPage">App Notification</a></li>
+       </security:authorize>
        <security:authorize access="isAuthenticated()">
         <li><a href="${imgvids}/logout">Logout</a></li>
         </security:authorize>

@@ -7,9 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.imagevideoapp.models.UploadedImage;
+import com.imagevideoapp.service.NotificationService;
 import com.imagevideoapp.service.UserService;
 
 
@@ -20,6 +23,9 @@ public class GetAllImageRestController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	NotificationService notificationService;
+	
 	@RequestMapping(value = "/getALlImages", method = RequestMethod.GET ,consumes="application/json")
     public ResponseEntity<List<UploadedImage>> listAllUsers() {
 		Long userId=3l;//This is for showofff.hello@gmail.com 
@@ -28,5 +34,11 @@ public class GetAllImageRestController {
             return new ResponseEntity<List<UploadedImage>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }
         return new ResponseEntity<List<UploadedImage>>(uploadedimage, HttpStatus.OK);
+    }
+	@RequestMapping(value = "/pushDeviceId", method = RequestMethod.GET ,consumes="application/json")
+    public ResponseEntity<Boolean> pushDeviceId(@RequestParam(value="deviceId") String deviceId) {
+        boolean isDeviceIdInsert = notificationService.insertDevice(deviceId);
+        
+        return new ResponseEntity<Boolean>(isDeviceIdInsert, HttpStatus.OK);
     }
 }
