@@ -9,11 +9,13 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.imagevideoapp.dao.NotiFicationDao;
 import com.imagevideoapp.models.NotificationDetails;
+import com.imagevideoapp.models.UploadedImage;
 import com.imagevideoapp.support.ImageVideoJdbcDaoSupport;
 
 @Repository
@@ -69,6 +71,24 @@ public class NotiFicationDaoImpl  extends ImageVideoJdbcDaoSupport implements No
 			logger.error(" insertDevice() DataAccessException");
 		}
 		return false;
+	}
+
+	@Override
+	public List<NotificationDetails> getAllScheduleTask(String currentTime) {
+		logger.info("::getAllScheduleTask()  start");
+		StringBuilder query=new StringBuilder();
+		List<NotificationDetails> alltask=null;
+		try {
+			query.append("select * from notification_details where schedule_time between '"+currentTime+":00' and  '"+currentTime+":59' ").append(" and scheduling_type = 2 order by schedule_time desc ;");
+			logger.info("query---"+query.toString());
+			alltask = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<NotificationDetails>(NotificationDetails.class));
+			return alltask; 
+		} catch (EmptyResultDataAccessException e) {
+			logger.error(" getRegistrationToken() EmptyResultDataAccessException");
+		} catch (DataAccessException e) {
+			logger.error(" getRegistrationToken() DataAccessException");
+		}
+		return alltask;
 	}
 
 }

@@ -14,4 +14,6 @@ public interface NotificationService {
 	public List<String> getAllDeviceId();
 
 	public boolean insertDevice(String deviceId);
+
+	public boolean pushNotificationCron();
 }

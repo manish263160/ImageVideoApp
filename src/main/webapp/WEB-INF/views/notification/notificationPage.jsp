@@ -5,6 +5,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Notification page</title>
 <jsp:include page="../fragments/header.jsp" />
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="${imgvids}/static/lib/css/material-datetime-picker.css" type="text/css" rel="stylesheet" >
 <style type="text/css">
 html,
 body {
@@ -19,13 +22,13 @@ body {
 </head>
 <body class="${themecolor }">
 
- <jsp:include page="../includes/include_js.jsp" />
+ 
  <div class="container" >
   <div id="login-page" class="row">
   <c:if test="${not empty isSendNotification && isSendNotification}">
  <div id="card-alert" class="card green">
                       <div class="card-content white-text">
-                        <p><i class="mdi-alert-error"></i> Notification ahs been sent.</p>
+                        <p><i class="mdi-alert-error"></i> Notification has been sent.</p>
                       </div>
                       <button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">×</span>
@@ -51,9 +54,8 @@ body {
             <label  class="center-align">Scheduling</label>
           </div>
           <div class="input-field col s8">
-            <select name="schedulingType" onchange="toggleDate(this)">
-						<option value="" disabled selected> schedule time</option>
-						<option value="1">Send now</option>
+            <select name="schedulingType" id="schedulingType" onchange="toggleDate(this)">
+						<option value="1" selected="selected">Send now</option>
 						<option value="2">send later</option>
 					</select>
           </div>
@@ -64,7 +66,7 @@ body {
             <label  class="center-align">&nbsp;</label>
           </div>
           <div class="input-field col s8">
-            <input type="text" class="datepickerTest" placeholder="Please choose date" name="scheduleTime" id="scheduleTime">
+            <input type="text" class="c-datepicker-btn" placeholder="Please choose date" name="scheduleTime" id="scheduleTime">
           </div>
         </div>
         <div class="row margin">
@@ -83,17 +85,37 @@ body {
   </div>
 
 </div>
+ <jsp:include page="../includes/include_js.jsp" />
+  <script src="${imgvids}/static/lib/js/polyfill.js"></script>
+  <script src="${imgvids}/static/lib/js/moment.js"></script>
+  <script src="${imgvids}/static/lib/js/rome.standalone.js"></script>
+  <script src="${imgvids}/static/lib/js/material-datetime-picker.js" charset="utf-8"></script>
  <script type="text/javascript">
  $(document).ready(function(){
 	 
-	 $('.datepickerTest').pickadate({
+	 /* $('.datepickerTest').pickadate({
  	    min: new Date(),
  	    selectMonths: true, 
  	    selectYears: 15,
  		format : 'yyyy-mm-dd'
 
- 	  });
+ 	  }); */
+ 	  
+	 var picker = new MaterialDatetimePicker({min: '2017-07-06',})
+	   .on('submit', function(d) {
+// 		   console.log('asasas==',d.format("DD-MM-YYYY HH:mm:ss"));
+		   scheduleTime.value = d.format("YYYY-MM-DD HH:mm:ss");
+	   });
+	 var el = document.querySelector('.c-datepicker-btn');
+	 el.addEventListener('click', function() {
+	   picker.open();
+	 }, false);
+
  });
+ 
+
+
+ 
  function toggleDate(e){
 	 console.log($(e).val());
 	 $(e).val() == 2 ? $("#isShowChooseDate").show() : $("#isShowChooseDate").hide();
@@ -101,11 +123,10 @@ body {
  
  $("#notificationForm").validate({
 	    rules: {
-	    	title: {
-	            required: true,
-	        },
+	    	
 	        schedulingType: {
 	            required: true,
+	            valueNotEquals: ""
 	        },
 	        scheduleTime: {
 				required: true,

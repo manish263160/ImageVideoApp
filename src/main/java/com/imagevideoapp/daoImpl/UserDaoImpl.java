@@ -226,7 +226,7 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 		try {
 			StringBuilder query = new StringBuilder();
 			if(userId == null && date.equals("all")){
-				query.append("select * from uploaded_image where created_on between date_add('"+exactDate+"', interval - 6 day) and '"+exactDate+"' ").append(" order by created_on desc ;");
+				query.append("select * from uploaded_image where created_on between date_add('"+exactDate+"', interval - 8 day) and '"+exactDate+"' ").append(" order by created_on desc ;");
 				logger.info("query---"+query.toString());
 				allImages = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class));
 				return allImages; 
@@ -234,7 +234,7 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 			}
 			if(userId !=null && date.equals("all")){
 			
-				query.append("select * from uploaded_image where created_on between date_add('"+exactDate+"', interval - 6 day) and '"+exactDate+"' ").append(" and user_id=? ").append(" order by created_on desc ;");
+				query.append("select * from uploaded_image where created_on between date_add('"+exactDate+"', interval - 8 day) and '"+exactDate+"' ").append(" and user_id=? ").append(" order by created_on desc ;");
 				logger.info("query---"+query.toString());
 				allImages = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class),userId);
 				return allImages;
@@ -318,7 +318,7 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 			rowcount = getJdbcTemplate().update(sql.toString(), user.getUserId());
 
 		} else if (imageId != null && imageId.equalsIgnoreCase("cronstart")) {
-			sql.append("delete from  uploaded_image where  created_on < (DATE_SUB('"+currentTime+" 23:59:59', INTERVAL 6 DAY));");
+			sql.append("delete from  uploaded_image where  created_on < (DATE_SUB('"+currentTime+" 23:59:59', INTERVAL 8 DAY));");
 			rowcount = getJdbcTemplate().update(sql.toString());
 
 		} else {

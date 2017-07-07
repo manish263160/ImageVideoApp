@@ -12,7 +12,7 @@
   <!-- For Windows Phone -->
 <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="${imgvids}/static/images/favicon.ico"/>
  <!-- CORE CSS-->  
-  <link href="${imgvids}/static/lib/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+  <link href="${imgvids}/static/lib/css/materialize.min.css" type="text/css" rel="stylesheet" >
   <link href="${imgvids}/static/lib/css/style.min.css" type="text/css" rel="stylesheet" media="screen,projection">
     <!-- Custome CSS-->    
 <%--     <link href="${imgvids}/static/lib/css/custom-style.css" type="text/css" rel="stylesheet" media="screen,projection"> --%>

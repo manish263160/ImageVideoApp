@@ -12,4 +12,6 @@ public interface NotiFicationDao {
 
 	boolean insertDevice(String deviceId);
 
+	List<NotificationDetails> getAllScheduleTask(String currentTime);
+
 }

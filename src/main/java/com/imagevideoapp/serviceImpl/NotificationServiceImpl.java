@@ -1,6 +1,9 @@
 package com.imagevideoapp.serviceImpl;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -73,31 +76,19 @@ public class NotificationServiceImpl implements NotificationService{
 	@Override
 	@Transactional(rollbackFor = Throwable.class)
 	public boolean sendNotification(NotificationDetails notificationDetails) throws GenericException {
+		if(notificationDetails.getSchedulingType()== NOTIFICATION_TYPE.SENDNOW.ID){
+			notificationDetails.setScheduleTime(null);
+		
+		}
 		boolean isNotificationInserted= notiFicationDao.sendNotification(notificationDetails);
+		List<NotificationDetails> listnotification=new ArrayList<NotificationDetails>();
+		listnotification.add(notificationDetails);
 		if(isNotificationInserted){
 			if(notificationDetails.getSchedulingType()== NOTIFICATION_TYPE.SENDNOW.ID){
-				List<String> getAllDevice = getAllDeviceId();
-				JSONObject obj = new JSONObject();
-				MulticastResult result = null;
-
-				GOOGLE_SERVER_KEY = env.getProperty("gcm.apikey");
-				
-				final int retries = 3;
-				try {
-					obj.put("title", notificationDetails.getTitle());
-					obj.put("description", notificationDetails.getDescription());
-					String userMessage = obj.toString();
-					Sender sender = new Sender(GOOGLE_SERVER_KEY);
-					Message message = new Message.Builder().timeToLive(30)
-							.delayWhileIdle(true).addData(MESSAGE_KEY, userMessage).build();
-					result = sender.send(message, getAllDevice, retries);
-					logger.info("result=="+result.toString());
-					return true;
-				} catch (JSONException js) {
-					logger.error("error="+js.getMessage());
-				} catch (Exception e) {
-					logger.error("pushStatus"+e.getMessage());
-				}
+				return notificationPush(listnotification);
+			
+			}else if(notificationDetails.getSchedulingType()== NOTIFICATION_TYPE.SENDLATER.ID){
+				return true;
 			}
 		}
 		
@@ -110,7 +101,47 @@ public class NotificationServiceImpl implements NotificationService{
 	@Override
 	public boolean insertDevice(String deviceId) {
 		return notiFicationDao.insertDevice(deviceId);
+	}
+	@Override
+	public boolean pushNotificationCron(){
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
+		Date curdate=new Date();
+		String currentTime = sdf.format(curdate);
+		List<NotificationDetails> getAlltask= notiFicationDao.getAllScheduleTask(currentTime);
+		boolean bool=notificationPush(getAlltask);
+		
+		return bool;
 	} 
 
-	
+	boolean notificationPush(List<NotificationDetails> listnotificationDetails){
+		
+		List<String> getAllDevice = getAllDeviceId();
+		JSONObject obj = new JSONObject();
+		MulticastResult result = null;
+
+		GOOGLE_SERVER_KEY = env.getProperty("gcm.apikey");
+		
+		final int retries = 3;
+		
+		try {
+			for (NotificationDetails list : listnotificationDetails) {
+				obj.put("title", list.getTitle());
+				obj.put("description", list.getDescription());
+				String userMessage = obj.toString();
+				Sender sender = new Sender(GOOGLE_SERVER_KEY);
+				Message message = new Message.Builder().timeToLive(30)
+						.delayWhileIdle(true).addData(MESSAGE_KEY, userMessage).build();
+				result = sender.send(message, getAllDevice, retries);
+				logger.info("result=="+result.toString());
+				
+			}
+			
+			return true;
+		} catch (JSONException js) {
+			logger.error("error="+js.getMessage());
+		} catch (Exception e) {
+			logger.error("pushStatus"+e.getMessage());
+		}
+	return false;
+	}
 }

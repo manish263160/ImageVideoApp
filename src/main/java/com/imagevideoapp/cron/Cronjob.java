@@ -11,7 +11,9 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.imagevideoapp.exception.GenericException;
 import com.imagevideoapp.models.UploadedImage;
+import com.imagevideoapp.service.NotificationService;
 import com.imagevideoapp.service.UserService;
 import com.imagevideoapp.utils.GenUtilitis;
 
@@ -19,13 +21,15 @@ import com.imagevideoapp.utils.GenUtilitis;
 public class Cronjob {
 
 	@Autowired
-	UserService userService;
+	private UserService userService;
+	
+	@Autowired 
+	private NotificationService notificationService;
 	
 	private static final Logger logger = Logger.getLogger(Cronjob.class);
 	@Scheduled(cron="0 0 2 1/1 * ?")
 //	@Scheduled(fixedDelay=5000)
 	public void taskScheduler() throws IOException{
-		System.out.println("---print----");
 		logger.info("*****************************cron has started this time***************************");
 		try {
 			String cronStart="cronStart";
@@ -49,6 +53,22 @@ public class Cronjob {
 			logger.error(" taskScheduler() EmptyResultDataAccessException"+e.getMessage());
 		}catch(DataAccessException e){
 			logger.error(" taskScheduler() DataAccessException"+e.getMessage());
+		}
+	}
+	
+	
+//	@Scheduled(cron="0 0 2 1/1 * ?")
+	@Scheduled(fixedRate=60*1000)
+	public void pushNotificationCron() throws GenericException{
+		logger.info("*****************************pushNotificationCron started this time***************************");
+		try {
+			
+			notificationService.pushNotificationCron();
+			
+		} catch(EmptyResultDataAccessException e){
+			logger.error(" pushNotificationCron() EmptyResultDataAccessException"+e.getMessage());
+		}catch(DataAccessException e){
+			logger.error(" pushNotificationCron() DataAccessException"+e.getMessage());
 		}
 	}
 }
