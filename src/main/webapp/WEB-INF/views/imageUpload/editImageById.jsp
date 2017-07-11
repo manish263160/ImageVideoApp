@@ -5,8 +5,14 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Image Upload</title>
 	<jsp:include page="../fragments/header.jsp" />
-	 <link href="${imgvids}/static/lib/css/dropify.min.css" type="text/css" rel="stylesheet" media="screen,projection">
-	</head>
+	<link href="${imgvids}/static/lib/css/dropify.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+		<style type="text/css">
+		#input_file-error {
+			color: red !important;
+			padding-top: 5% !important;
+		}
+		</style>
+</head>
 	<body class="${themecolor }">
 	<c:choose>
 	<c:when test="${!isEdited }">
@@ -24,15 +30,17 @@
 	
 	<form action="${imgvids}/editImageUpload?${_csrf.parameterName}=${_csrf.token}" method="post"
 	modelAttribute="uploadedImage" enctype="multipart/form-data" id="formupload">
-	 <div class="divider"></div>
+	               <div class="divider"></div>
 	            <div class="row section">
-	              <!-- <div class="col s12 m4 l3">
-	                <p>Select An Image (Max 2MB)</p>
-	              </div> -->
-	              <div class="col s8 m4 l7">
-	                  <img alt="" src="${imageInfo.imageUrl }" data-height="150" width="150"/>
-	                  <input type="hidden" name="id" value="${imageInfo.id }">
+	              <div class="col s12 m4 l3">
+	                <p>Previous Image Is Below and Select An Image to Edit (Max 2MB)</p>
+	                  <img alt="" src="${imageInfo.imageUrl }" data-height="50" width="50"/>
 	              </div>
+	              <div class="col s8 m4 l7">
+	                  <input type="file" id="input_file" name="file" class="dropify" data-height="150"  data-max-file-size="2M" />
+	              </div>
+	            </div>
+	                  <input type="hidden" name="id" value="${imageInfo.id }">
 	                       
 	            </div>
 	            <div class="row section">
@@ -99,7 +107,7 @@
 	 <script type="text/javascript">
 	        $(document).ready(function(){
 	            // Basic
-	/*             $('.dropify').dropify();
+	             $('.dropify').dropify();
 	
 	            // Translated
 	            $('.dropify-fr').dropify({
@@ -121,7 +129,7 @@
 	            drEvent.on('dropify.afterClear', function(event, element){
 	                alert('File deleted');
 	            });
-	        }); */
+	        }); 
 	        
 	        $("#formupload").validate({
 	            rules: {

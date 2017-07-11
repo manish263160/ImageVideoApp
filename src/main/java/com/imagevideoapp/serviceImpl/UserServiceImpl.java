@@ -182,12 +182,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UploadedImage getImageByImgId(int editImageInfo) {
+	public UploadedImage getImageByImgId(int editImageInfo, boolean token) {
 
 		UploadedImage uploadiMg= userDao.getImageByImgId(editImageInfo);
+		if(!token){
 		uploadiMg.setImageUrl(applicationProperties.getProperty(ApplicationConstants.APP_PATH) + uploadiMg.getUserId()
 		+ applicationProperties.getProperty(ApplicationConstants.UPLOADED_IMAGE) + uploadiMg.getImageUrl());
-				
+		}
 		return uploadiMg;
 	}
 

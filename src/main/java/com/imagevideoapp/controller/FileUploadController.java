@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.imagevideoapp.exception.GenericException;
 import com.imagevideoapp.models.UploadedImage;
 import com.imagevideoapp.models.User;
 import com.imagevideoapp.service.UserService;
@@ -130,7 +131,7 @@ public class FileUploadController {
 	@RequestMapping(value = { "/editImageInfo" }, method = { RequestMethod.GET })
 	public String editImageInfo(@RequestParam("imageId") int editImageInfo, ModelMap model,
 			@RequestParam(name = "error", required = false) String error) {
-		UploadedImage upload = this.userService.getImageByImgId(editImageInfo);
+		UploadedImage upload = this.userService.getImageByImgId(editImageInfo,false);
 		model.addAttribute("imageInfo", upload);
 		model.addAttribute("error", error);
 		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
@@ -138,18 +139,59 @@ public class FileUploadController {
 	}
 
 	@RequestMapping(value = { "/editImageUpload" }, method = { RequestMethod.POST })
-	public String editImageUpload(@ModelAttribute("uploadedImage") UploadedImage uploadedImage, ModelMap model) {
+	public String editImageUpload(@RequestParam(value = "file", required = false) MultipartFile file,@ModelAttribute("uploadedImage") UploadedImage uploadedImage, ModelMap model) throws IOException {
+		String returnFilePath = "";
+		if (uploadedImage.getLinkType() == null) {
+			uploadedImage.setLinkType(Integer.valueOf(1));
+		}
+		User user = GenUtilitis.getLoggedInUser();
 		try {
-			boolean e = this.userService.editImageUpload(uploadedImage);
-			model.addAttribute("isEdited", Boolean.valueOf(e));
+			boolean bool =false;
+			boolean token= true;
+			UploadedImage imageinfo=userService.getImageByImgId((int)uploadedImage.getId(),token);
+			if(file != null ){
+				if(file.getOriginalFilename().equals(imageinfo.getImageUrl())){
+					bool= userService.editImageUpload(uploadedImage);
+				}
+				if( !file.getOriginalFilename().equals(imageinfo.getImageUrl()))
+				{
+					boolean filedelete = false;
+					String imagePath = this.applicationProperties.getProperty("imageFolder");
+					imagePath = imagePath + user.getUserId() + this.applicationProperties.getProperty("uploadImageFolder");
+					
+					imagePath = imagePath + "/" + imageinfo.getImageUrl();
+					File isDeleted = new File(imagePath);
+					filedelete = GenUtilitis.fileFolderdeteUtils(isDeleted);
+					if(filedelete){
+					String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."),
+							file.getOriginalFilename().length());
+					SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd_hh-mm-ss");
+					Date date = new Date();
+					String fileName = formatter.format(date) + file.getOriginalFilename();
+					uploadedImage.setImageUrl(fileName);
+					imagePath = applicationProperties.getProperty("imageFolder") + user.getUserId() + this.applicationProperties.getProperty("uploadImageFolder");
+					File newFile = GenUtilitis.uploadFile(imagePath, fileName, file);
+					if (newFile != null) {
+						/*fileExtension = fileExtension.replaceFirst("\\.", "");
+						BufferedImage originalImage = ImageIO.read(newFile);
+						boolean isUploaded = ImageIO.write(originalImage, fileExtension, new File(imagePath));*/
+//						if (isUploaded) {
+							bool= userService.editImageUpload(uploadedImage);
+							if (bool) {
+								String filepath = this.setUserUploadedFilePath(user, fileName, "image");
+								model.addAttribute("imagepath", filepath);
+							}
+//						}
+					}
+					}
+				}
+			}
+			model.addAttribute("isEdited", Boolean.valueOf(bool));
 			model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
 			return "imageUpload/editImageById";
-		} catch (EmptyResultDataAccessException arg3) {
-			logger.error(" editImageUpload() EmptyResultDataAccessException");
-			return "redirect:editImageInfo?error=" + arg3.getMessage();
-		} catch (DataAccessException arg4) {
-			logger.error(" getRegistrationToken() DataAccessException");
-			return "redirect:editImageInfo?error=" + arg4.getMessage();
+		} catch (Exception e) {
+			logger.error(" editImageUpload() Exception");
+			return "redirect:editImageInfo?error=" + e.getMessage();
 		}
 	}
 

@@ -24,7 +24,7 @@ public interface UserService {
 
 	List<UploadedImage> getAllImages(Long arg0, String arg1);
 
-	UploadedImage getImageByImgId(int arg0);
+	UploadedImage getImageByImgId(int imageId,boolean token);
 
 	boolean editImageUpload(UploadedImage arg0);
 

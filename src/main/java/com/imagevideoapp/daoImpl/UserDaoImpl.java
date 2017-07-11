@@ -290,11 +290,17 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 		logger.info("-------------------editImageUpload() start");
 		final StringBuilder sql = new StringBuilder();
 		int rowcount = 0;
-
+		if(uploadedImage.getImageUrl()!=null && !uploadedImage.getImageUrl().equals("")){
 		sql.append(
-				"update uploaded_image set image_link = ?, image_description = ?,link_type = ? , modified_on = now() where id= ?");
-		rowcount = getJdbcTemplate().update(sql.toString(), uploadedImage.getImageLink(),
+				"update uploaded_image set imageUrl=?,image_link = ?, image_description = ?,link_type = ? , modified_on = now() where id= ?");
+		rowcount = getJdbcTemplate().update(sql.toString(),uploadedImage.getImageUrl(), uploadedImage.getImageLink(),
 				uploadedImage.getImageDescription(), uploadedImage.getLinkType(), uploadedImage.getId());
+		}else{
+			sql.append(
+					"update uploaded_image set image_link = ?, image_description = ?,link_type = ? , modified_on = now() where id= ?");
+			rowcount = getJdbcTemplate().update(sql.toString(), uploadedImage.getImageLink(),
+					uploadedImage.getImageDescription(), uploadedImage.getLinkType(), uploadedImage.getId());
+		}
 
 		if (rowcount > 0) {
 			returndata = true;
