@@ -150,10 +150,10 @@ public class FileUploadController {
 			boolean token= true;
 			UploadedImage imageinfo=userService.getImageByImgId((int)uploadedImage.getId(),token);
 			if(file != null ){
-				if(file.getOriginalFilename().equals(imageinfo.getImageUrl())){
+				if(file.getOriginalFilename().equals("")){
 					bool= userService.editImageUpload(uploadedImage);
 				}
-				if( !file.getOriginalFilename().equals(imageinfo.getImageUrl()))
+				else
 				{
 					boolean filedelete = false;
 					String imagePath = this.applicationProperties.getProperty("imageFolder");

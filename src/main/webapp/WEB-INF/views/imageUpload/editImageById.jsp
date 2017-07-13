@@ -28,8 +28,7 @@
 	                    </div>
 	 </c:if> 
 	
-	<form action="${imgvids}/editImageUpload?${_csrf.parameterName}=${_csrf.token}" method="post"
-	modelAttribute="uploadedImage" enctype="multipart/form-data" id="formupload">
+	<form action="${imgvids}/editImageUpload?${_csrf.parameterName}=${_csrf.token}" method="post" modelAttribute="uploadedImage" enctype="multipart/form-data" id="formupload">
 	               <div class="divider"></div>
 	            <div class="row section">
 	              <div class="col s12 m4 l3">
@@ -38,10 +37,8 @@
 	              </div>
 	              <div class="col s8 m4 l7">
 	                  <input type="file" id="input_file" name="file" class="dropify" data-height="150"  data-max-file-size="2M" />
-	              </div>
-	            </div>
 	                  <input type="hidden" name="id" value="${imageInfo.id }">
-	                       
+	              </div>
 	            </div>
 	            <div class="row section">
 	             <div class="col s12 m4 l3">
@@ -54,10 +51,10 @@
                         </div>
                         
                         <div class=" input-field col s8 m4 l4">
-                      <select name="linkType" >
+                       <select name="linkType" id="linkType">
 						<option value="" disabled="disabled"> Image Link Type</option>
 						<option value="1" ${ (imageInfo.linkType eq 1) ? 'selected="selected"' : ''}>Image</option>
-						<option value="2" ${ (imageInfo.linkType eq 2) ? 'selected="selected"' : '' } >Video</option>
+						<option value="2" ${ (imageInfo.linkType eq 2) ? 'selected="selected"' : ''} >Video</option>
 					</select>
 				</div>
 	            </div>
@@ -75,9 +72,9 @@
 	      <div class="row section">
 	      <div class="col s12 m8 l9  center" style="padding-right: 193px;" ><button class="btn btn-large waves-effect waves-light red darken-4" type="submit"> Edit</button></div>
 	      </div>
-	</form>            
-	   
-	</div></c:when>
+	      </form>
+	      </div>
+	</c:when>
 	<c:otherwise>
 	<div class="container">
 		<div class="row">
@@ -137,9 +134,9 @@
 	                    required: true,
 	                   
 	                }, */
-	                file :{
+	               /*  file :{
 	                	required: true,
-	                },
+	                }, */
 	                type :{
 	                	required: true,
 	                },
