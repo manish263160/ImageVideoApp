@@ -4,10 +4,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Image Upload</title>
-<jsp:include page="../fragments/header.jsp" />
  <link href="${imgvids}/static/lib/css/magnific-popup.css" type="text/css" rel="stylesheet" media="screen,projection">
 </head>
 <body class="${themecolor }">
+<jsp:include page="../fragments/header.jsp" />
 
 	<div class="container">
 	<div class="progress" style="display: none;">

@@ -82,10 +82,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(mySimpleUrlAuthenticationSuccessHandler)
                 .usernameParameter("username")
                 .passwordParameter("password")
-                .failureHandler(imageVideoAuthenticationFailureHandler);
+                .failureHandler(imageVideoAuthenticationFailureHandler)
                 // Config for Logout Page
 //                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/loginpage?logout")
-                //.and().csrf();
+                .and().csrf().disable();
 // 
     }
     

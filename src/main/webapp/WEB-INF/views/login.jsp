@@ -29,7 +29,7 @@
                       </button>
                     </div>
  </c:if>   
-  <div class="container">
+  <div class="container1">
 <div class="progress" style="display: none;">
       <div class="indeterminate"></div>
   </div>

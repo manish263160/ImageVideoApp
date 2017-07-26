@@ -38,4 +38,5 @@
 </div>
 
 </body>
+<jsp:include page="../includes/include_js.jsp" />
 </html>

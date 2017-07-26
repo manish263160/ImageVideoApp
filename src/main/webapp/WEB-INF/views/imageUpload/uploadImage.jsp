@@ -4,7 +4,6 @@
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>Image Upload</title>
-	<jsp:include page="../fragments/header.jsp" />
 	 <link href="${imgvids}/static/lib/css/dropify.min.css" type="text/css" rel="stylesheet" media="screen,projection">
 	 <style type="text/css">
 #input_file-error{
@@ -15,6 +14,7 @@
 	 
 	</head>
 	<body class="${themecolor }">
+	<jsp:include page="../fragments/header.jsp" />
 	
 	<div class="container">
 	<c:if test="${not empty error}">
