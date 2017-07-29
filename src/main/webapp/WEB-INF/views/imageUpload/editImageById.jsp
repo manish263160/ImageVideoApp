@@ -29,6 +29,7 @@
 	 </c:if> 
 	
 	<form action="${imgvids}/editImageUpload?${_csrf.parameterName}=${_csrf.token}" method="post" modelAttribute="uploadedImage" enctype="multipart/form-data" id="formupload">
+	               <input type="hidden" name="tableName" value="uploaded_image">
 	               <div class="divider"></div>
 	            <div class="row section">
 	              <div class="col s12 m4 l3">

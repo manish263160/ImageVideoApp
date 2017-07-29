@@ -182,7 +182,7 @@ body {
                  required: true,
                 
              }, */
-             name :{
+             namecat :{
              	required: true,
              },
              

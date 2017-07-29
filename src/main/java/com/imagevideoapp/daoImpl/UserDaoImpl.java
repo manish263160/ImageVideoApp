@@ -22,6 +22,7 @@ import org.springframework.stereotype.Repository;
 import com.imagevideoapp.Enums.STATUS;
 import com.imagevideoapp.dao.UserDao;
 import com.imagevideoapp.models.UploadedImage;
+import com.imagevideoapp.models.UploadedVideo;
 import com.imagevideoapp.models.User;
 import com.imagevideoapp.support.ImageVideoJdbcDaoSupport;
 import com.imagevideoapp.utils.GenUtilitis;
@@ -159,7 +160,7 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 
 	@Override
 	public String insertFile(User user, String value, String columnName, String tableName,
-			UploadedImage uploadedImage) {
+			Object obj) {
 		logger.info("updateUserDetails userId" + user.getUserId() + "value.." + value + " column name " + columnName
 				+ " tableName:" + tableName);
 		long userid = user.getUserId();
@@ -170,15 +171,26 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 		String currentTime1 = sdf1.format(curdate1);
 		String Sqlquery = "";
 		int rowInsert = 0;
-		if (tableName.equals("uploaded_image") && uploadedImage != null) {
-			Sqlquery = "INSERT INTO " + tableName + " ( user_id , " + columnName
-					+ " , created_on ,created_by ,image_link , image_description , link_type) VALUES (?,?,'"+currentTime1+"',?, ? ,? ,?)";
-			rowInsert = getJdbcTemplate().update(Sqlquery, userid, value, user.getName(), uploadedImage.getImageLink(),
-					uploadedImage.getImageDescription(), uploadedImage.getLinkType());
+		if (tableName.equals("uploaded_image") && obj != null) {
+			UploadedImage uploadedImage=null;
+			if(obj instanceof UploadedImage){
+				
+				uploadedImage=(UploadedImage) obj;
+				Sqlquery = "INSERT INTO " + tableName + " ( user_id , " + columnName
+						+ " , created_on ,created_by ,image_link , image_description , link_type) VALUES (?,?,'"+currentTime1+"',?, ? ,? ,?)";
+				rowInsert = getJdbcTemplate().update(Sqlquery, userid, value, user.getName(), uploadedImage.getImageLink(),
+						uploadedImage.getImageDescription(), uploadedImage.getLinkType());
+			}
 		} else if (tableName.equals("uploaded_video")) {
-			Sqlquery = "INSERT INTO " + tableName + " ( user_id , " + columnName
-					+ " , created_on ,created_by) VALUES (?,?,'"+currentTime1+"',?)";
-			rowInsert = getJdbcTemplate().update(Sqlquery, userid, value, user.getName());
+			UploadedVideo vid=null;
+			if(obj instanceof UploadedVideo){
+				vid=(UploadedVideo) obj;
+						Sqlquery = "INSERT INTO " + tableName + " ( user_id , " + columnName
+						+ " ,video_link,category_id,series_id,time_length,title,description, created_on ,created_by) "
+						+ " VALUES (?,?,?,?,?,?,?,?,?,?)";
+				rowInsert = getJdbcTemplate().update(Sqlquery, userid, value,vid.getVideoLink()
+						,vid.getCategoryId(),vid.getSeriesId(),vid.getTimeLength(),vid.getTitle(),vid.getDescription() ,currentTime1,user.getName());
+			}
 		}
 
 		return rowInsert > 0 ? "success" : "fail";
@@ -217,27 +229,28 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 	}
 
 	@Override
-	public List<UploadedImage> getAllImages(Long userId, String date) {
-		List<UploadedImage> allImages = null;
+	public <T> List<T> getAllImages(Long userId,String tablename, String date ) {
+		List<T> allImages = null;
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		Date curdate=new Date();
 		String currentTime = sdf.format(curdate);
 		String exactDate=currentTime.trim()+" 23:59:59";
 		try {
+			if(tablename.equals("uploaded_image")){
 			StringBuilder query = new StringBuilder();
 			if(userId == null && date.equals("all")){
 				query.append("select * from uploaded_image where created_on between date_add('"+exactDate+"', interval - 8 day) and '"+exactDate+"' ").append(" order by created_on desc ;");
 				logger.info("query---"+query.toString());
-				allImages = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class));
-				return allImages; 
+				List<UploadedImage> listImg = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class));
+				return (List<T>) listImg; 
 			
 			}
 			if(userId !=null && date.equals("all")){
 			
 				query.append("select * from uploaded_image where created_on between date_add('"+exactDate+"', interval - 8 day) and '"+exactDate+"' ").append(" and user_id=? ").append(" order by created_on desc ;");
 				logger.info("query---"+query.toString());
-				allImages = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class),userId);
-				return allImages;
+				List<UploadedImage> listImg = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class),userId);
+				return (List<T>) listImg; 
 			}
 			/*if (date != null ) {
 				if (userId != null && !date.equals("all")) {
@@ -259,6 +272,24 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 			}
 
 			allImages = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class),userId);*/
+		}else if(tablename.equals("uploaded_video")){
+			
+			StringBuilder query = new StringBuilder();
+			if(userId == null && date.equals("all")){
+				query.append("select * from uploaded_video where created_on between date_add('"+exactDate+"', interval - 8 day) and '"+exactDate+"' ").append(" order by created_on desc ;");
+				logger.info("query---"+query.toString());
+				List<UploadedVideo> listVids = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class));
+				return (List<T>) listVids; 
+			
+			}
+			if(userId !=null && date.equals("all")){
+			
+				query.append("select * from uploaded_video where created_on between date_add('"+exactDate+"', interval - 8 day) and '"+exactDate+"' ").append(" and user_id=? ").append(" order by created_on desc ;");
+				logger.info("query---"+query.toString());
+				List<UploadedVideo> listVids = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class),userId);
+				return (List<T>) listVids; 
+			}
+		}
 		} catch (EmptyResultDataAccessException e) {
 			logger.error(" getRegistrationToken() EmptyResultDataAccessException");
 		} catch (DataAccessException e) {
@@ -268,28 +299,47 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 	}
 
 	@Override
-	public UploadedImage getImageByImgId(int editImageInfo) {
+	public <T> T getImageByImgId(int editImageInfo, String tableName) {
 
-		UploadedImage umg = null;
-		try {
-			String query = "select * from uploaded_image where id=?;";
-			umg = getJdbcTemplate().queryForObject(query, new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class),
-					editImageInfo);
-		} catch (EmptyResultDataAccessException e) {
-			logger.error(" UploadedImage() EmptyResultDataAccessException");
-		} catch (DataAccessException e) {
-			logger.error(" UploadedImage() DataAccessException");
+		if (tableName.equals("uploaded_image")) {
+			UploadedImage umg = null;
+			try {
+				String query = "select * from uploaded_image where id=?;";
+				umg = getJdbcTemplate().queryForObject(query,
+						new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class), editImageInfo);
+			} catch (EmptyResultDataAccessException e) {
+				logger.error(" getImageByImgId() EmptyResultDataAccessException");
+			} catch (DataAccessException e) {
+				logger.error(" getImageByImgId() DataAccessException");
+			}
+
+			return (T) umg;
+		}
+		if (tableName.equals("uploaded_video")) {
+			UploadedVideo umg = null;
+			try {
+				String query = "select * from uploaded_video where id=?;";
+				umg = getJdbcTemplate().queryForObject(query,
+						new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class), editImageInfo);
+			} catch (EmptyResultDataAccessException e) {
+				logger.error(" getImageByImgId() EmptyResultDataAccessException");
+			} catch (DataAccessException e) {
+				logger.error(" getImageByImgId() DataAccessException");
+			}
+			return (T) umg;
 		}
 
-		return umg;
+		return null;
 	}
 
 	@Override
-	public boolean editImageUpload(UploadedImage uploadedImage) {
+	public boolean editImageUpload(Object obj , String tableName) {
 		boolean returndata = false;
 		logger.info("-------------------editImageUpload() start");
-		final StringBuilder sql = new StringBuilder();
 		int rowcount = 0;
+		if(tableName.equals("uploaded_image")){
+		UploadedImage uploadedImage= (UploadedImage) obj;
+		final StringBuilder sql = new StringBuilder();
 		if(uploadedImage.getImageUrl()!=null && !uploadedImage.getImageUrl().equals("")){
 		sql.append(
 				"update uploaded_image set imageUrl=?,image_link = ?, image_description = ?,link_type = ? , modified_on = now() where id= ?");
@@ -301,7 +351,26 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 			rowcount = getJdbcTemplate().update(sql.toString(), uploadedImage.getImageLink(),
 					uploadedImage.getImageDescription(), uploadedImage.getLinkType(), uploadedImage.getId());
 		}
-
+		}
+		if(tableName.equals("uploaded_video")){
+			UploadedVideo uploadedImage= (UploadedVideo) obj;
+			final StringBuilder sql = new StringBuilder();
+			if(uploadedImage.getVideoThumbnail()!=null && !uploadedImage.getVideoThumbnail().equals("")){
+			sql.append(
+					"update uploaded_video set video_thumbnail=?,video_link = ?, description = ?,category_id = ? ,"
+					+ " series_id=?, time_length=? , title=?, modified_on = now() where id= ?");
+			rowcount = getJdbcTemplate().update(sql.toString(),uploadedImage.getVideoThumbnail(), uploadedImage.getVideoLink(),
+					uploadedImage.getDescription(), uploadedImage.getCategoryId(),  uploadedImage.getSeriesId(), uploadedImage.getTimeLength() ,
+					uploadedImage.getTitle() ,uploadedImage.getId());
+			}else{
+				sql.append(
+						"update uploaded_video set video_link = ?, description = ?,category_id = ? ,"
+								+ " series_id=?, time_length=? , title=?, modified_on = now() where id= ?");
+				rowcount = getJdbcTemplate().update(sql.toString(),uploadedImage.getVideoLink(),
+						uploadedImage.getDescription(), uploadedImage.getCategoryId(),  uploadedImage.getSeriesId(), uploadedImage.getTimeLength() ,
+						uploadedImage.getTitle() ,uploadedImage.getId());
+			}
+			}
 		if (rowcount > 0) {
 			returndata = true;
 		}
@@ -310,7 +379,7 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 	}
 
 	@Override
-	public boolean deleteImages(String imageId) {
+	public boolean deleteImages(String imageId , String tableName) {
 		boolean returndata = false;
 		User user = GenUtilitis.getLoggedInUser();
 		logger.info("------imageIg---" + imageId);
@@ -320,16 +389,30 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 		String currentTime = sdf.format(curdate);
 		int rowcount = 0;
 		if (imageId != null && imageId.equals("All")) {
+			if(tableName.equals("uploaded_image")){
 			sql.append("delete from uploaded_image where user_id= ? ");
+			}
+			if(tableName.equals("uploaded_video")){
+				sql.append("delete from uploaded_video where user_id= ? ");
+			}
 			rowcount = getJdbcTemplate().update(sql.toString(), user.getUserId());
 
 		} else if (imageId != null && imageId.equalsIgnoreCase("cronstart")) {
-			sql.append("delete from  uploaded_image where  created_on < (DATE_SUB('"+currentTime+" 23:59:59', INTERVAL 8 DAY));");
+			if(tableName.equals("uploaded_image")){
+				sql.append("delete from  uploaded_image where  created_on < (DATE_SUB('"+currentTime+" 23:59:59', INTERVAL 8 DAY));");
+				}
+				if(tableName.equals("uploaded_video")){
+					sql.append("delete from  uploaded_video where  created_on < (DATE_SUB('"+currentTime+" 23:59:59', INTERVAL 8 DAY));");
+				}
 			rowcount = getJdbcTemplate().update(sql.toString());
 
 		} else {
-
-			sql.append("delete from  uploaded_image where user_id= ? and id =?");
+			if(tableName.equals("uploaded_image")){
+				sql.append("delete from  uploaded_image where user_id= ? and id =?");
+				}
+				if(tableName.equals("uploaded_video")){
+					sql.append("delete from  uploaded_video where user_id= ? and id =?");
+				}
 			rowcount = getJdbcTemplate().update(sql.toString(), user.getUserId(), imageId);
 
 		}

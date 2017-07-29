@@ -28,8 +28,8 @@ public class GetAllImageRestController {
 	
 	@RequestMapping(value = "/getALlImages", method = RequestMethod.GET ,consumes="application/json")
     public ResponseEntity<List<UploadedImage>> listAllUsers() {
-		Long userId=3l;//This is for showofff.hello@gmail.com 
-        List<UploadedImage> uploadedimage = userService.getAllImages(userId, "all");
+		Long userId=3l;//This is for showofff.hello@gmail.com (null,"uploaded_image" "all")
+        List<UploadedImage> uploadedimage = userService.getAllImages(userId,"uploaded_image", "all");
         if(uploadedimage.isEmpty()){
             return new ResponseEntity<List<UploadedImage>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
         }

@@ -168,7 +168,7 @@
             return '<div class="row">'+
             			'<a class="btn waves-effect waves-light col l12 s12 " onclick="deleteAllImg(\''+item.el.attr('imgid')+'\',\''+item.el.attr('imageName')+'\')" >Delete</a>'+
             			'</div><div class="row">'+
-            		' <a class="btn waves-effect waves-light col l21 s12" href="${imgvids}/editImageInfo?imageId='+item.el.attr('imgid')+'" type="button" name="action">Edit</a></span>'+
+            		' <a class="btn waves-effect waves-light col l21 s12" href="${imgvids}/editImageInfo?imageId='+item.el.attr('imgid')+'&tableName=uploaded_image" type="button" name="action">Edit</a></span>'+
             				'</div>';
 		          },
         zoom: {
@@ -183,7 +183,7 @@
     	  name=name.trim();
     	  $(".progress").show();
     	  $.ajax({
-    		    url: '${imgvids}/deleteImages.json?imageId='+item+'&imageUrl='+name,
+    		    url: '${imgvids}/deleteImages.json?imageId='+item+'&imageUrl='+name+'&tableName=uploaded_image',
     		    type: 'GET',
     		    success: function(result) {
     		        // Do something with the result

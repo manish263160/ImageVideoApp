@@ -11,6 +11,7 @@ public class NotificationDetails implements Serializable{
 
 	private int id;
 	private String title;
+	private String type;
 	private String description;
 	private String deviceId;
 	private int schedulingType;
@@ -57,5 +58,11 @@ public class NotificationDetails implements Serializable{
 	}
 	public void setCreatedOn(String createdOn) {
 		this.createdOn = createdOn;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 }

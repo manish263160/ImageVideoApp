@@ -22,16 +22,16 @@
                       </div>
                   </div>
                   </div>
-                 <%--  <div class="col s12 m5">
+                   <div class="col s12 m5">
                   <div class="card green accent-4">
                     <div class="card-content white-text">
                       <span class="card-title">Upload A Video.</span>
                     </div>
                     <div class="card-action">
-                        <a href="${imgvids}/user/uploadVideo" class="btn waves-effect waves-light blue">Upload</a>
+                        <a href="${imgvids}/user/getAllVids" class="btn waves-effect waves-light blue">Upload</a>
                       </div>
                   </div>
-                  </div> --%>
+                  </div> 
                 </div>
               </div>
             </div>

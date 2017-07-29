@@ -22,7 +22,7 @@
 						<p>VIdeo has successfully uploaded.</p>
 					</div>
 					<div class="card-action">
-						<a href="${imgvids}/user/homepage" class="btn waves-effect waves-red light-blue darken-4">OK</a>
+						<a href="${imgvids}/user/uploadVideo" class="btn waves-effect waves-red light-blue darken-4">Upload More</a>
 					</div>
 				</div>
 			</div>

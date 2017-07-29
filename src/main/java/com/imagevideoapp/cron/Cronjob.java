@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.imagevideoapp.exception.GenericException;
 import com.imagevideoapp.models.UploadedImage;
+import com.imagevideoapp.models.UploadedVideo;
 import com.imagevideoapp.service.NotificationService;
 import com.imagevideoapp.service.UserService;
 import com.imagevideoapp.utils.GenUtilitis;
@@ -33,16 +34,34 @@ public class Cronjob {
 		logger.info("*****************************cron has started this time***************************");
 		try {
 			String cronStart="cronStart";
-			boolean deletmsg=userService.deleteImages(cronStart);
+			String image="uploaded_image";
+			String video="uploaded_video";
+			boolean deletmsg=userService.deleteImages(cronStart,image);
+			boolean deletVidmsg=userService.deleteImages(cronStart,video);
 			if(deletmsg){
-				List<UploadedImage> getallImg=userService.getAllImages(null, "all");
+				List<UploadedImage> getallImg=userService.getAllImages(null,image,"all"); 
 				
 				getallImg.forEach((imgObj) -> {
 					String imagepaths=imgObj.getImageUrl();
 					logger.info("image path to delet=="+imagepaths);
-					File isDeleted=new File(imagepaths);
+					File file=new File(imagepaths);
 					try {
-						GenUtilitis.fileFolderdeteUtils(isDeleted);
+						GenUtilitis.fileFolderdeteUtils(file);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+				});
+			}
+			if (deletVidmsg) {
+				List<UploadedVideo> getallImg = userService.getAllImages(null, video, "all");
+
+				getallImg.forEach((imgObj) -> {
+					String videopaths = imgObj.getVideoThumbnail();
+					logger.info("video path to delet==" + videopaths );
+					File file = new File(videopaths);
+					try {
+						GenUtilitis.fileFolderdeteUtils(file);
 					} catch (IOException e) {
 						e.printStackTrace();
 					}

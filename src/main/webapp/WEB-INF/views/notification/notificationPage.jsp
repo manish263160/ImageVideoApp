@@ -50,6 +50,12 @@ body {
         </div>
         
         <div class="row margin">
+          <div class="input-field col s12">
+            <input id="type" type="text" name="type">
+            <label for="title" class="center-align">Type</label>
+          </div>
+        </div>
+        <div class="row margin">
          <div class="input-field col s4">
             <label  class="center-align">Scheduling</label>
           </div>

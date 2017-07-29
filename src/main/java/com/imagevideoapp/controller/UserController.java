@@ -24,8 +24,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.imagevideoapp.exception.GenericException;
+import com.imagevideoapp.models.CategrySeriesModels;
 import com.imagevideoapp.models.UploadedImage;
+import com.imagevideoapp.models.UploadedVideo;
 import com.imagevideoapp.models.User;
+import com.imagevideoapp.service.AdminService;
 import com.imagevideoapp.service.UserService;
 import com.imagevideoapp.utils.AESEncrypter;
 import com.imagevideoapp.utils.ApplicationProperties;
@@ -41,6 +44,9 @@ public class UserController {
 	@Autowired
 	private ApplicationProperties applicationProperties;
 
+	@Autowired
+	AdminService adminService;
+	
 	@RequestMapping(value = { "/userregistration" }, method = { RequestMethod.GET })
 	public String register(@RequestParam(name = "error", required = false) String error, @ModelAttribute User user,
 			ModelMap map, HttpServletRequest request) {
@@ -101,6 +107,15 @@ public class UserController {
 	public String uploadVideo(@RequestParam(name = "error", required = false) String error, Model model,
 			HttpServletRequest request) {
 		User user = GenUtilitis.getLoggedInUser();
+		
+		String fetchTable="series";
+		List<CategrySeriesModels> serieslist=adminService.getAllCategorySeries(fetchTable);
+		
+		String fetchTablecate="categories";
+		List<CategrySeriesModels> categorylist=adminService.getAllCategorySeries(fetchTablecate);
+		
+		model.addAttribute("categorylist", categorylist);
+		model.addAttribute("serieslist", serieslist);
 		model.addAttribute("user", user);
 		model.addAttribute("error", error);
 		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
@@ -118,7 +133,7 @@ public class UserController {
 			tablename = "uploaded_video";
 		}
 
-		List<UploadedImage> allfileList = this.userService.getAllImages(user.getUserId(), "all");
+		List<UploadedImage> allfileList = this.userService.getAllImages(user.getUserId(),tablename, "all");
 		LinkedHashSet<String> uniqueDate = new LinkedHashSet<String>();
 		allfileList.forEach((imgObj) -> {
 			if (imgObj.getCreatedOn() != null) {
@@ -135,6 +150,30 @@ public class UserController {
 		model.addAttribute("uniqueDate", uniqueDate);
 		return pathvariable.equals("image") ? "imageUpload/userAllImagesGallery" : "videoUpload/userAllVideoGallery";
 	}
+	
+	@RequestMapping(value = { "/getAllVids" }, method = { RequestMethod.GET })
+	public String getAllVids(@RequestParam(name = "error", required = false) String error, Model model, HttpServletRequest request) {
+		User user = GenUtilitis.getLoggedInUser();
+		String tablename = "uploaded_video";
+		
+		List<UploadedVideo> allfileList = this.userService.getAllImages(user.getUserId(),tablename, "all");
+		LinkedHashSet<String> uniqueDate = new LinkedHashSet<String>();
+		allfileList.forEach((imgObj) -> {
+			if (imgObj.getCreatedOn() != null) {
+				String key = imgObj.getNewSetDate();
+				uniqueDate.add(key.trim());
+			}
+
+		});
+		logger.info("getAllVids== starts----");
+		model.addAttribute("user", user);
+		model.addAttribute("error", error);
+		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
+		model.addAttribute("allfileList", allfileList);
+		model.addAttribute("uniqueDate", uniqueDate);
+		return "videoUpload/userAllVideoGallery";
+	}
+	
 	
 	@RequestMapping(value = { "/generateNewPass/{token}" }, method = { RequestMethod.GET })
 	public String generateNewPass(@PathVariable String token, Model model, HttpServletRequest request) throws Exception {

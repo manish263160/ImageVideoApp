@@ -19,6 +19,7 @@ import org.springframework.ui.velocity.VelocityEngineUtils;
 import com.imagevideoapp.dao.UserDao;
 import com.imagevideoapp.exception.GenericException;
 import com.imagevideoapp.models.UploadedImage;
+import com.imagevideoapp.models.UploadedVideo;
 import com.imagevideoapp.models.User;
 import com.imagevideoapp.service.MailingService;
 import com.imagevideoapp.service.UserService;
@@ -121,7 +122,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String insertFile(User user, String value, String columnName, String tableName, UploadedImage uploadedImage) {
+	public String insertFile(User user, String value, String columnName, String tableName, Object uploadedImage) {
 		String status = userDao.insertFile(user, value, columnName, tableName, uploadedImage);
 		return status;
 	}
@@ -149,10 +150,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UploadedImage> getAllImages(Long userId, String date) {
+	public <T> List<T> getAllImages(Long userId,String tablename, String date) {
 		// TODO Auto-generated method stub
-		
-		List<UploadedImage> uploadImg= userDao.getAllImages(userId, date);
+		if(tablename.equals("uploaded_image")){
+		List<UploadedImage> uploadImg= userDao.getAllImages(userId,tablename, date);
 		
 		uploadImg.forEach((imgObj) -> {
 			Long usrid=null;
@@ -176,30 +177,71 @@ public class UserServiceImpl implements UserService {
 			logger.info("-------------" + imgObj.getImageUrl() + "-----newDateFormat===" + imgObj.getNewSetDate());
 				
 		}
-				);
+		);
+		return (List<T>)uploadImg;
+		}else if(tablename.equals("uploaded_video")){
+			List<UploadedVideo> uploadVId= userDao.getAllImages(userId,tablename, date);
+			
+			uploadVId.forEach((vidObj) -> {
+				Long usrid=null;
+				String url="";
+				if(userId == null){
+//					usrid=1l;
+					url= this.applicationProperties.getProperty("appPath") + vidObj.getUserId()
+							+ this.applicationProperties.getProperty("uploadVideoFolder") + vidObj.getVideoThumbnail();
+				}else{
+					usrid=userId;
+					url= this.applicationProperties.getProperty("appPath") + usrid
+							+ this.applicationProperties.getProperty("uploadVideoFolder") + vidObj.getVideoThumbnail();
+				}
+				vidObj.setVideoName(vidObj.getVideoThumbnail());
+				 
+				vidObj.setVideoThumbnail(url);
+				if (vidObj.getCreatedOn() != null) {
+					vidObj.setNewSetDate((new SimpleDateFormat("dd-MM-yyyy")).format(vidObj.getCreatedOn()));
+				}
+
+				logger.info("-------------" + vidObj.getVideoThumbnail() + "-----newDateFormat===" + vidObj.getNewSetDate());
+					
+			}
+			);
+			return (List<T>)uploadVId;
+			}
 		
-		return uploadImg;
+		return null;
+		
 	}
 
 	@Override
-	public UploadedImage getImageByImgId(int editImageInfo, boolean token) {
-
-		UploadedImage uploadiMg= userDao.getImageByImgId(editImageInfo);
+	public <T> T getImageByImgId(int editImageInfo,String tableName, boolean token) {
+		if(tableName.equals("uploaded_image")){
+		UploadedImage uploadiMg= userDao.getImageByImgId(editImageInfo,tableName);
 		if(!token){
 		uploadiMg.setImageUrl(applicationProperties.getProperty(ApplicationConstants.APP_PATH) + uploadiMg.getUserId()
 		+ applicationProperties.getProperty(ApplicationConstants.UPLOADED_IMAGE) + uploadiMg.getImageUrl());
 		}
-		return uploadiMg;
+		return (T) uploadiMg;
+		}
+		if(tableName.equals("uploaded_video")){
+			UploadedVideo uploadiMg= userDao.getImageByImgId(editImageInfo,tableName);
+			if(!token){
+			uploadiMg.setVideoThumbnail(applicationProperties.getProperty(ApplicationConstants.APP_PATH) + uploadiMg.getUserId()
+			+ applicationProperties.getProperty(ApplicationConstants.UPLOADED_VIDEO) + uploadiMg.getVideoThumbnail());
+			}
+			return (T) uploadiMg;
+		}
+		
+		return null;
 	}
 
 	@Override
-	public boolean editImageUpload(UploadedImage uploadedImage) {
-		return userDao.editImageUpload(uploadedImage);
+	public boolean editImageUpload(Object uploadedImage, String tableName) {
+		return userDao.editImageUpload(uploadedImage , tableName);
 	}
 
 	@Override
-	public boolean deleteImages(String imageId) {
-		return userDao.deleteImages(imageId);
+	public boolean deleteImages(String imageId,String tableName) {
+		return userDao.deleteImages(imageId , tableName);
 	}
 
 	@Override

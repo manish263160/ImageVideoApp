@@ -30,8 +30,8 @@ public class NotiFicationDaoImpl  extends ImageVideoJdbcDaoSupport implements No
 		String currentTime = sdf.format(curdate);
 		logger.info("::sendNotification()  start");
 		try {
-			String query = "INSERT INTO ImageVideoApp.notification_details (title, description, device_id, scheduling_type, schedule_time, created_on) VALUES (?,?,?,?,?,?) ;";
-			getJdbcTemplate().update(query, notificationDetails.getTitle(), notificationDetails.getDescription(),
+			String query = "INSERT INTO ImageVideoApp.notification_details (title, type, description, device_id, scheduling_type, schedule_time, created_on) VALUES (?,?,?,?,?,?,?) ;";
+			getJdbcTemplate().update(query, notificationDetails.getTitle(),notificationDetails.getType(), notificationDetails.getDescription(),
 					notificationDetails.getDeviceId(),notificationDetails.getSchedulingType(),notificationDetails.getScheduleTime(),currentTime);
 			return true;
 		} catch (EmptyResultDataAccessException e) {

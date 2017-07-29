@@ -99,7 +99,7 @@
                 </li>
                 <li class="bold"><a href="${imgvids}/user/image/getAllFile" class="waves-effect waves-cyan"><i class="mdi-image-collections"></i> All Images <span class="new badge">4</span></a>
                 </li>
-                <li class="bold"><a href="${imgvids}/user/video/getAllFile" class="waves-effect waves-cyan"><i class="mdi-av-video-collection"></i> All Videos</a>
+                <li class="bold"><a href="${imgvids}/user/getAllVids" class="waves-effect waves-cyan"><i class="mdi-av-video-collection"></i> All Videos</a>
                 </li>
                 
                 <li class="li-hover"><div class="divider"></div></li>

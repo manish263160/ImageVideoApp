@@ -18,17 +18,17 @@ public interface UserService {
 
 	List<String> getUserRoles(Long arg0);
 
-	String insertFile(User arg0, String arg1, String arg2, String arg3, UploadedImage arg4) throws GenericException;
+	String insertFile(User arg0, String arg1, String arg2, String arg3, Object obj) throws GenericException;
 
 	List<String> getAllImagesForUser(Long arg0, String arg1);
 
-	List<UploadedImage> getAllImages(Long arg0, String arg1);
+	<T> List<T> getAllImages(Long arg0,String tablename, String arg1);
 
-	UploadedImage getImageByImgId(int imageId,boolean token);
+	<T> T getImageByImgId(int imageId,String tableName, boolean token);
 
-	boolean editImageUpload(UploadedImage arg0);
+	boolean editImageUpload(Object arg0, String tableName);
 
-	boolean deleteImages(String arg0);
+	boolean deleteImages(String arg0, String tableName);
 
 	User checkUserByEmailorID(String email);
 

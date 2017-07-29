@@ -22,17 +22,17 @@ public interface UserDao {
 
 	void insertUserRole(long arg0);
 
-	String insertFile(User arg0, String arg1, String arg2, String arg3, UploadedImage arg4);
+	String insertFile(User arg0, String arg1, String arg2, String arg3, Object arg4);
 
 	List<String> getAllImagesForUser(Long arg0, String arg1);
 
-	List<UploadedImage> getAllImages(Long arg0, String arg1);
+	<T> List<T> getAllImages(Long arg0,String tablename, String arg1);
 
-	UploadedImage getImageByImgId(int arg0);
+	<T> T getImageByImgId(int arg0, String tableName);
 
-	boolean editImageUpload(UploadedImage arg0);
+	boolean editImageUpload(Object arg0,String tableName);
 
-	boolean deleteImages(String arg0);
+	boolean deleteImages(String arg0, String tableName);
 
 	boolean resetPassword(User isemailExist, String newpassword);
 
