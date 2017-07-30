@@ -81,11 +81,11 @@
                 </div>
                 </li>
                     <security:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
-                <li class="bold active"><a href="${imgvids}/user/homepage" class="waves-effect waves-cyan"><i class="mdi-action-home"></i> Home</a>
+                <li class="bold ${active eq 'home'? 'active':'' }"><a href="${imgvids}/user/homepage" class="waves-effect waves-cyan"><i class="mdi-action-home"></i> Home</a>
                 </li>
                 <li class="no-padding">
                     <ul class="collapsible collapsible-accordion">
-                        <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-account-box"></i> Admin Control</a>
+                        <li class="bold ${active eq 'admin'? 'active':'' }"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-account-box"></i> Admin Control</a>
                             <div class="collapsible-body" style="">
                                 <ul>
                                     <li><a href="${imgvids}/admin/addCategory">Add Category</a>
@@ -97,14 +97,14 @@
                         </li>
                     </ul>
                 </li>
-                <li class="bold"><a href="${imgvids}/user/image/getAllFile" class="waves-effect waves-cyan"><i class="mdi-image-collections"></i> All Images <span class="new badge">4</span></a>
+                <li class="bold ${active eq 'image'? 'active':'' }"><a href="${imgvids}/user/image/getAllFile" class="waves-effect waves-cyan"><i class="mdi-image-collections"></i> All Images </a>
                 </li>
-                <li class="bold"><a href="${imgvids}/user/getAllVids" class="waves-effect waves-cyan"><i class="mdi-av-video-collection"></i> All Videos</a>
+                <li class="bold ${active eq 'video'? 'active':'' }"><a href="${imgvids}/user/getAllVids" class="waves-effect waves-cyan"><i class="mdi-av-video-collection"></i> All Videos</a>
                 </li>
                 
                 <li class="li-hover"><div class="divider"></div></li>
                 
-                <li><a href="${imgvids}/appNotification/notificationPage"><i class="mdi-action-verified-user"></i> App Notifications </a>
+                <li><a class="bold ${active eq 'notification'? 'active':'' }" href="${imgvids}/appNotification/notificationPage" class="waves-effect waves-cyan"><i class="mdi-action-verified-user"></i> App Notifications </a>
                 </li>
                         </security:authorize>
                 

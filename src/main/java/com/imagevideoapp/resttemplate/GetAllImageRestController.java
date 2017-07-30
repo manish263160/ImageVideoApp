@@ -1,6 +1,8 @@
 package com.imagevideoapp.resttemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,10 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.imagevideoapp.models.GetVideoByCatSerDto;
 import com.imagevideoapp.models.UploadedImage;
+import com.imagevideoapp.models.UploadedVideo;
+import com.imagevideoapp.service.AdminService;
 import com.imagevideoapp.service.NotificationService;
 import com.imagevideoapp.service.UserService;
 
@@ -22,6 +26,9 @@ public class GetAllImageRestController {
 
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	AdminService adminService;
 	
 	@Autowired
 	NotificationService notificationService;
@@ -41,4 +48,27 @@ public class GetAllImageRestController {
         
         return new ResponseEntity<Boolean>(isDeviceIdInsert, HttpStatus.OK);
     }
+	
+	@RequestMapping(value = "/fetchAllVids", method = RequestMethod.GET ,consumes="application/json")
+    public ResponseEntity<Map<String, Map<String, List<GetVideoByCatSerDto>>>> fetchAllVids() {
+		Map<String, Map<String, List<GetVideoByCatSerDto>>> finalmap=new HashMap<String, Map<String, List<GetVideoByCatSerDto>>>();
+		String token="categoryWise";
+		String token1="seriesWise";
+		
+		Map<String, List<GetVideoByCatSerDto>> categoriesWise = adminService.fetchAllVids(token);
+		Map<String, List<GetVideoByCatSerDto>> seriesWise = adminService.fetchAllVids(token1);
+        finalmap.put("categoriesData", categoriesWise);
+        finalmap.put("seriesData", seriesWise);
+        return new ResponseEntity<Map<String, Map<String, List<GetVideoByCatSerDto>>>>(finalmap, HttpStatus.OK);
+    }
+	
+	@RequestMapping(value = "/Search", method = RequestMethod.GET ,consumes="application/json")
+    public ResponseEntity<List<GetVideoByCatSerDto>> SearchVuds(@RequestParam(value="data") String data) {
+		
+		List<GetVideoByCatSerDto> getdata=adminService.SearchVuds(data);
+		
+		return new ResponseEntity<List<GetVideoByCatSerDto>>(getdata, HttpStatus.OK);
+		
+	}
+	
 }

@@ -89,6 +89,7 @@ public class UserController {
 	public String homePage(Model model, HttpServletRequest request) {
 		User user = GenUtilitis.getLoggedInUser();
 		model.addAttribute("user", user);
+		model.addAttribute("active", "home");
 		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
 		return "user/userHomepage";
 	}
@@ -148,6 +149,7 @@ public class UserController {
 		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
 		model.addAttribute("allfileList", allfileList);
 		model.addAttribute("uniqueDate", uniqueDate);
+		model.addAttribute("active", "image");
 		return pathvariable.equals("image") ? "imageUpload/userAllImagesGallery" : "videoUpload/userAllVideoGallery";
 	}
 	
@@ -171,6 +173,7 @@ public class UserController {
 		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
 		model.addAttribute("allfileList", allfileList);
 		model.addAttribute("uniqueDate", uniqueDate);
+		model.addAttribute("active", "video");
 		return "videoUpload/userAllVideoGallery";
 	}
 	

@@ -31,6 +31,7 @@ public class NotificationController {
 	public String notificationPage(@RequestParam(name = "error", required = false) String error, @ModelAttribute User user,
 			ModelMap map, HttpServletRequest request) {
 		map.addAttribute("error", error);
+		map.addAttribute("active", "notification");
 		map.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
 		return "notification/notificationPage";
 	}

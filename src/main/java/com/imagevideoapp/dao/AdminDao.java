@@ -3,6 +3,7 @@ package com.imagevideoapp.dao;
 import java.util.List;
 
 import com.imagevideoapp.models.CategrySeriesModels;
+import com.imagevideoapp.models.GetVideoByCatSerDto;
 
 public interface AdminDao {
 
@@ -13,5 +14,9 @@ public interface AdminDao {
 	boolean deleteCatSer(String value, int id, Long userID);
 
 	boolean editCategorySeries(String table, String name, int id);
+
+	List<GetVideoByCatSerDto> fetchAllVids();
+
+	List<GetVideoByCatSerDto> SearchVuds(String data);
 
 }

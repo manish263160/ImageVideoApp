@@ -180,7 +180,7 @@ public class FileUploadController {
 			imageinfo=userService.getImageByImgId((int)uploadedImage.getId(),tableName,token);
 			}
 			if(tableName.equals("uploaded_video")){
-				vidInfo =userService.getImageByImgId((int)uploadedImage.getId(),tableName,token);
+				vidInfo =userService.getImageByImgId((int)uploadedVideo.getId(),tableName,token);
 			}
 			if(file != null ){
 				if(file.getOriginalFilename().equals("")){
@@ -197,14 +197,13 @@ public class FileUploadController {
 					String imagePath = this.applicationProperties.getProperty("imageFolder");
 					if(tableName.equals("uploaded_image")){
 						imagePath = imagePath + user.getUserId() + this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_IMAGE);
+						imagePath = imagePath + "/" + imageinfo.getImageUrl();
 						
 					}
 						if(tableName.equals("uploaded_video")){
 							imagePath = imagePath + user.getUserId() + this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_VIDEO);
-							
+							imagePath = imagePath + "/" + vidInfo.getVideoThumbnail();
 						}
-					
-					imagePath = imagePath + "/" + imageinfo.getImageUrl();
 					File isDeleted = new File(imagePath);
 					filedelete = GenUtilitis.fileFolderdeteUtils(isDeleted);
 					if(filedelete){
@@ -243,7 +242,12 @@ public class FileUploadController {
 					}
 				}
 			}
-			
+				if(tableName.equals("uploaded_image")){
+					model.addAttribute("token", "image");
+				}
+				if(tableName.equals("uploaded_video")){
+					model.addAttribute("token", "video");
+				}
 			model.addAttribute("isEdited", Boolean.valueOf(bool));
 			model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
 			return "imageUpload/editImageById";

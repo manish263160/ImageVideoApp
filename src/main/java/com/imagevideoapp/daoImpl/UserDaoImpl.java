@@ -353,22 +353,30 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 		}
 		}
 		if(tableName.equals("uploaded_video")){
-			UploadedVideo uploadedImage= (UploadedVideo) obj;
+			UploadedVideo uploadedVideo= (UploadedVideo) obj;
 			final StringBuilder sql = new StringBuilder();
-			if(uploadedImage.getVideoThumbnail()!=null && !uploadedImage.getVideoThumbnail().equals("")){
+			try {
+			if(uploadedVideo.getVideoThumbnail()!=null && !uploadedVideo.getVideoThumbnail().equals("")){
+				
 			sql.append(
 					"update uploaded_video set video_thumbnail=?,video_link = ?, description = ?,category_id = ? ,"
 					+ " series_id=?, time_length=? , title=?, modified_on = now() where id= ?");
-			rowcount = getJdbcTemplate().update(sql.toString(),uploadedImage.getVideoThumbnail(), uploadedImage.getVideoLink(),
-					uploadedImage.getDescription(), uploadedImage.getCategoryId(),  uploadedImage.getSeriesId(), uploadedImage.getTimeLength() ,
-					uploadedImage.getTitle() ,uploadedImage.getId());
+			rowcount = getJdbcTemplate().update(sql.toString(),uploadedVideo.getVideoThumbnail(), uploadedVideo.getVideoLink(),
+					uploadedVideo.getDescription(), uploadedVideo.getCategoryId(),  uploadedVideo.getSeriesId(), uploadedVideo.getTimeLength() ,
+					uploadedVideo.getTitle() ,uploadedVideo.getId());
 			}else{
 				sql.append(
 						"update uploaded_video set video_link = ?, description = ?,category_id = ? ,"
 								+ " series_id=?, time_length=? , title=?, modified_on = now() where id= ?");
-				rowcount = getJdbcTemplate().update(sql.toString(),uploadedImage.getVideoLink(),
-						uploadedImage.getDescription(), uploadedImage.getCategoryId(),  uploadedImage.getSeriesId(), uploadedImage.getTimeLength() ,
-						uploadedImage.getTitle() ,uploadedImage.getId());
+				rowcount = getJdbcTemplate().update(sql.toString(),uploadedVideo.getVideoLink(),
+						uploadedVideo.getDescription(), uploadedVideo.getCategoryId(),  uploadedVideo.getSeriesId(), uploadedVideo.getTimeLength() ,
+						uploadedVideo.getTitle() ,uploadedVideo.getId());
+			}
+			
+			} catch (EmptyResultDataAccessException e) {
+				logger.error("  EmptyResultDataAccessException");
+			} catch (DataAccessException e) {
+				logger.error(" DataAccessException");
 			}
 			}
 		if (rowcount > 0) {

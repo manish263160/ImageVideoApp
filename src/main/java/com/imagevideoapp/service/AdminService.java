@@ -1,8 +1,10 @@
 package com.imagevideoapp.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.imagevideoapp.models.CategrySeriesModels;
+import com.imagevideoapp.models.GetVideoByCatSerDto;
 
 public interface AdminService {
 
@@ -13,5 +15,9 @@ public interface AdminService {
 	boolean deleteCatSer(String value, int id);
 
 	boolean editCategorySeries(String table, String name, int id);
+
+	Map<String, List<GetVideoByCatSerDto>> fetchAllVids(String token);
+
+	List<GetVideoByCatSerDto> SearchVuds(String data);
 
 }

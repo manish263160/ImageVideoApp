@@ -123,7 +123,7 @@
 						<p>Edit successfully.</p>
 					</div>
 					<div class="card-action">
-						<a href="${imgvids}/user/image/getAllFile" class="btn waves-effect waves-red light-blue darken-4">OK</a>
+						<a href="${imgvids}/user/getAllVids" class="btn waves-effect waves-red light-blue darken-4">OK</a>
 					</div>
 				</div>
 			</div>

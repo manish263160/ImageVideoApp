@@ -1,15 +1,21 @@
 package com.imagevideoapp.daoImpl;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.imagevideoapp.dao.AdminDao;
 import com.imagevideoapp.models.CategrySeriesModels;
+import com.imagevideoapp.models.GetVideoByCatSerDto;
 import com.imagevideoapp.models.User;
 import com.imagevideoapp.support.ImageVideoJdbcDaoSupport;
 import com.imagevideoapp.utils.GenUtilitis;
@@ -53,5 +59,36 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao{
 		int update=getJdbcTemplate().update(query, name, currentTime1,user.getUserId(),id);
 		return update > 0 ? true : false;
 	}
+	@Override
+	public List<GetVideoByCatSerDto> fetchAllVids() {
+		List<GetVideoByCatSerDto> get=null;
+		try {
+			String query="select c.name as category_name,s.name as series_name ,uv.* from uploaded_video uv left join categories c on uv.category_id = c.id left outer join series s on uv.series_id = s.id order by c.name;";
+			get = getJdbcTemplate().query(query, new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class));
+		} catch (EmptyResultDataAccessException e) {
+			logger.error(" validateUser() EmptyResultDataAccessException");
+		} catch (DataAccessException e) {
+			logger.error(" validateUser() DataAccessException");
+		}
+		return get;
+	}
+	@Override
+	public List<GetVideoByCatSerDto> SearchVuds(String data) {
+		List<GetVideoByCatSerDto> get=null;
+		try {
+			String query="select c.name as category_name,s.name as series_name ,uv.* from  uploaded_video uv left join categories c on uv.category_id = c.id left outer join series s on uv.series_id = s.id where "
+						+ "uv.title like ? or uv.description like ? or c.name like ? or s.name like ? "
+						+ " order by uv.title,uv.description ,c.name , s.name;";
+			get = getJdbcTemplate().query(query, new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class),"%"+data+"%","%"+data+"%","%"+data+"%","%"+data+"%");
+		} catch (EmptyResultDataAccessException e) {
+			logger.error(" EmptyResultDataAccessException");
+		} catch (DataAccessException e) {
+			logger.error(" DataAccessException");
+		}
+		return get;
+	}
 
-}
+	
+
+	}
+

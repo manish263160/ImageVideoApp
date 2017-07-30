@@ -42,6 +42,7 @@ public class AdminController {
 		List<CategrySeriesModels> categorylist=adminService.getAllCategorySeries(fetchTable);
 		model.addAttribute("user", user);
 		model.addAttribute("allcategory", categorylist);
+		model.addAttribute("active", "admin");
 		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
 		
 		return "admin/addCategory";
@@ -53,6 +54,7 @@ public class AdminController {
 		List<CategrySeriesModels> serieslist=adminService.getAllCategorySeries(fetchTable);
 		model.addAttribute("user", user);
 		model.addAttribute("allcategory", serieslist);
+		model.addAttribute("active", "admin");
 		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
 		return "admin/addSeries";
 	}
