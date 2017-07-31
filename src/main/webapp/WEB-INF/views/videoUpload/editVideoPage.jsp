@@ -98,7 +98,7 @@
 	              </div>
 	              
 	              <div class="input-field col s12 m4 l3">
-                          <textarea id="imgDesc" type="text" class="materialize-textarea"  autocomplete="off" name="imageDescription" >${imageInfo.description}</textarea>
+                          <textarea id="imgDesc" type="text" class="materialize-textarea"  autocomplete="off" name="description" >${imageInfo.description}</textarea>
                           <label for="email" class="">Image Description</label>
                         </div>
 	            </div>
@@ -170,7 +170,20 @@
 	               /*  file :{
 	                	required: true,
 	                }, */
-	                type :{
+	            	
+	                videoLink :{
+	                	required: true,
+	                },
+	                timeLength :{
+	                	required: true,
+	                },
+	                categoryId :{
+	                	required: true,
+	                },
+	                title :{
+	                	required: true,
+	                },
+	                description :{
 	                	required: true,
 	                },
 	           },
