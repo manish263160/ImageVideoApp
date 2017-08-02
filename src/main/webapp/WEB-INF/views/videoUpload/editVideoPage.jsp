@@ -174,18 +174,18 @@
 	                videoLink :{
 	                	required: true,
 	                },
-	                timeLength :{
+	                /* timeLength :{
 	                	required: true,
-	                },
+	                }, */
 	                categoryId :{
 	                	required: true,
 	                },
 	                title :{
 	                	required: true,
 	                },
-	                description :{
+	                /* description :{
 	                	required: true,
-	                },
+	                }, */
 	           },
 	            //For custom messages
 	            messages: {
