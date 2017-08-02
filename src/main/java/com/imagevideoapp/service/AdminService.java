@@ -3,6 +3,7 @@ package com.imagevideoapp.service;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.JsonObject;
 import com.imagevideoapp.models.CategrySeriesModels;
 import com.imagevideoapp.models.GetVideoByCatSerDto;
 
@@ -16,7 +17,7 @@ public interface AdminService {
 
 	boolean editCategorySeries(String table, String name, int id);
 
-	Map<String, List<GetVideoByCatSerDto>> fetchAllVids(String token);
+	Map<JsonObject, List<GetVideoByCatSerDto>> fetchAllVids(String token);
 
 	List<GetVideoByCatSerDto> SearchVuds(String data);
 

@@ -1,6 +1,7 @@
 package com.imagevideoapp.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -10,6 +11,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.imagevideoapp.dao.AdminDao;
 import com.imagevideoapp.models.CategrySeriesModels;
 import com.imagevideoapp.models.GetVideoByCatSerDto;
@@ -50,8 +53,10 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public  Map<String, List<GetVideoByCatSerDto>> fetchAllVids(String token) {
+	public  Map<JsonObject, List<GetVideoByCatSerDto>> fetchAllVids(String token) {
 		Map<String, List<GetVideoByCatSerDto>> map =new LinkedHashMap<String, List<GetVideoByCatSerDto>>();
+		
+		Map<JsonObject, List<GetVideoByCatSerDto>> getMap = new HashMap<JsonObject, List<GetVideoByCatSerDto>>();
 		List<GetVideoByCatSerDto> list= adminDao.fetchAllVids();
 		Set<String> catset=new HashSet<String>();
 		
@@ -95,11 +100,15 @@ public class AdminServiceImpl implements AdminService {
 			}
 			});
 			map.put(set, uploadVid);
+			JsonObject json=new JsonObject();
+			json.addProperty("seriesName", set);
+			
+			getMap.put(json, uploadVid);
 		}); 
 		
 		
 		
-		return map;
+		return getMap;
 	}
 
 	@Override
