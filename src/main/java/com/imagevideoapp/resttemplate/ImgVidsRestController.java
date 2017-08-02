@@ -1,5 +1,6 @@
 package com.imagevideoapp.resttemplate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.JsonObject;
 import com.imagevideoapp.models.GetVideoByCatSerDto;
 import com.imagevideoapp.models.UploadedImage;
 import com.imagevideoapp.models.UploadedVideo;
@@ -22,7 +24,7 @@ import com.imagevideoapp.service.UserService;
 
 @RestController
 @RequestMapping("/restcontroller")
-public class GetAllImageRestController {
+public class ImgVidsRestController {
 
 	@Autowired
 	UserService userService;
@@ -50,16 +52,22 @@ public class GetAllImageRestController {
     }
 	
 	@RequestMapping(value = "/fetchAllVids", method = RequestMethod.GET ,consumes="application/json")
-    public ResponseEntity<Map<String, Map<String, List<GetVideoByCatSerDto>>>> fetchAllVids() {
-		Map<String, Map<String, List<GetVideoByCatSerDto>>> finalmap=new HashMap<String, Map<String, List<GetVideoByCatSerDto>>>();
+    public ResponseEntity<Map<String, List<Map<JsonObject, List<GetVideoByCatSerDto>>>>> fetchAllVids() {
+		Map<String, List<Map<JsonObject, List<GetVideoByCatSerDto>>>> finalmap=new HashMap<String, List<Map<JsonObject, List<GetVideoByCatSerDto>>>>();
+		
+		List<Map<JsonObject, List<GetVideoByCatSerDto>>> listCat=new ArrayList<Map<JsonObject, List<GetVideoByCatSerDto>>> ();
+		List<Map<JsonObject, List<GetVideoByCatSerDto>>> listSer=new ArrayList<Map<JsonObject, List<GetVideoByCatSerDto>>> ();
+		
 		String token="categoryWise";
 		String token1="seriesWise";
 		
-		Map<String, List<GetVideoByCatSerDto>> categoriesWise = adminService.fetchAllVids(token);
-		Map<String, List<GetVideoByCatSerDto>> seriesWise = adminService.fetchAllVids(token1);
-        finalmap.put("categoriesData", categoriesWise);
-        finalmap.put("seriesData", seriesWise);
-        return new ResponseEntity<Map<String, Map<String, List<GetVideoByCatSerDto>>>>(finalmap, HttpStatus.OK);
+		Map<JsonObject, List<GetVideoByCatSerDto>> categoriesWise = adminService.fetchAllVids(token);
+		Map<JsonObject, List<GetVideoByCatSerDto>> seriesWise = adminService.fetchAllVids(token1);
+		listCat.add(categoriesWise);
+		listSer.add(seriesWise);
+        finalmap.put("categoriesData", listCat);
+        finalmap.put("seriesData", listSer);
+        return new ResponseEntity<Map<String, List<Map<JsonObject, List<GetVideoByCatSerDto>>>>> (finalmap, HttpStatus.OK);
     }
 	
 	@RequestMapping(value = "/Search", method = RequestMethod.GET ,consumes="application/json")
