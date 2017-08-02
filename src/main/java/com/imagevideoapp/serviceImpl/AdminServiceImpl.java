@@ -8,15 +8,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.solr.common.util.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.imagevideoapp.dao.AdminDao;
 import com.imagevideoapp.models.CategrySeriesModels;
+import com.imagevideoapp.models.FetchVideoJson;
 import com.imagevideoapp.models.GetVideoByCatSerDto;
-import com.imagevideoapp.models.UploadedVideo;
 import com.imagevideoapp.models.User;
 import com.imagevideoapp.service.AdminService;
 import com.imagevideoapp.utils.GenUtilitis;
@@ -53,10 +53,10 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public  Map<JsonObject, List<GetVideoByCatSerDto>> fetchAllVids(String token) {
-		Map<String, List<GetVideoByCatSerDto>> map =new LinkedHashMap<String, List<GetVideoByCatSerDto>>();
+	public  List<FetchVideoJson> fetchAllVids(String token) {
+		List<FetchVideoJson> finallist =new ArrayList<FetchVideoJson>();
 		
-		Map<JsonObject, List<GetVideoByCatSerDto>> getMap = new HashMap<JsonObject, List<GetVideoByCatSerDto>>();
+		
 		List<GetVideoByCatSerDto> list= adminDao.fetchAllVids();
 		Set<String> catset=new HashSet<String>();
 		
@@ -69,7 +69,14 @@ public class AdminServiceImpl implements AdminService {
 		});
 		
 		catset.forEach((set) ->{
-			List<GetVideoByCatSerDto> uploadVid=new ArrayList<GetVideoByCatSerDto>();
+			FetchVideoJson uploadVid=new FetchVideoJson();
+			List<GetVideoByCatSerDto> getvidsobj=new ArrayList<GetVideoByCatSerDto>();
+			if(token.equals("categoryWise")){
+			uploadVid.setCategoryName(set);
+			}
+			if(token.equals("seriesWise")){
+				uploadVid.setSeriesName(set);	
+			}
 			list.forEach((ll) ->{
 				if(token.equals("categoryWise")){
 				if(set.equals(ll.getCategoryName())){
@@ -82,7 +89,7 @@ public class AdminServiceImpl implements AdminService {
 					vid.setTitle(ll.getTitle());
 					vid.setDescription(ll.getDescription());
 					vid.setCreatedBy(ll.getCreatedBy());
-					uploadVid.add(vid);
+					getvidsobj.add(vid);
 				}
 			}else if(token.equals("seriesWise")){
 				if(set.equals(ll.getSeriesName())){
@@ -95,20 +102,22 @@ public class AdminServiceImpl implements AdminService {
 					vid.setTitle(ll.getTitle());
 					vid.setDescription(ll.getDescription());
 					vid.setCreatedBy(ll.getCreatedBy());
-					uploadVid.add(vid);
+					getvidsobj.add(vid);
 				}
 			}
 			});
-			map.put(set, uploadVid);
-			JsonObject json=new JsonObject();
-			json.addProperty("seriesName", set);
 			
-			getMap.put(json, uploadVid);
+			if(token.equals("categoryWise")){
+				uploadVid.setCategoryList(getvidsobj);
+				}
+				if(token.equals("seriesWise")){
+					uploadVid.setSeriesList(getvidsobj);	
+				}
+			finallist.add(uploadVid);
+			
 		}); 
 		
-		
-		
-		return getMap;
+		return finallist;
 	}
 
 	@Override
