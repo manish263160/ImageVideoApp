@@ -50,9 +50,14 @@ body {
         </div>
         
         <div class="row margin">
-          <div class="input-field col s12">
-            <input id="type" type="text" name="type">
+        <div class="input-field col s4">
             <label for="title" class="center-align">Type</label>
+            </div>
+          <div class="input-field col s8">
+            <select name="type" id="type" required>
+						<option value="Image" selected="selected">Image</option>
+						<option value="Video">Video</option>
+					</select>
           </div>
         </div>
         <div class="row margin">
