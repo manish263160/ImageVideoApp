@@ -58,7 +58,8 @@
                           <input id="timeLength" type="text" class="validate" autocomplete="off" name="timeLength" value="${imageInfo.timeLength }">
                           <label for="timeLength" class="">Time Length</label>
                         </div>
-                        
+                     </div>   
+                        <div class="row section">
                   <div class="col s12 m3 l3">
 	                <p>Category</p>
 	              </div>
@@ -81,7 +82,8 @@
 							<option value="${sers.id }" ${ imageInfo.seriesId eq sers.id ? 'selected' : ''}>${sers.name }</option>
 						</c:forEach>
 					</select>
-				</div>      
+				</div>   
+				   
 	            </div>
 	            
 	            <div class="row section">
@@ -178,7 +180,13 @@
 	                	required: true,
 	                }, */
 	                categoryId :{
-	                	required: true,
+	                	required: function(){
+                		if(($("#seriesId").val() !=='' && $("#seriesId").val() != null)  || ($("#categoryId").val() !=='' && $("#categoryId").val() !=null)){
+                			return false;
+                		}else {
+                			return true;
+                		}
+                	},
 	                },
 	                title :{
 	                	required: true,

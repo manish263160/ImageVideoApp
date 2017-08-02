@@ -57,8 +57,9 @@
                           <input id="timeLength" type="text" class="validate" autocomplete="off" name="timeLength">
                           <label for="timeLength" class="">Time Length</label>
                         </div>
-                        
-                  <div class="col s12 m3 l3">
+                        </div>
+                 <div class="row section">
+                  <div class="col s12 m2 l3">
 	                <p>Category</p>
 	              </div>
                   <div class="input-field col s12 m3 l3">
@@ -74,14 +75,14 @@
 	                <p>Series</p>
 	              </div>
                   <div class="input-field col s12 m3 l3">
-					<select name="seriesId" id="seriesId" class="validate">
+					<select name="seriesId" id="seriesId" class="validate" >
 						<option value="" disabled selected>Select Series</option>
 						<c:forEach items="${serieslist }" var="sers">
 							<option value="${sers.id }">${sers.name }</option>
 						</c:forEach>
 					</select>
-				</div>      
-	            </div>
+				</div>  
+				</div>
 	            
 	            <div class="row section">
 	             <div class="col s12 m4 l3">
@@ -158,8 +159,23 @@
 	                /* timeLength :{
 	                	required: true,
 	                }, */
+	               /*  seriesId :{
+	                	required: function(){
+	                		if($("#seriesId").val() !=='' || $("categoryId").val() !==''){
+	                			return true;
+	                		}else {
+	                			return false;
+	                		}
+	                	},
+	                }, */
 	                categoryId :{
-	                	required: true,
+	                	required: function(){
+	                		if(($("#seriesId").val() !=='' && $("#seriesId").val() != null)  || ($("#categoryId").val() !=='' && $("#categoryId").val() !=null)){
+	                			return false;
+	                		}else {
+	                			return true;
+	                		}
+	                	},
 	                },
 	                title :{
 	                	required: true,
