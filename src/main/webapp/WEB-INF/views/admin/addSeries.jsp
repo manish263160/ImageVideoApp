@@ -36,7 +36,7 @@ body {
 <ul class="collection" id="listname">
    <c:forEach var="value" items="${allcategory }">
    <li class="collection-item">${value.name }  
-   <a href="#" class="secondary-content right modal-trigger" onclick="editcategory('${value.id}','${value.name}')">Edit</a>
+   <a href="javascript:void(0);" class="secondary-content right modal-trigger" onclick="editcategory('${value.id}','${value.name}')">Edit</a>
    &nbsp;&nbsp;&nbsp;
    <a href="#"><i class="secondary-content mdi-action-delete left " onclick="deleteCat(${value.id})"></i></a>
    </li>
