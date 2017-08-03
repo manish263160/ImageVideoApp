@@ -1,6 +1,5 @@
 package com.imagevideoapp.resttemplate;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,11 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.JsonObject;
 import com.imagevideoapp.models.FetchVideoJson;
 import com.imagevideoapp.models.GetVideoByCatSerDto;
 import com.imagevideoapp.models.UploadedImage;
-import com.imagevideoapp.models.UploadedVideo;
 import com.imagevideoapp.service.AdminService;
 import com.imagevideoapp.service.NotificationService;
 import com.imagevideoapp.service.UserService;

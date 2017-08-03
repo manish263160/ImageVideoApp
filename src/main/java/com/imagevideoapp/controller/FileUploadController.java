@@ -85,7 +85,7 @@ public class FileUploadController {
 	}
 
 	@RequestMapping(value = { "/uploadVideo" }, method = { RequestMethod.POST })
-	public String uploadVideo(@RequestParam("file") MultipartFile file, ModelMap model,@ModelAttribute("UploadedVideo") UploadedVideo uploadedVideo) {
+	public String uploadVideo(@RequestParam(value="file",required=false) MultipartFile file, ModelMap model,@ModelAttribute("UploadedVideo") UploadedVideo uploadedVideo) {
 		logger.info(" uploadVideo() Start------");
 
 		try {

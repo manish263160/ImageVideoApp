@@ -12,8 +12,8 @@ public class UploadedVideo implements Serializable{
 	private long userId;
 	private String  videoLink;
 	private String videoThumbnail;
-	private long categoryId;
-	private long seriesId;
+	private String categoryId;
+	private String seriesId;
 	private String timeLength;
 	private String title;
 	private String description;
@@ -57,18 +57,7 @@ public class UploadedVideo implements Serializable{
 	public void setVideoThumbnail(String videoThumbnail) {
 		this.videoThumbnail = videoThumbnail;
 	}
-	public long getCategoryId() {
-		return categoryId;
-	}
-	public void setCategoryId(long categoryId) {
-		this.categoryId = categoryId;
-	}
-	public long getSeriesId() {
-		return seriesId;
-	}
-	public void setSeriesId(long seriesId) {
-		this.seriesId = seriesId;
-	}
+	
 	public String getTimeLength() {
 		return timeLength;
 	}
@@ -98,6 +87,18 @@ public class UploadedVideo implements Serializable{
 	}
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
+	}
+	public String getCategoryId() {
+		return categoryId;
+	}
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
+	public String getSeriesId() {
+		return seriesId;
+	}
+	public void setSeriesId(String seriesId) {
+		this.seriesId = seriesId;
 	}
 	
 	}
