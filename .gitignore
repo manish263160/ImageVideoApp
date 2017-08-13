@@ -1,2 +1,2 @@
 /target/
-/UPLOAD_IMAGES/
+src/main/webapp/static/UPLOAD_IMAGES/*
