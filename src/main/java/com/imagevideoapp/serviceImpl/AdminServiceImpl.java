@@ -94,6 +94,8 @@ public class AdminServiceImpl implements AdminService {
 										+ this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_VIDEO)
 										+ ll.getVideoThumbnail();
 								vid.setVideoThumbnail(url);
+								vid.setId(ll.getId());
+								vid.setVideoName(ll.getVideoThumbnail());
 								vid.setTimeLength(ll.getTimeLength());
 								vid.setTitle(ll.getTitle());
 								vid.setDescription(ll.getDescription());
@@ -111,6 +113,8 @@ public class AdminServiceImpl implements AdminService {
 										+ this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_VIDEO)
 										+ ll.getVideoThumbnail();
 								vid.setVideoThumbnail(url);
+								vid.setId(ll.getId());
+								vid.setVideoName(ll.getVideoThumbnail());
 								vid.setTimeLength(ll.getTimeLength());
 								vid.setTitle(ll.getTitle());
 								vid.setDescription(ll.getDescription());

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.imagevideoapp.exception.GenericException;
 import com.imagevideoapp.models.CategrySeriesModels;
+import com.imagevideoapp.models.FetchVideoJson;
 import com.imagevideoapp.models.UploadedImage;
 import com.imagevideoapp.models.UploadedVideo;
 import com.imagevideoapp.models.User;
@@ -158,20 +159,28 @@ public class UserController {
 		User user = GenUtilitis.getLoggedInUser();
 		String tablename = "uploaded_video";
 		
-		List<UploadedVideo> allfileList = this.userService.getAllImages(user.getUserId(),tablename, "all");
-		LinkedHashSet<String> uniqueDate = new LinkedHashSet<String>();
-		allfileList.forEach((imgObj) -> {
+//		List<UploadedVideo> allfileList = this.userService.getAllImages(user.getUserId(),tablename, "all");
+		/*allfileList.forEach((imgObj) -> {
 			if (imgObj.getCreatedOn() != null) {
 				String key = imgObj.getNewSetDate();
 				uniqueDate.add(key.trim());
 			}
 
-		});
-		logger.info("getAllVids== starts----");
+		});*/
+//		model.addAttribute("allfileList", allfileList);
+		String token="categoryWise";
+		String token1="seriesWise";
+		
+		List<FetchVideoJson> categoriesWise = adminService.fetchAllVids(token);
+		List<FetchVideoJson> seriesWise = adminService.fetchAllVids(token1);
+		LinkedHashSet<String> uniqueDate = new LinkedHashSet<String>();
+		logger.info("categoriesWise data----"+ categoriesWise.toString());
+		logger.info("seriesWise data----"+ seriesWise.toString());
 		model.addAttribute("user", user);
 		model.addAttribute("error", error);
 		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
-		model.addAttribute("allfileList", allfileList);
+		model.addAttribute("categoriesWise", categoriesWise);
+		model.addAttribute("seriesWise", seriesWise);
 		model.addAttribute("uniqueDate", uniqueDate);
 		model.addAttribute("active", "video");
 		return "videoUpload/userAllVideoGallery";

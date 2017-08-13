@@ -65,7 +65,7 @@
 	              </div>
 	              
 	              <div class="input-field col s8 m4 l7">
-                          <textarea id="imgDesc" type="text" class="materialize-textarea"  autocomplete="off" name="imageDescription" ></textarea>
+                          <textarea id="imgDesc" type="text" class="materialize-textarea" maxlength="60" autocomplete="off" name="imageDescription" ></textarea>
                           <label for="email" class="">Image Description</label>
                         </div>
 	            </div>

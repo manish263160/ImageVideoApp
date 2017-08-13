@@ -60,7 +60,7 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao{
 	public List<GetVideoByCatSerDto> fetchAllVids() {
 		List<GetVideoByCatSerDto> get=null;
 		try {
-			String query="select c.name as category_name,s.name as series_name ,uv.* from uploaded_video uv left join categories c on uv.category_id = c.id left outer join series s on uv.series_id = s.id order by c.name;";
+			String query="select c.name as category_name,s.name as series_name ,uv.* from uploaded_video uv left join categories c on uv.category_id = c.id left outer join series s on uv.series_id = s.id order by uv.created_on desc;";
 			get = getJdbcTemplate().query(query, new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class));
 		} catch (EmptyResultDataAccessException e) {
 			logger.error(" validateUser() EmptyResultDataAccessException");

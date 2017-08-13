@@ -90,7 +90,7 @@
 	              </div>
 	              
 	              <div class="input-field col s8 m4 l3">
-                          <input id="title" type="text" class="validate" autocomplete="off" name="title">
+                          <input id="title" type="text" class="validate" autocomplete="off" maxlength="60" name="title">
                           <label for="title" class="">Image Title</label>
                         </div>
 	             <div class="col s12 m4 l3">
@@ -98,7 +98,7 @@
 	              </div>
 	              
 	              <div class="input-field col s8 m4 l3">
-                          <textarea id="description" type="text" class="materialize-textarea"  autocomplete="off" name="description" ></textarea>
+                          <textarea id="description" type="text" class="materialize-textarea" maxlength="100" autocomplete="off" name="description" ></textarea>
                           <label for="email" class="">Description</label>
                         </div>
 	            </div>
