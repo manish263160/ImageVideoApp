@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -126,6 +125,7 @@ public class NotificationServiceImpl implements NotificationService{
 		try {
 			for (NotificationDetails list : listnotificationDetails) {
 				obj.put("title", list.getTitle());
+				obj.put("type", list.getType());
 				obj.put("description", list.getDescription());
 				String userMessage = obj.toString();
 				Sender sender = new Sender(GOOGLE_SERVER_KEY);
