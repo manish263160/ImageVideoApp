@@ -14,6 +14,7 @@ public class GetVideoByCatSerDto implements Serializable{
 	private String seriesName;
 	private long id;
 	private long userId;
+	private long catId;
 	private String  videoLink;
 	private String videoThumbnail;
 	private long categoryId;
@@ -51,6 +52,12 @@ public class GetVideoByCatSerDto implements Serializable{
 	}
 	public String getVideoLink() {
 		return videoLink;
+	}
+	public long getCatId() {
+		return catId;
+	}
+	public void setCatId(long catId) {
+		this.catId = catId;
 	}
 	public void setVideoLink(String videoLink) {
 		this.videoLink = videoLink;

@@ -37,7 +37,7 @@ public class Cronjob {
 			String image="uploaded_image";
 			String video="uploaded_video";
 			boolean deletmsg=userService.deleteImages(cronStart,image);
-			boolean deletVidmsg=userService.deleteImages(cronStart,video);
+//			boolean deletVidmsg=userService.deleteImages(cronStart,video);
 			if(deletmsg){
 				List<UploadedImage> getallImg=userService.getAllImages(null,image,"all"); 
 				
@@ -53,7 +53,9 @@ public class Cronjob {
 
 				});
 			}
-			if (deletVidmsg) {
+/*		
+ * commenting as per requirement on 28 aug.
+ * 	if (deletVidmsg) {
 				List<UploadedVideo> getallImg = userService.getAllImages(null, video, "all");
 
 				getallImg.forEach((imgObj) -> {
@@ -67,7 +69,7 @@ public class Cronjob {
 					}
 
 				});
-			}
+			}*/   
 		} catch(EmptyResultDataAccessException e){
 			logger.error(" taskScheduler() EmptyResultDataAccessException"+e.getMessage());
 		}catch(DataAccessException e){

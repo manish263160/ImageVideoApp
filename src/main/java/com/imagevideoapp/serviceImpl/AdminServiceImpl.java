@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -60,7 +61,7 @@ public class AdminServiceImpl implements AdminService {
 		List<FetchVideoJson> finallist = new ArrayList<FetchVideoJson>();
 
 		List<GetVideoByCatSerDto> list = adminDao.fetchAllVids();
-		Set<String> catset = new HashSet<String>();
+		Set<String> catset = new LinkedHashSet<String>();
 
 		list.forEach((ll) -> {
 			if (token.equals("categoryWise")) {
