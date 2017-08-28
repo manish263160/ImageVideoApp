@@ -156,6 +156,7 @@ public class UserController {
 	
 	@RequestMapping(value = { "/getAllVids" }, method = { RequestMethod.GET })
 	public String getAllVids(@RequestParam(name = "error", required = false) String error, Model model, HttpServletRequest request) {
+		try{
 		User user = GenUtilitis.getLoggedInUser();
 		String tablename = "uploaded_video";
 		
@@ -183,6 +184,10 @@ public class UserController {
 		model.addAttribute("seriesWise", seriesWise);
 		model.addAttribute("uniqueDate", uniqueDate);
 		model.addAttribute("active", "video");
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 		return "videoUpload/userAllVideoGallery";
 	}
 	
