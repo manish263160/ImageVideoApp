@@ -60,7 +60,7 @@ public class AdminServiceImpl implements AdminService {
 	public List<FetchVideoJson> fetchAllVids(String token) {
 		List<FetchVideoJson> finallist = new ArrayList<FetchVideoJson>();
 
-		List<GetVideoByCatSerDto> list = adminDao.fetchAllVids();
+		List<GetVideoByCatSerDto> list = adminDao.fetchAllVids(token);
 		Set<String> catset = new LinkedHashSet<String>();
 
 		list.forEach((ll) -> {

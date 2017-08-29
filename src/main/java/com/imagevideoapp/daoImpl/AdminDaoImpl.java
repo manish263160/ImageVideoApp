@@ -57,11 +57,17 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao{
 		return update > 0 ? true : false;
 	}
 	@Override
-	public List<GetVideoByCatSerDto> fetchAllVids() {
+	public List<GetVideoByCatSerDto> fetchAllVids(String token) {
 		List<GetVideoByCatSerDto> get=null;
 		try {
+			if(token.equals("categoryWise")){
 			String query="select c.name as category_name,c.id as catId,s.name as series_name ,uv.* from uploaded_video uv left join categories c on uv.category_id = c.id left outer join series s on uv.series_id = s.id order by c.id;";
 			get = getJdbcTemplate().query(query, new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class));
+			}
+			else if(token.equals("seriesWise")){
+				String query="select c.name as category_name,c.id as catId,s.name as series_name,s.id as serID ,uv.* from uploaded_video uv left join categories c on uv.category_id = c.id left outer join series s on uv.series_id = s.id order by s.id desc;";
+				get = getJdbcTemplate().query(query, new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class));
+			}
 		} catch (EmptyResultDataAccessException e) {
 			logger.error(" validateUser() EmptyResultDataAccessException");
 		} catch (DataAccessException e) {
