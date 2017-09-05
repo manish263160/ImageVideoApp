@@ -66,7 +66,7 @@
 						<c:forEach items="${categoriesWise }" var="catewise"
 							varStatus="loop">
 							<p class="caption">
-								<b>Category Name : ${catewise.categoryName}</b>
+								<b>${catewise.categoryName}</b>
 							</p>
 							<div class="masonry-gallery-wrapper">
 								<div class="popup-gallery">
@@ -96,7 +96,7 @@
 						<div class="divider"></div>
 						<c:forEach items="${seriesWise }" var="serswise" varStatus="loop">
 							<p class="caption">
-								<b>Series Name : ${serswise.seriesName}</b>
+								<b>${serswise.seriesName}</b>
 							</p>
 							<div class="masonry-gallery-wrapper">
 								<div class="popup-gallery">
