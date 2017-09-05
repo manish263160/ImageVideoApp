@@ -211,7 +211,7 @@
                 image: {
 
                     verticalFit: true,
-                    tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
+                    tError: function (item) {'<a href="%url%">The image #%curr%'},
                     cursor: 'mfp-zoom-out-cur',
                     titleSrc: function (item) {
                         return '<div class="row">' +
