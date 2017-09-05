@@ -46,7 +46,7 @@
 	              </div>
 	              
 	              <div class="input-field col s8 m4 l4">
-                          <input id="imgLink" type="text" class="validate" autocomplete="off" name="imageLink" maxlength="200">
+                          <input id="imgLink" type="text" class="validate" autocomplete="off" name="imageLink" maxlength="250">
                           <label for="email" class="">Image Link</label>
                         </div>
                         
@@ -65,7 +65,7 @@
 	              </div>
 	              
 	              <div class="input-field col s8 m4 l7">
-                          <textarea id="imgDesc" type="text" class="materialize-textarea" maxlength="200" autocomplete="off" name="imageDescription" ></textarea>
+                          <textarea id="imgDesc" type="text" class="materialize-textarea" maxlength="250" autocomplete="off" name="imageDescription" ></textarea>
                           <label for="email" class="">Image Description</label>
                         </div>
 	            </div>

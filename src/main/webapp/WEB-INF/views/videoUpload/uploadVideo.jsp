@@ -46,7 +46,7 @@
 	              </div>
 	              
 	              <div class="input-field col s12 m3 l3">
-                          <input id="videoLink" type="text" class="validate" autocomplete="off" name="videoLink" maxlength="200">
+                          <input id="videoLink" type="text" class="validate" autocomplete="off" name="videoLink" maxlength="250">
                           <label for="videoLink" class="">Video Link</label>
                         </div>
                   
@@ -90,7 +90,7 @@
 	              </div>
 	              
 	              <div class="input-field col s8 m4 l3">
-                          <input id="title" type="text" class="validate" autocomplete="off" maxlength="200" name="title">
+                          <input id="title" type="text" class="validate" autocomplete="off" maxlength="250" name="title">
                           <label for="title" class="">Image Title</label>
                         </div>
 	             <div class="col s12 m4 l3">
@@ -98,7 +98,7 @@
 	              </div>
 	              
 	              <div class="input-field col s8 m4 l3">
-                          <textarea id="description" type="text" class="materialize-textarea" maxlength="200" autocomplete="off" name="description" ></textarea>
+                          <textarea id="description" type="text" class="materialize-textarea" maxlength="250" autocomplete="off" name="description" ></textarea>
                           <label for="email" class="">Description</label>
                         </div>
 	            </div>
