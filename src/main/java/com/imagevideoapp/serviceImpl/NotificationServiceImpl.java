@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -115,6 +116,17 @@ public class NotificationServiceImpl implements NotificationService{
 	boolean notificationPush(List<NotificationDetails> listnotificationDetails){
 		
 		List<String> getAllDevice = getAllDeviceId();
+		logger.info("size of getAllDevice==="+getAllDevice.size());
+		
+		int partitionSize = 1000;
+		
+		List<List<String>> partitions = new LinkedList<List<String>>();
+		
+		for (int i = 0; i < getAllDevice.size(); i += partitionSize) {
+		    partitions.add(getAllDevice.subList(i,
+		            Math.min(i + partitionSize, getAllDevice.size())));
+		}
+		
 		JSONObject obj = new JSONObject();
 		MulticastResult result = null;
 
@@ -131,8 +143,10 @@ public class NotificationServiceImpl implements NotificationService{
 				Sender sender = new Sender(GOOGLE_SERVER_KEY);
 				Message message = new Message.Builder().timeToLive(30)
 						.delayWhileIdle(true).addData(MESSAGE_KEY, userMessage).build();
-				result = sender.send(message, getAllDevice, retries);
+				for (int i = 0; i < partitions.size(); i ++) {
+				result = sender.send(message,partitions.get(i), retries);
 				logger.info("result=="+result.toString());
+				}
 				
 			}
 			
