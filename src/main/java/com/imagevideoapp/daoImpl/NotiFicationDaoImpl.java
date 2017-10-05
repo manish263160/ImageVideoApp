@@ -91,4 +91,31 @@ public class NotiFicationDaoImpl  extends ImageVideoJdbcDaoSupport implements No
 		return alltask;
 	}
 
+	@Override
+	public boolean checkVideoLink(String urllink, String from) {
+
+		try {
+			String query = null;
+			if (from != null) {
+				if (from.trim().equals("video")) {
+					query = "select count(*) from uploaded_video where  video_link = ?";
+				} else if (from.trim().equals("image")) {
+					query = "select count(*) from uploaded_image where  image_link = ?";
+				}
+			}
+			String str= getJdbcTemplate().queryForObject(query,new Object[] { urllink } , String.class);
+			Integer converInt=Integer.parseInt(str);
+			if(converInt > 0)
+			return true;
+			else {
+				return false;
+			}
+		} catch (EmptyResultDataAccessException e) {
+			logger.error(" checkVideoLink() EmptyResultDataAccessException");
+		} catch (DataAccessException e) {
+			logger.error(" checkVideoLink() DataAccessException");
+		}
+		return false;
+	}
+
 }

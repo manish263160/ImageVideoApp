@@ -18,55 +18,69 @@ import com.imagevideoapp.support.ImageVideoJdbcDaoSupport;
 import com.imagevideoapp.utils.GenUtilitis;
 
 @Repository
-public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao{
+public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 
 	private static final Logger logger = Logger.getLogger(AdminDaoImpl.class);
+
 	@Override
-	public List<CategrySeriesModels> getAllCategorySeries(String fetchTable ,Long userId) {
+	public List<CategrySeriesModels> getAllCategorySeries(String fetchTable, Long userId) {
 
-		String query = "select * from "+fetchTable+" where user_id=? order by id";
+		String query = "select * from " + fetchTable + " where user_id=? order by id";
 
-		List<CategrySeriesModels> list = getJdbcTemplate().query(query, new BeanPropertyRowMapper<CategrySeriesModels>(CategrySeriesModels.class),userId);
+		List<CategrySeriesModels> list = getJdbcTemplate().query(query,
+				new BeanPropertyRowMapper<CategrySeriesModels>(CategrySeriesModels.class), userId);
 		return list;
 	}
+
 	@Override
-	public boolean insertCategory(String value ,String name,Long userId) {
-		SimpleDateFormat sdf1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-		Date curdate1=new Date();
+	public boolean insertCategory(String value, String name, Long userId) {
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date curdate1 = new Date();
 		String currentTime1 = sdf1.format(curdate1);
-		
-		String query = "INSERT INTO "+value+" (user_id,name,created_on,modified_on) "
-				+ " VALUES (?,?,?,?);";
-		int update=getJdbcTemplate().update(query, userId, name,currentTime1,currentTime1);
+
+		String query = "INSERT INTO " + value + " (user_id,name,created_on,modified_on) " + " VALUES (?,?,?,?);";
+		int update = getJdbcTemplate().update(query, userId, name, currentTime1, currentTime1);
 		return update > 0 ? true : false;
 	}
+
 	@Override
-	public boolean deleteCatSer(String value, int id , Long userId) {
-		String sql="delete from "+value+" where id=? and user_id= ? ";
-		int rowcount = getJdbcTemplate().update(sql,id, userId);
+	public boolean deleteCatSer(String value, int id, Long userId) {
+		String sql = "delete from " + value + " where id=? and user_id= ? ";
+		int rowcount = getJdbcTemplate().update(sql, id, userId);
 		return rowcount > 0 ? true : false;
 	}
+
 	@Override
 	public boolean editCategorySeries(String table, String name, int id) {
-		SimpleDateFormat sdf1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
-		Date curdate1=new Date();
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date curdate1 = new Date();
 		String currentTime1 = sdf1.format(curdate1);
 		User user = GenUtilitis.getLoggedInUser();
-		String query = "update "+table+" set name=?,modified_on=? where user_id=? and id=? ";
-		int update=getJdbcTemplate().update(query, name, currentTime1,user.getUserId(),id);
+		String query = "update " + table + " set name=?,modified_on=? where user_id=? and id=? ";
+		int update = getJdbcTemplate().update(query, name, currentTime1, user.getUserId(), id);
 		return update > 0 ? true : false;
 	}
+
 	@Override
-	public List<GetVideoByCatSerDto> fetchAllVids(String token) {
-		List<GetVideoByCatSerDto> get=null;
+	public List<GetVideoByCatSerDto> fetchAllVids(String token, String start, String end) {
+		List<GetVideoByCatSerDto> get = null;
 		try {
-			if(token.equals("categoryWise")){
-			String query="select c.name as category_name,c.id as catId,s.name as series_name ,uv.* from uploaded_video uv left join categories c on uv.category_id = c.id left outer join series s on uv.series_id = s.id order by c.id;";
-			get = getJdbcTemplate().query(query, new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class));
-			}
-			else if(token.equals("seriesWise")){
-				String query="select c.name as category_name,c.id as catId,s.name as series_name,s.id as serID ,uv.* from uploaded_video uv left join categories c on uv.category_id = c.id left outer join series s on uv.series_id = s.id order by s.id desc;";
-				get = getJdbcTemplate().query(query, new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class));
+			if (token.equals("categoryWise")) {
+				String query = "select c.name as category_name,c.id as catId,s.name as series_name ,uv.* from uploaded_video uv left join categories c on uv.category_id = c.id left outer join series s on uv.series_id = s.id ";
+				if (start != null && end != null) {
+					query += " where uv.id >= " + start + " and uv.id <=" + end;
+				}
+				query += " order by c.id;";
+				get = getJdbcTemplate().query(query,
+						new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class));
+			} else if (token.equals("seriesWise")) {
+				String query = "select c.name as category_name,c.id as catId,s.name as series_name,s.id as serID ,uv.* from uploaded_video uv left join categories c on uv.category_id = c.id left outer join series s on uv.series_id = s.id ";
+				if (start != null && end != null) {
+					query += " where uv.id >= " + start + " and uv.id <=" + end;
+				}
+				query += " order by s.id desc;";
+				get = getJdbcTemplate().query(query,
+						new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class));
 			}
 		} catch (EmptyResultDataAccessException e) {
 			logger.error(" validateUser() EmptyResultDataAccessException");
@@ -75,14 +89,17 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao{
 		}
 		return get;
 	}
+
 	@Override
 	public List<GetVideoByCatSerDto> SearchVuds(String data) {
-		List<GetVideoByCatSerDto> get=null;
+		List<GetVideoByCatSerDto> get = null;
 		try {
-			String query="select c.name as category_name,s.name as series_name ,uv.* from  uploaded_video uv left join categories c on uv.category_id = c.id left outer join series s on uv.series_id = s.id where "
-						+ "uv.title like ? or uv.description like ? or c.name like ? or s.name like ? "
-						+ " order by uv.title,uv.description ,c.name , s.name;";
-			get = getJdbcTemplate().query(query, new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class),"%"+data+"%","%"+data+"%","%"+data+"%","%"+data+"%");
+			String query = "select c.name as category_name,s.name as series_name ,uv.* from  uploaded_video uv left join categories c on uv.category_id = c.id left outer join series s on uv.series_id = s.id where "
+					+ "uv.title like ? or uv.description like ? or c.name like ? or s.name like ? "
+					+ " order by uv.title,uv.description ,c.name , s.name;";
+			get = getJdbcTemplate().query(query,
+					new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class), "%" + data + "%",
+					"%" + data + "%", "%" + data + "%", "%" + data + "%");
 		} catch (EmptyResultDataAccessException e) {
 			logger.error(" EmptyResultDataAccessException");
 		} catch (DataAccessException e) {
@@ -91,7 +108,4 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao{
 		return get;
 	}
 
-	
-
-	}
-
+}

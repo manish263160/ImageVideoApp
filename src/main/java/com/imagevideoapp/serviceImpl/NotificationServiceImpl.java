@@ -158,4 +158,9 @@ public class NotificationServiceImpl implements NotificationService{
 		}
 	return false;
 	}
+	@Override
+	public boolean checkVideoLink(String urllink , String from) {
+		// TODO Auto-generated method stub
+		return notiFicationDao.checkVideoLink(urllink , from);
+	}
 }

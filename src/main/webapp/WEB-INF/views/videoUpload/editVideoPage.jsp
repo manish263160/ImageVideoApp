@@ -64,7 +64,7 @@
 	                <p>Category</p>
 	              </div>
                   <div class="input-field col s12 m3 l3">
-                    <select name="categoryId" id="categoryId" class="validate" required>
+                    <select name="categoryId" id="categoryId" class="validate" required multiple="multiple">
 					<option value=""  selected>Select Category</option>
                     <c:forEach items="${categorylist }" var="cat">
 						<option value="${cat.id }" ${ imageInfo.categoryId eq cat.id ? 'selected' : ''}>${cat.name }</option>

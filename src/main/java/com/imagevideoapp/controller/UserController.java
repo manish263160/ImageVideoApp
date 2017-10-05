@@ -172,8 +172,8 @@ public class UserController {
 		String token="categoryWise";
 		String token1="seriesWise";
 		
-		List<FetchVideoJson> categoriesWise = adminService.fetchAllVids(token);
-		List<FetchVideoJson> seriesWise = adminService.fetchAllVids(token1);
+		List<FetchVideoJson> categoriesWise = adminService.fetchAllVidsWeb(token);
+		List<FetchVideoJson> seriesWise = adminService.fetchAllVidsWeb(token1);
 		LinkedHashSet<String> uniqueDate = new LinkedHashSet<String>();
 		logger.info("categoriesWise data----"+ categoriesWise.toString());
 		logger.info("seriesWise data----"+ seriesWise.toString());

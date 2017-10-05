@@ -27,7 +27,14 @@
 	                      </button>
 	                    </div>
 	 </c:if> 
-	
+	<div id="card-alert" class="card red hide">
+	                      <div class="card-content white-text">
+	                        <p><i class="mdi-alert-error"></i> This Image Link already exist.</p>
+	                      </div>
+	                      <button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">
+	                        <span aria-hidden="true">×</span>
+	                      </button>
+	                    </div>
 	<form action="${imgvids}/uploadImage?${_csrf.parameterName}=${_csrf.token}" method="post"
 	modelAttribute="uploadedImage" enctype="multipart/form-data" id="formupload">
 	 <div class="divider"></div>
@@ -46,7 +53,7 @@
 	              </div>
 	              
 	              <div class="input-field col s8 m4 l4">
-                          <input id="imgLink" type="text" class="validate" autocomplete="off" name="imageLink" maxlength="250">
+                          <input id="imgLink" type="text" class="validate" onchange="checkImageLink(this)" autocomplete="off" name="imageLink" maxlength="250">
                           <label for="email" class="">Image Link</label>
                         </div>
                         
@@ -133,6 +140,19 @@
 	            }
 	         });	        
 	       
+	        function checkImageLink(text){
+	        	var textValue=text.value;
+	        	$.post("${imgvids}/checkVideoLink", {urllink: textValue , from :'image'}, function(result){
+	            	console.log(result)
+	        		if(result){
+	        			$("#card-alert").removeClass("hide");
+	        			$("#imgLink").val("");
+	        		}else{
+	        			$("#card-alert").addClass("hide");
+	        		}
+	            });
+	        	
+	        }
 	    </script>
 
 	</body>

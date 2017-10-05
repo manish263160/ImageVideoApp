@@ -79,7 +79,7 @@ public class Cronjob {
 	
 	
 //	@Scheduled(cron="0 0 2 1/1 * ?")
-	@Scheduled(fixedRate=60*1000)
+//	@Scheduled(fixedRate=60*1000)
 	public void pushNotificationCron() throws GenericException{
 		logger.info("*****************************pushNotificationCron started this time***************************");
 		try {

@@ -50,14 +50,14 @@ public class ImgVidsRestController {
     }
 	
 	@RequestMapping(value = "/fetchAllVids", method = RequestMethod.GET ,consumes="application/json")
-    public ResponseEntity<Map<String, List<FetchVideoJson>>> fetchAllVids() {
+    public ResponseEntity<Map<String, List<FetchVideoJson>>> fetchAllVids(@RequestParam(required = false)String start ,@RequestParam(required = false) String end) {
 		Map<String, List<FetchVideoJson>> finalmap=new HashMap<String, List<FetchVideoJson>>();
 		
 		String token="categoryWise";
 		String token1="seriesWise";
 		
-		List<FetchVideoJson> categoriesWise = adminService.fetchAllVids(token);
-		List<FetchVideoJson> seriesWise = adminService.fetchAllVids(token1);
+		List<FetchVideoJson> categoriesWise = adminService.fetchAllVids(token,start,end);
+		List<FetchVideoJson> seriesWise = adminService.fetchAllVids(token1,start,end);
 		
         finalmap.put("categoriesData", categoriesWise);
         finalmap.put("seriesData", seriesWise);

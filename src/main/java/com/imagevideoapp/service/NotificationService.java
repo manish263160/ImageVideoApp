@@ -16,4 +16,6 @@ public interface NotificationService {
 	public boolean insertDevice(String deviceId);
 
 	public boolean pushNotificationCron();
+
+	public boolean checkVideoLink(String urllink, String from);
 }

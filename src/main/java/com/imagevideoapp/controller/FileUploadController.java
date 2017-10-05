@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -22,11 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.imagevideoapp.exception.GenericException;
 import com.imagevideoapp.models.CategrySeriesModels;
 import com.imagevideoapp.models.UploadedImage;
 import com.imagevideoapp.models.UploadedVideo;
 import com.imagevideoapp.models.User;
 import com.imagevideoapp.service.AdminService;
+import com.imagevideoapp.service.NotificationService;
 import com.imagevideoapp.service.UserService;
 import com.imagevideoapp.utils.ApplicationConstants;
 import com.imagevideoapp.utils.ApplicationProperties;
@@ -42,6 +45,9 @@ public class FileUploadController {
 	
 	@Autowired
 	AdminService adminService;
+	
+	@Autowired
+	NotificationService notificationService;
 	
 	@RequestMapping(value = { "/uploadImage" }, method = { RequestMethod.POST })
 	public String uploadImage(@RequestParam(value = "file", required = false) MultipartFile file, ModelMap model,
@@ -84,11 +90,19 @@ public class FileUploadController {
 		}
 	}
 
-	@RequestMapping(value = { "/uploadVideo" }, method = { RequestMethod.POST })
+	@RequestMapping(value = { "/insertVideo" }, method = { RequestMethod.POST })
 	public String uploadVideo(@RequestParam(value="file",required=false) MultipartFile file, ModelMap model,@ModelAttribute("UploadedVideo") UploadedVideo uploadedVideo) {
 		logger.info(" uploadVideo() Start------");
 
 		try {
+			List<String> categorArray=null;
+			
+			if(uploadedVideo != null && uploadedVideo.getCategoryId()!=null) {
+				if(uploadedVideo.getCategoryId().contains(",")) {
+					categorArray= Arrays.asList(uploadedVideo.getCategoryId().split("\\s*,\\s*"));
+				}
+			}
+			
 			User user = GenUtilitis.getLoggedInUser();
 			String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."),
 					file.getOriginalFilename().length());
@@ -107,8 +121,19 @@ public class FileUploadController {
 						RenderingHints.VALUE_INTERPOLATION_BILINEAR, true);*/
 				boolean isUploaded = ImageIO.write(originalImage, fileExtension, new File(videopath + fileName));
 				if (isUploaded) {
-					String status = this.userService.insertFile(user, fileName, "video_thumbnail", "uploaded_video",
+					String status =null;
+					if(categorArray !=null && !categorArray.isEmpty())
+					{
+						for (String catid : categorArray) {
+							uploadedVideo.setCategoryId(catid);
+							status = this.userService.insertFile(user, fileName, "video_thumbnail", "uploaded_video",
+									uploadedVideo);
+						}
+						
+					}else {
+						status = this.userService.insertFile(user, fileName, "video_thumbnail", "uploaded_video",
 							uploadedVideo);
+					}
 					if ("success".equals(status)) {
 						String filepath = this.setUserUploadedFilePath(user, orgFileName, "video");
 						model.addAttribute("imagepath", filepath);
@@ -315,5 +340,15 @@ public class FileUploadController {
 			logger.error(" deleteImages() DataAccessException");
 			return null;
 		}
+	}
+	
+	@RequestMapping(value = { "/checkVideoLink" }, method = { RequestMethod.POST })
+	@ResponseBody
+	public boolean checkVideoLink(@RequestParam String urllink ,@RequestParam String from) throws GenericException {
+
+		logger.info("urllink is ===" + urllink +" from ="+from);
+		boolean result = false;
+		result = notificationService.checkVideoLink(urllink,from);
+		return result;
 	}
 }

@@ -92,6 +92,9 @@ public class UploadedVideo implements Serializable{
 		return categoryId;
 	}
 	public void setCategoryId(String categoryId) {
+		if(categoryId== null) {
+			categoryId = "";
+		}
 		this.categoryId = categoryId;
 	}
 	public String getSeriesId() {

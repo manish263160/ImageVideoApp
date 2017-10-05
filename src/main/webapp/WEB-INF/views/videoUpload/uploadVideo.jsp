@@ -27,8 +27,15 @@
 	                      </button>
 	                    </div>
 	 </c:if> 
-	
-	<form action="${imgvids}/uploadVideo" method="post"
+	<div id="card-alert" class="card red hide">
+	                      <div class="card-content white-text">
+	                        <p><i class="mdi-alert-error"></i> This video url already exist.</p>
+	                      </div>
+	                      <button type="button" class="close white-text" data-dismiss="alert" aria-label="Close">
+	                        <span aria-hidden="true">×</span>
+	                      </button>
+	                    </div>
+	<form action="${imgvids}/insertVideo" method="post"
 	modelAttribute="UploadedVideo" enctype="multipart/form-data" id="formupload">
 	 <div class="divider"></div>
 	            <div class="row section">
@@ -46,7 +53,7 @@
 	              </div>
 	              
 	              <div class="input-field col s12 m3 l3">
-                          <input id="videoLink" type="text" class="validate" autocomplete="off" name="videoLink" maxlength="250">
+                          <input id="videoLink" type="text" class="validate" onchange="checkVideoLink(this)" autocomplete="off" name="videoLink" maxlength="250">
                           <label for="videoLink" class="">Video Link</label>
                         </div>
                   
@@ -63,8 +70,8 @@
 	                <p>Category</p>
 	              </div>
                   <div class="input-field col s12 m3 l3">
-                    <select name="categoryId" id="categoryId" class="validate" required>
-					<option value=""  selected>Select Category</option>
+                    <select name="categoryId" id="categoryId" class="validate" required multiple="multiple">
+					<option disabled="disabled" selected>Select Category</option>
                     <c:forEach items="${categorylist }" var="cat">
 						<option value="${cat.id }">${cat.name }</option>
                     </c:forEach>
@@ -202,6 +209,19 @@
 	            } */
 	         });	        
 	       
+	        function checkVideoLink(text){
+	        	var textValue=text.value;
+	        	$.post("${imgvids}/checkVideoLink", {urllink: textValue, from :'video'}, function(result){
+	            console.log(result)
+	        		if(result){
+	        			$("#card-alert").removeClass("hide");
+	        			$("#videoLink").val("");
+	        		}else{
+	        			$("#card-alert").addClass("hide");
+	        		}
+	            });
+	        	
+	        }
 	    </script>
 
 	</body>

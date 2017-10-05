@@ -14,4 +14,6 @@ public interface NotiFicationDao {
 
 	List<NotificationDetails> getAllScheduleTask(String currentTime);
 
+	boolean checkVideoLink(String urllink, String from);
+
 }

@@ -18,7 +18,9 @@ public interface AdminService {
 
 	boolean editCategorySeries(String table, String name, int id);
 
-	List<FetchVideoJson> fetchAllVids(String token);
+	List<FetchVideoJson> fetchAllVidsWeb(String token);
+	
+	List<FetchVideoJson> fetchAllVids(String token, String start, String end);
 
 	List<GetVideoByCatSerDto> SearchVuds(String data);
 

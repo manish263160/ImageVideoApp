@@ -15,7 +15,7 @@ public interface AdminDao {
 
 	boolean editCategorySeries(String table, String name, int id);
 
-	List<GetVideoByCatSerDto> fetchAllVids(String token);
+	List<GetVideoByCatSerDto> fetchAllVids(String token, String start, String end);
 
 	List<GetVideoByCatSerDto> SearchVuds(String data);
 

@@ -211,11 +211,11 @@
                 image: {
 
                     verticalFit: true,
-                    tError: function (item) {'<a href="%url%">The image #%curr%'},
+                    tError: function (item) {'<a href="%url%">The image</a> could not be loaded.'},
                     cursor: 'mfp-zoom-out-cur',
                     titleSrc: function (item) {
                         return '<div class="row">' +
-                            '<a class="btn waves-effect waves-light col l12 s12 " onclick="deleteAllImg(\'' + item.el.attr('imgid') + '\',\'' + item.el.attr('imageName') + '\')" >Delete</a>' +
+                            '<a class="btn waves-effect waves-light col  disabled" style="left: 50em;top: -20em;" onclick="deleteAllImg(\'' + item.el.attr('imgid') + '\',\'' + item.el.attr('imageName') + '\')" >Delete</a>' +
                             '</div><div class="row">' +
                             ' <a class="btn waves-effect waves-light col l21 s12" href="${imgvids}/editImageInfo?imageId=' + item.el.attr('imgid') + '&tableName=uploaded_video" type="button" name="action">Edit</a></span>' +
                             '</div>';
