@@ -166,6 +166,8 @@ public class AdminServiceImpl implements AdminService {
 		List<GetVideoByCatSerDto> list = adminDao.fetchAllVids(token, start, end);
 		Set<String> catset = new LinkedHashSet<String>();
 
+		logger.info("list size object==="+list);
+		if(list!=null && !list.isEmpty()) {
 		list.forEach((ll) -> {
 			if (token.equals("categoryWise")) {
 				catset.add(ll.getCategoryName());
@@ -173,6 +175,7 @@ public class AdminServiceImpl implements AdminService {
 				catset.add(ll.getSeriesName());
 			}
 		});
+		}
 
 		catset.forEach((set) -> {
 			if (set != null) {
