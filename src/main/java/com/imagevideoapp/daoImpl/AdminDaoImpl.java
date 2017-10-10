@@ -67,18 +67,20 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 		try {
 			if (token.equals("categoryWise")) {
 				String query = "select c.name as category_name,c.id as catId,s.name as series_name ,uv.* from uploaded_video uv left join categories c on uv.category_id = c.id left outer join series s on uv.series_id = s.id ";
-				if (start != null && end != null) {
+				if (start != null && !start.equals("") && end != null && !end.equals("")) {
 					query += " where uv.id >= " + start + " and uv.id <=" + end;
 				}
 				query += " order by c.id;";
+				logger.info("fetchAllVids query "+query);
 				get = getJdbcTemplate().query(query,
 						new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class));
 			} else if (token.equals("seriesWise")) {
 				String query = "select c.name as category_name,c.id as catId,s.name as series_name,s.id as serID ,uv.* from uploaded_video uv left join categories c on uv.category_id = c.id left outer join series s on uv.series_id = s.id ";
-				if (start != null && end != null) {
+				if (start != null && !start.equals("") && end != null && !end.equals("")) {
 					query += " where uv.id >= " + start + " and uv.id <=" + end;
 				}
 				query += " order by s.id desc;";
+				logger.info("fetchAllVids query "+query);
 				get = getJdbcTemplate().query(query,
 						new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class));
 			}
