@@ -120,7 +120,7 @@
 					</c:if>
 
 				</c:when>
-				<c:when test="${ not empty categoriesWise && not empty seriesWise}">
+				<c:when test="${ empty categoriesWise &&  empty seriesWise}">
 					<div class="row warningmodel">
 						<div class="col s8 m6 l6 offset-l4">
 							<div class="card">

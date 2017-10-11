@@ -64,12 +64,20 @@
 	                <p>Category</p>
 	              </div>
                   <div class="input-field col s12 m3 l3">
-                    <select name="categoryId" id="categoryId" class="validate" required multiple="multiple">
-					<option value=""  selected>Select Category</option>
+<!--                     <select name="categoryId" id="categoryId" class="validate" required > 
+					<option value=""  selected>Select Category</option> --> 
+<%-- 						<option value="${cat.id }" ${ imageInfo.categoryId eq cat.id ? 'selected' : ''}>${cat.name }</option> --%>
+<!-- 					</select> -->
+					<c:set var="catName" value=""></c:set>
+					<c:set var="categryId" value=""></c:set>
                     <c:forEach items="${categorylist }" var="cat">
-						<option value="${cat.id }" ${ imageInfo.categoryId eq cat.id ? 'selected' : ''}>${cat.name }</option>
+                    	<c:if test="${ imageInfo.categoryId eq cat.id}">
+                    	<c:set var="catName" value="${cat.name }"></c:set>
+                    	<c:set var="categryId" value="${cat.id}"></c:set>
+                    	</c:if>
                     </c:forEach>
-					</select>
+                    	<input type="hidden" name="categoryId"  value="${categryId}">
+                    	<label class="label">${catName}</label>
                         </div>
                         
                   <div class="col s12 m3 l3">
