@@ -207,6 +207,8 @@ public class FileUploadController {
 			if(tableName.equals("uploaded_video")){
 				vidInfo =userService.getImageByImgId((int)uploadedVideo.getId(),tableName,token);
 			}
+			String oldVideoName=vidInfo.getVideoThumbnail();
+			uploadedVideo.setOldVideoName(oldVideoName);
 			if(file != null ){
 				if(file.getOriginalFilename().equals("")){
 					if(tableName.equals("uploaded_image")){
@@ -230,8 +232,9 @@ public class FileUploadController {
 							imagePath = imagePath + "/" + vidInfo.getVideoThumbnail();
 						}
 					File isDeleted = new File(imagePath);
+					
 					filedelete = GenUtilitis.fileFolderdeteUtils(isDeleted);
-					if(filedelete){
+//					if(filedelete){
 					String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."),
 							file.getOriginalFilename().length());
 					SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd_hh-mm-ss");
@@ -263,7 +266,7 @@ public class FileUploadController {
 								model.addAttribute("imagepath", filepath);
 							}
 //						}
-					}
+//					}
 					}
 				}
 			}

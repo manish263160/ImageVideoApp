@@ -359,18 +359,18 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 			if(uploadedVideo.getVideoThumbnail()!=null && !uploadedVideo.getVideoThumbnail().equals("")){
 				
 			sql.append(
-					"update uploaded_video set video_thumbnail=?,video_link = ?, description = ?,category_id = ? ,"
-					+ " series_id=?, time_length=? , title=?, modified_on = now() where id= ?");
+					"update uploaded_video set video_thumbnail=?,video_link = ?, description = ?,"
+					+ " series_id=?, time_length=? , title=?, modified_on = now() where video_thumbnail= ?");
 			rowcount = getJdbcTemplate().update(sql.toString(),uploadedVideo.getVideoThumbnail(), uploadedVideo.getVideoLink(),
-					uploadedVideo.getDescription(), uploadedVideo.getCategoryId(),  uploadedVideo.getSeriesId(), uploadedVideo.getTimeLength() ,
-					uploadedVideo.getTitle() ,uploadedVideo.getId());
+					uploadedVideo.getDescription(),   uploadedVideo.getSeriesId(), uploadedVideo.getTimeLength() ,
+					uploadedVideo.getTitle() ,uploadedVideo.getOldVideoName());
 			}else{
 				sql.append(
-						"update uploaded_video set video_link = ?, description = ?,category_id = ? ,"
-								+ " series_id=?, time_length=? , title=?, modified_on = now() where id= ?");
+						"update uploaded_video set video_link = ?, description = ?,"
+								+ " series_id=?, time_length=? , title=?, modified_on = now() where video_thumbnail= ?");
 				rowcount = getJdbcTemplate().update(sql.toString(),uploadedVideo.getVideoLink(),
-						uploadedVideo.getDescription(), uploadedVideo.getCategoryId(),  uploadedVideo.getSeriesId(), uploadedVideo.getTimeLength() ,
-						uploadedVideo.getTitle() ,uploadedVideo.getId());
+						uploadedVideo.getDescription(),  uploadedVideo.getSeriesId(), uploadedVideo.getTimeLength() ,
+						uploadedVideo.getTitle() ,uploadedVideo.getOldVideoName());
 			}
 			
 			} catch (EmptyResultDataAccessException e) {
