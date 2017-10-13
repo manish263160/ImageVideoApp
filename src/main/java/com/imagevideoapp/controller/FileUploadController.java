@@ -201,13 +201,16 @@ public class FileUploadController {
 			boolean token= true;
 			UploadedImage imageinfo=null;
 			UploadedVideo vidInfo=null;
+			String oldVideoName =null;
 			if(tableName.equals("uploaded_image")){
 			imageinfo=userService.getImageByImgId((int)uploadedImage.getId(),tableName,token);
+			oldVideoName=imageinfo.getImageUrl();
 			}
 			if(tableName.equals("uploaded_video")){
 				vidInfo =userService.getImageByImgId((int)uploadedVideo.getId(),tableName,token);
+				oldVideoName=vidInfo.getVideoThumbnail();
 			}
-			String oldVideoName=vidInfo.getVideoThumbnail();
+			
 			uploadedVideo.setOldVideoName(oldVideoName);
 			if(file != null ){
 				if(file.getOriginalFilename().equals("")){
