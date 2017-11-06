@@ -35,12 +35,20 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<CategrySeriesModels> getAllCategorySeries(String fetchTable, String fromController) {
 		User user = GenUtilitis.getLoggedInUser();
+		if(user == null) {
+			user =new User();
+			user.setUserId(new Long(3));
+		}
 		return adminDao.getAllCategorySeries(fetchTable, user.getUserId(), fromController);
 	}
 
 	@Override
 	public List<CategrySeriesModels> getAllCategoryForImagesVideo(int catFor) {
 		User user = GenUtilitis.getLoggedInUser();
+		if(user == null) {
+			user =new User();
+			user.setUserId(new Long(3));
+		}
 		return adminDao.getAllCategoryForImages(user,catFor);
 	}
 	

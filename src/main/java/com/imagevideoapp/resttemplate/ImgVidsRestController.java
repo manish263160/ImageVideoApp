@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.imagevideoapp.Enums.STATUS;
+import com.imagevideoapp.models.CategrySeriesModels;
 import com.imagevideoapp.models.FetchVideoJson;
 import com.imagevideoapp.models.GetVideoByCatSerDto;
 import com.imagevideoapp.models.UploadedImage;
@@ -93,5 +95,25 @@ public class ImgVidsRestController {
 		}
 		List<UploadedVideo> getData = adminService.fetchVideoByCatSeries(categoryOrSeriesName, start, end , queryFor);
 		return new ResponseEntity<List<UploadedVideo>>(getData, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/getRestAllCategory", method = RequestMethod.GET, consumes = "application/json")
+	public ResponseEntity<List<CategrySeriesModels>> getRestAllCategory(@RequestParam String token) {
+		List<CategrySeriesModels> getCat =null;
+		if(token.equals("video")) {
+		getCat = adminService.getAllCategoryForImagesVideo(STATUS.VIDEO.ID); 
+		}
+		if(token.equals("image")) {
+			getCat = adminService.getAllCategoryForImagesVideo(STATUS.IMAGE.ID);	
+		}
+		return new ResponseEntity<List<CategrySeriesModels>>(getCat, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/getRestAllSeries", method = RequestMethod.GET, consumes = "application/json")
+	public ResponseEntity<List<CategrySeriesModels>> getRestAllSeries() {
+		List<CategrySeriesModels> getCat =null;
+		String fetchTable="series";
+		List<CategrySeriesModels> serieslist=adminService.getAllCategorySeries(fetchTable , null);
+		return new ResponseEntity<List<CategrySeriesModels>>(serieslist, HttpStatus.OK);
 	}
 }

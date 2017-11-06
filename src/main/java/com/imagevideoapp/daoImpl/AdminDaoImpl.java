@@ -41,7 +41,6 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 	@Override
 	public List<CategrySeriesModels> getAllCategoryForImages(User user, int catFor) {
 		String query = "select * from categories where user_id=? and cat_for=? order by id";
-
 		List<CategrySeriesModels> list = getJdbcTemplate().query(query,
 				new BeanPropertyRowMapper<CategrySeriesModels>(CategrySeriesModels.class), user.getUserId(),catFor);
 		return list;
