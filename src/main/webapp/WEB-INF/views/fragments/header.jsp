@@ -15,7 +15,7 @@
 <div class="navbar-fixed">
       <nav class="navbar-color">
     <div class="nav-wrapper">
-      <h1 class="logo-wrapper"><a href="#!" class="brand-logo darken-1"><img alt="abatar" src="${imgvids}/static/images/materialize-logo.png"> </a></h1>
+      <h1 class="logo-wrapper"><a href="#!" class="brand-logo darken-1"><img alt="abatar" src="${imgvids}/static/images/logo-512.png" > </a></h1>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
        <%-- <ul class="right hide-on-med-and-down">
        <security:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">

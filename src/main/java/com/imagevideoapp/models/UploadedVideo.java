@@ -22,6 +22,9 @@ public class UploadedVideo implements Serializable{
 	private String videoName;
 	private String newSetDate;
 	private String oldVideoName;
+	private String totalVideoCount;
+	private String categoryName;
+	private String seriesName;
 	public String getNewSetDate() {
 		return newSetDate;
 	}
@@ -104,11 +107,29 @@ public class UploadedVideo implements Serializable{
 	public void setSeriesId(String seriesId) {
 		this.seriesId = seriesId;
 	}
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+	public String getSeriesName() {
+		return seriesName;
+	}
+	public void setSeriesName(String seriesName) {
+		this.seriesName = seriesName;
+	}
 	public String getOldVideoName() {
 		return oldVideoName;
 	}
 	public void setOldVideoName(String oldVideoName) {
 		this.oldVideoName = oldVideoName;
+	}
+	public String getTotalVideoCount() {
+		return totalVideoCount;
+	}
+	public void setTotalVideoCount(String totalVideoCount) {
+		this.totalVideoCount = totalVideoCount;
 	}
 	
 	}

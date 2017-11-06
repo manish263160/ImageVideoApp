@@ -58,14 +58,23 @@ public class FileUploadController {
 		}
 
 		try {
-			User e = GenUtilitis.getLoggedInUser();
+			
+			List<String> categorArray=null;
+			
+			if(uploadedImage != null && uploadedImage.getCategoryId()!=null) {
+				if(uploadedImage.getCategoryId().contains(",")) {
+					categorArray= Arrays.asList(uploadedImage.getCategoryId().split("\\s*,\\s*"));
+				}
+			}
+			
+			User user = GenUtilitis.getLoggedInUser();
 			String fileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."),
 					file.getOriginalFilename().length());
 			SimpleDateFormat formatter = new SimpleDateFormat("YYYY-MM-dd_hh-mm-ss");
 			Date date = new Date();
 			String fileName = formatter.format(date) + file.getOriginalFilename();
 			String imagePath = this.applicationProperties.getProperty("imageFolder");
-			imagePath = imagePath + e.getUserId() + this.applicationProperties.getProperty("uploadImageFolder");
+			imagePath = imagePath + user.getUserId() + this.applicationProperties.getProperty("uploadImageFolder");
 			File newFile = GenUtilitis.uploadFile(imagePath, fileName, file);
 			if (newFile != null) {
 				fileExtension = fileExtension.replaceFirst("\\.", "");
@@ -73,11 +82,22 @@ public class FileUploadController {
 				/*BufferedImage profileMain = GenUtilitis.getScaledInstance(originalImage, 206, 206,
 						RenderingHints.VALUE_INTERPOLATION_BILINEAR, true);*/
 				boolean isUploaded = ImageIO.write(originalImage, fileExtension, new File(imagePath + fileName));
+				
 				if (isUploaded) {
-					String status = this.userService.insertFile(e, fileName, "imageUrl", "uploaded_image",
+					String status =null;
+					if(categorArray !=null && !categorArray.isEmpty())
+					{
+						for (String catid : categorArray) {
+							uploadedImage.setCategoryId(catid);
+							status = this.userService.insertFile(user, fileName, "imageUrl", "uploaded_image",
 							uploadedImage);
+						}
+					}else {
+						status = this.userService.insertFile(user, fileName, "imageUrl", "uploaded_image",
+								uploadedImage);
+					}
 					if ("success".equals(status)) {
-						String filepath = this.setUserUploadedFilePath(e, fileName, "image");
+						String filepath = this.setUserUploadedFilePath(user, fileName, "image");
 						model.addAttribute("imagepath", filepath);
 					}
 				}
@@ -176,10 +196,10 @@ public class FileUploadController {
 			UploadedVideo upload = this.userService.getImageByImgId(editImageInfo,tableName, false);
 			model.addAttribute("imageInfo", upload);
 			String fetchTable="series";
-			List<CategrySeriesModels> serieslist=adminService.getAllCategorySeries(fetchTable);
+			List<CategrySeriesModels> serieslist=adminService.getAllCategorySeries(fetchTable , "editImageInfo");
 			
 			String fetchTablecate="categories";
-			List<CategrySeriesModels> categorylist=adminService.getAllCategorySeries(fetchTablecate);
+			List<CategrySeriesModels> categorylist=adminService.getAllCategorySeries(fetchTablecate , "editImageInfo");
 			
 			model.addAttribute("categorylist", categorylist);
 			model.addAttribute("serieslist", serieslist);

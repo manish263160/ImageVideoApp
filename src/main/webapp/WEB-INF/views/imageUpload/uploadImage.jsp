@@ -66,6 +66,20 @@
 				</div>
 	            </div>
 	            
+	             <div class="row section">
+                  <div class="col s12 m2 l3">
+	                <p>Category</p>
+	              </div>
+                  <div class="input-field col s12 m3 l3">
+                    <select name="categoryId" id="categoryId" class="validate" required multiple="multiple">
+					<option disabled="disabled" selected>Select Category</option>
+                    <c:forEach items="${categorylist }" var="cat">
+						<option value="${cat.id }">${cat.name }</option>
+                    </c:forEach>
+					</select>
+                        </div>
+                  </div>  
+	            
 	            <div class="row section">
 	             <div class="col s12 m4 l3">
 	                <p>Description</p>

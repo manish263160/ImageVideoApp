@@ -16,6 +16,8 @@ import com.imagevideoapp.daoImpl.AdminDaoImpl;
 import com.imagevideoapp.models.CategrySeriesModels;
 import com.imagevideoapp.models.FetchVideoJson;
 import com.imagevideoapp.models.GetVideoByCatSerDto;
+import com.imagevideoapp.models.UploadedImage;
+import com.imagevideoapp.models.UploadedVideo;
 import com.imagevideoapp.models.User;
 import com.imagevideoapp.service.AdminService;
 import com.imagevideoapp.utils.ApplicationConstants;
@@ -31,16 +33,22 @@ public class AdminServiceImpl implements AdminService {
 	private @Autowired ApplicationProperties applicationProperties;
 
 	@Override
-	public List<CategrySeriesModels> getAllCategorySeries(String fetchTable) {
+	public List<CategrySeriesModels> getAllCategorySeries(String fetchTable, String fromController) {
 		User user = GenUtilitis.getLoggedInUser();
-		return adminDao.getAllCategorySeries(fetchTable, user.getUserId());
+		return adminDao.getAllCategorySeries(fetchTable, user.getUserId(), fromController);
 	}
 
 	@Override
-	public boolean insertCategory(String value, String name) {
+	public List<CategrySeriesModels> getAllCategoryForImagesVideo(int catFor) {
+		User user = GenUtilitis.getLoggedInUser();
+		return adminDao.getAllCategoryForImages(user,catFor);
+	}
+	
+	@Override
+	public boolean insertCategory(String value, String name,String catFor) {
 
 		User user = GenUtilitis.getLoggedInUser();
-		return adminDao.insertCategory(value, name, user.getUserId());
+		return adminDao.insertCategory(value, name, user.getUserId(),catFor);
 	}
 
 	@Override
@@ -256,5 +264,30 @@ public class AdminServiceImpl implements AdminService {
 		});
 		return list;
 	}
+
+	@Override
+	public List<UploadedImage> fetchBunchOfImage(String categoryName, String start, String end) {
+//		User user = GenUtilitis.getLoggedInUser();
+		List<UploadedImage>  getdata=adminDao.fetchBunchOfImage(categoryName , start, end);
+		
+		getdata.forEach((ll) -> {
+			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
+			+ this.applicationProperties.getProperty("uploadVideoFolder") + ll.getImageUrl();
+			ll.setImageUrl(url);
+		});
+		return getdata;
+	}
+
+	@Override
+	public List<UploadedVideo> fetchVideoByCatSeries(String categoryOrSeriesName, String start, String end , String queryFor) {
+		List<UploadedVideo> list=adminDao.fetchVideoByCatSeries(categoryOrSeriesName, start, end , queryFor);
+		list.forEach((ll) -> {
+			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
+			+ this.applicationProperties.getProperty("uploadVideoFolder") + ll.getVideoThumbnail();
+			ll.setVideoThumbnail(url);
+		});
+		return list;
+	}
+
 
 }

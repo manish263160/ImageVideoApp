@@ -34,11 +34,24 @@ body {
 <c:when test="${not empty allcategory}">
 <div class="divlist"> 
 <ul class="collection" id="listname">
+<li class="collection-item row">
+<strong class="col s2">Category Name</strong>
+<strong class="col s4">Category For</strong>
+<strong class="col s1 right ">Action</strong>
+</li>
    <c:forEach var="value" items="${allcategory }">
-   <li class="collection-item">${value.name }  
-   <a href="javascript:void(0);" class="secondary-content right modal-trigger" onclick="editcategory('${value.id}','${value.name}')">Edit</a>
+   <li class="collection-item row">
+   <div class="col s2">
+   <a href="#!" ><i class="secondary-content mdi-action-delete left " onclick="deleteCat(${value.id})"></i></a>
+   ${value.name }</div>
+   <div class="col s4 ">
+   <c:choose>
+   	<c:when test="${value.catFor eq 1 }">Image</c:when>
+   	<c:when test="${value.catFor eq 2 }">Video</c:when>
+   </c:choose>
+   </div>  
+   <a href="javascript:void(0);" class="col s1 secondary-content right modal-trigger" onclick="editcategory('${value.id}','${value.name}','${value.catFor}')">Edit</a>
    &nbsp;&nbsp;&nbsp;
-   <a href="#!"><i class="secondary-content mdi-action-delete left " onclick="deleteCat(${value.id})"></i></a>
    </li>
    </c:forEach>
   </ul>
@@ -68,13 +81,21 @@ body {
 		<form:form  action="#" class="modal-content" 
 			id="categoryFormEdit"  >
 			<div class="row">
-				<div class="input-field col s6">
+				<div class="input-field col s3">
 					<label class="center-align">Edit Category Name</label>
 				</div>
-				<div class="input-field col s6">
+				<div class="input-field col s3">
 					<input type="text" placeholder="Please write category" name="editedname" 
 						id="editedname">
 						<input type="hidden" name="editid" id="editid">
+				</div>
+				
+				<div class="input-field col s3">
+					<label class="center-align">Edit Category For</label>
+				</div>
+				<div class="input-field col s3">
+					<span  id="editedCatFor"></span>
+						
 				</div>
 			</div>
                   <div class="modal-footer">
@@ -100,12 +121,22 @@ body {
 		<form:form  action="#" class="modal-content" 
 			id="categoryForm"  >
 			<div class="row">
-				<div class="input-field col s6">
+				<div class="input-field col s3">
 					<label class="center-align">Category Name</label>
 				</div>
-				<div class="input-field col s6">
+				<div class="input-field col s3">
 					<input type="text" placeholder="Please write category" name="namecat" 
 						id="namecat">
+				</div>
+				<div class="input-field col s3">
+					<label class="center-align">Category For</label>
+				</div>
+				<div class="input-field col s3">
+					<select name="catFor" id="catFor">
+						<option value="" disabled selected>Select</option>
+						<option value="1">Image</option>
+						<option value="2">Video</option>
+					</select>
 				</div>
 			</div>
                   <div class="modal-footer">
@@ -120,9 +151,9 @@ body {
 	<script type="text/javascript">
 	
 	function insertCall() {
-		console.log('----',$("#namecat").val()+'   ',$("#categoryForm").valid());
+		console.log('----',$("#namecat").val()+'   ',$("#categoryForm").valid(),'  ---',$("#catFor").valid());
 		if($("#categoryForm").valid()){
-		$.post( "${imgvids}/admin/insertCategorySeries/categories", { name: $("#namecat").val() })
+		$.post( "${imgvids}/admin/insertCategorySeries/categories", { name: $("#namecat").val(),catFor: $("#catFor").val()})
 		  .done(function( data ) {
 		    if(data){
 		    	$("#categoryForm")[0].reset();
@@ -213,11 +244,13 @@ body {
     }
     }
     
-    function editcategory(id,name){
-    	console.log(id);
+    function editcategory(id,name,catFor){
+    	console.log("------------",id,"  "+catFor);
     	$("#categoryFormEdit")[0].reset();
     	$("#editedname").val(name);
     	$("#editid").val(id);
+    	var text= catFor == 1 ? 'Image' :'Video';
+    	$("#editedCatFor").text(text);
     	$('#editmodel').openModal({
             complete: function() { reload();} // Callback for Modal close
           });

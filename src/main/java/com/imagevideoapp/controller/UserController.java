@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.imagevideoapp.Enums.STATUS;
 import com.imagevideoapp.exception.GenericException;
 import com.imagevideoapp.models.CategrySeriesModels;
 import com.imagevideoapp.models.FetchVideoJson;
@@ -102,6 +103,8 @@ public class UserController {
 		model.addAttribute("user", user);
 		model.addAttribute("error", error);
 		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
+		List<CategrySeriesModels> categorylist=adminService.getAllCategoryForImagesVideo(STATUS.IMAGE.ID);
+		model.addAttribute("categorylist", categorylist);
 		return "imageUpload/uploadImage";
 	}
 
@@ -111,10 +114,10 @@ public class UserController {
 		User user = GenUtilitis.getLoggedInUser();
 		
 		String fetchTable="series";
-		List<CategrySeriesModels> serieslist=adminService.getAllCategorySeries(fetchTable);
+		List<CategrySeriesModels> serieslist=adminService.getAllCategorySeries(fetchTable , "uploadVideo");
 		
 		String fetchTablecate="categories";
-		List<CategrySeriesModels> categorylist=adminService.getAllCategorySeries(fetchTablecate);
+		List<CategrySeriesModels> categorylist=adminService.getAllCategorySeries(fetchTablecate , "uploadVideo");
 		
 		model.addAttribute("categorylist", categorylist);
 		model.addAttribute("serieslist", serieslist);

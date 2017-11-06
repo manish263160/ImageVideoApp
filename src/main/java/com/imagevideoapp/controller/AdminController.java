@@ -39,7 +39,8 @@ public class AdminController {
 	public String addCategory(Model model, HttpServletRequest request) {
 		User user = GenUtilitis.getLoggedInUser();
 		String fetchTable="categories";
-		List<CategrySeriesModels> categorylist=adminService.getAllCategorySeries(fetchTable);
+		String fromController="addCategory";
+		List<CategrySeriesModels> categorylist=adminService.getAllCategorySeries(fetchTable , fromController);
 		model.addAttribute("user", user);
 		model.addAttribute("allcategory", categorylist);
 		model.addAttribute("active", "admin");
@@ -51,7 +52,7 @@ public class AdminController {
 	public String addSeries(Model model, HttpServletRequest request) {
 		User user = GenUtilitis.getLoggedInUser();
 		String fetchTable="series";
-		List<CategrySeriesModels> serieslist=adminService.getAllCategorySeries(fetchTable);
+		List<CategrySeriesModels> serieslist=adminService.getAllCategorySeries(fetchTable ,"addSeries");
 		model.addAttribute("user", user);
 		model.addAttribute("allcategory", serieslist);
 		model.addAttribute("active", "admin");
@@ -61,9 +62,9 @@ public class AdminController {
 	
 	@RequestMapping(value = { "/insertCategorySeries/{table}" }, method = { RequestMethod.POST })
 	@ResponseBody
-	public boolean insertCategorySeries(@PathVariable String table ,@RequestParam String name, HttpServletRequest request) {
+	public boolean insertCategorySeries(@PathVariable String table ,@RequestParam String name,@RequestParam(required=false) String catFor, HttpServletRequest request) {
 		boolean bool=false;
-		 bool=adminService.insertCategory(table ,name);
+		 bool=adminService.insertCategory(table ,name ,catFor);
 		 
 		 return bool;
 	}

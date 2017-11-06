@@ -7,12 +7,15 @@ import com.google.gson.JsonObject;
 import com.imagevideoapp.models.CategrySeriesModels;
 import com.imagevideoapp.models.FetchVideoJson;
 import com.imagevideoapp.models.GetVideoByCatSerDto;
+import com.imagevideoapp.models.UploadedImage;
+import com.imagevideoapp.models.UploadedVideo;
 
 public interface AdminService {
 
-	List<CategrySeriesModels> getAllCategorySeries(String fetchTable);
+	List<CategrySeriesModels> getAllCategorySeries(String fetchTable, String fromController);
 
-	boolean insertCategory(String value ,String name);
+	List<CategrySeriesModels> getAllCategoryForImagesVideo(int catFor);
+	boolean insertCategory(String value ,String name, String catFor);
 
 	boolean deleteCatSer(String value, int id);
 
@@ -23,5 +26,10 @@ public interface AdminService {
 	List<FetchVideoJson> fetchAllVids(String token, String start, String end);
 
 	List<GetVideoByCatSerDto> SearchVuds(String data);
+
+	List<UploadedImage> fetchBunchOfImage(String categoryName, String start, String end);
+
+	List<UploadedVideo> fetchVideoByCatSeries(String categoryOrSeriesName, String start, String end, String queryFor);
+
 
 }

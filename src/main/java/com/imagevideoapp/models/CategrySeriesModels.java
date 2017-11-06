@@ -12,6 +12,7 @@ public class CategrySeriesModels implements Serializable{
 	private int id;
 	private long userId;
 	private String name;
+	private String catFor;
 	private String createdOn;
 	private String modifiedOn;
 	public int getId() {
@@ -32,6 +33,14 @@ public class CategrySeriesModels implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String getCatFor() {
+		return catFor;
+	}
+	public void setCatFor(String catFor) {
+		this.catFor = catFor;
+	}
+	
 	public String getCreatedOn() {
 		return createdOn;
 	}

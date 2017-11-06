@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.imagevideoapp.models.FetchVideoJson;
 import com.imagevideoapp.models.GetVideoByCatSerDto;
 import com.imagevideoapp.models.UploadedImage;
+import com.imagevideoapp.models.UploadedVideo;
 import com.imagevideoapp.service.AdminService;
 import com.imagevideoapp.service.NotificationService;
 import com.imagevideoapp.service.UserService;
@@ -73,4 +74,24 @@ public class ImgVidsRestController {
 		
 	}
 	
+	@RequestMapping(value = "/fetchBunchOfImage", method = RequestMethod.GET ,consumes="application/json")
+    public ResponseEntity<List<UploadedImage>> fetchBunchOfImage(@RequestParam String  start,@RequestParam String  end
+    		,@RequestParam String  categoryName) {
+		List<UploadedImage> getData = adminService.fetchBunchOfImage(categoryName, start, end);
+		return new ResponseEntity<List<UploadedImage>>(getData, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/fetchVideoByCatSeries", method = RequestMethod.GET, consumes = "application/json")
+	public ResponseEntity<List<UploadedVideo>> fetchVideoByCatSeries(@RequestParam String start,
+			@RequestParam String end, @RequestParam String categoryOrSeriesName,
+			@RequestParam String token) {
+		String queryFor = "category" ;
+		if(token.equals("1")) {  // this is for category case.
+			queryFor="category";
+		}else if(token.equals("2")){      // this is for serties case.
+			queryFor ="series";
+		}
+		List<UploadedVideo> getData = adminService.fetchVideoByCatSeries(categoryOrSeriesName, start, end , queryFor);
+		return new ResponseEntity<List<UploadedVideo>>(getData, HttpStatus.OK);
+	}
 }

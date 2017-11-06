@@ -39,7 +39,7 @@
       <form action="${loginUrl}" method="post" class="login-form" id="formValidate">
         <div class="row">
           <div class="input-field col s12 center">
-            <img src="static/images/login-logo.png" alt="" class="valign profile-image-login">
+            <img src="static/images/logo-512.png" alt="" class="valign profile-image-login">
             <p class="center login-form-text"> Login Page</p>
           </div>
         </div>

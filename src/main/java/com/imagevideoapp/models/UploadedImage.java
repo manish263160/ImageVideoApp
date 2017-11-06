@@ -15,10 +15,13 @@ public class UploadedImage implements Serializable{
 	private String imageLink;
 	private String imageDescription;
 	private Date createdOn;
+	private String categoryId;
 	private String createdBy;
 	private Integer linkType;
 	private String imageName;
 	private String newSetDate;
+	private String totalImageCount;
+	private String categoryName;
 	public long getUserId() {
 		return userId;
 	}
@@ -78,6 +81,24 @@ public class UploadedImage implements Serializable{
 	}
 	public void setNewSetDate(String newSetDate) {
 		this.newSetDate = newSetDate;
+	}
+	public String getCategoryId() {
+		return categoryId;
+	}
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
+	public String getTotalImageCount() {
+		return totalImageCount;
+	}
+	public void setTotalImageCount(String totalImageCount) {
+		this.totalImageCount = totalImageCount;
+	}
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 	
 }
