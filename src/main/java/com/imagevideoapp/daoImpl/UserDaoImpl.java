@@ -177,9 +177,9 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 				
 				uploadedImage=(UploadedImage) obj;
 				Sqlquery = "INSERT INTO " + tableName + " ( user_id , " + columnName
-						+ " , created_on ,created_by ,image_link , image_description , link_type) VALUES (?,?,'"+currentTime1+"',?, ? ,? ,?)";
+						+ " , created_on ,created_by ,image_link , image_description , link_type , category_id) VALUES (?,?,'"+currentTime1+"',?, ? ,? ,? , ?)";
 				rowInsert = getJdbcTemplate().update(Sqlquery, userid, value, user.getName(), uploadedImage.getImageLink(),
-						uploadedImage.getImageDescription(), uploadedImage.getLinkType());
+						uploadedImage.getImageDescription(), uploadedImage.getLinkType() , uploadedImage.getCategoryId());
 			}
 		} else if (tableName.equals("uploaded_video")) {
 			UploadedVideo vid=null;

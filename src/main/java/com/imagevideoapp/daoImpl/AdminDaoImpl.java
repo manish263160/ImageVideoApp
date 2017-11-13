@@ -139,7 +139,7 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 			query.append("left join categories cat on ui.category_id = cat.id , (SELECT @s:= 0) AS s ");
 			query.append(" where cat.name=? and cat.cat_for=" + STATUS.IMAGE.ID + " and ui.user_id = 3) tbl");
 			query.append(" where tbl.serial_number between ? and ? ;");
-
+			logger.info("fetchBunchOfImage query ===" + query);	
 			getData = getJdbcTemplate().query(query.toString(),
 					new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class), categoryName, start, end);
 			logger.info("size of the list data===" + getData.size());

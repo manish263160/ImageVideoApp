@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -59,11 +60,13 @@ public class FileUploadController {
 
 		try {
 			
-			List<String> categorArray=null;
+			List<String> categorArray=new ArrayList<String>();
 			
 			if(uploadedImage != null && uploadedImage.getCategoryId()!=null) {
 				if(uploadedImage.getCategoryId().contains(",")) {
 					categorArray= Arrays.asList(uploadedImage.getCategoryId().split("\\s*,\\s*"));
+				}else {
+					categorArray.add(uploadedImage.getCategoryId());
 				}
 			}
 			
@@ -115,11 +118,13 @@ public class FileUploadController {
 		logger.info(" uploadVideo() Start------");
 
 		try {
-			List<String> categorArray=null;
+			List<String> categorArray=new ArrayList<String>();
 			
 			if(uploadedVideo != null && uploadedVideo.getCategoryId()!=null) {
 				if(uploadedVideo.getCategoryId().contains(",")) {
 					categorArray= Arrays.asList(uploadedVideo.getCategoryId().split("\\s*,\\s*"));
+				}else {
+					categorArray.add(uploadedVideo.getCategoryId()); 
 				}
 			}
 			
