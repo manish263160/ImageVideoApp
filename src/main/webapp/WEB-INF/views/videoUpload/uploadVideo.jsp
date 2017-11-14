@@ -10,6 +10,10 @@
 	color: red !important;
 	padding-top:  5% !important;
 }
+ #categoryId{
+ 
+ height: 100px;
+ }
 </style>
 	 
 	</head>
@@ -70,7 +74,7 @@
 	                <p>Category</p>
 	              </div>
                   <div class="input-field col s12 m3 l3">
-                    <select name="categoryId" id="categoryId" class="validate" required multiple="multiple">
+                    <select name="categoryId" id="categoryId" class="validate browser-default" required multiple="multiple" onchange="changeSelect()">
 					<option disabled="disabled" selected>Select Category</option>
                     <c:forEach items="${categorylist }" var="cat">
 						<option value="${cat.id }">${cat.name }</option>
@@ -120,12 +124,11 @@
 	 <script type="text/javascript" src="${imgvids}/static/lib/js/dropify.min.js"></script>
 	 <script type="text/javascript">
 	        $(document).ready(function(){
-	        	$('select').material_select();
-	        	$("select[required]").css({
+	        	/* $("select[required]").css({
 	        	    display: "block", 
 	        	    position: 'absolute',
 	        	    visibility: 'hidden'
-	        	  })
+	        	  }) */
 	            // Basic
 	            $('.dropify').dropify();
 	
@@ -221,6 +224,10 @@
 	        		}
 	            });
 	        	
+	        }
+	        
+	        function changeSelect(){
+	        	console.log("------",$("#categoryId").val());
 	        }
 	    </script>
 

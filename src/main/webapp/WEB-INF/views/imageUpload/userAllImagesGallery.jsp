@@ -17,7 +17,9 @@
 	<div class="section">
             <p class="caption">All Images that uploaded by ${user.name }</p>
             <div class="row">
-			<p class="col s3"><a class="waves-effect waves-light btn tooltipped modal-trigger" href="#modal1" data-position="bottom" data-delay="50" data-tooltip="Delete all Image">Delete All Images</a>
+<!-- 			<p class="col s3"> -->
+<!-- 			<a class="waves-effect waves-light btn tooltipped modal-trigger" href="#modal1" data-position="bottom" data-delay="50" data-tooltip="Delete all Image">Delete All Images</a> -->
+<!-- 			</p> -->
 			<p class="col s3">
 			<a href="${imgvids}/user/uploadImage" class="btn-floating btn-large waves-effect waves-light green accent-3 tooltipped"
 			data-position="bottom" data-delay="50" data-tooltip="Upload an Image" >

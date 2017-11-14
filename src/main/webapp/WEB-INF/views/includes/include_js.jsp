@@ -3,7 +3,7 @@
     ================================================ -->
 
   <!-- jQuery Library -->
-  <script type="text/javascript" src="${imgvids}/static/lib/js/jquery-1.11.2.min.js"></script>
+  <script type="text/javascript" src="${imgvids}/static/lib/js/jquery-2.2.4.min.js"></script>
   <!--materialize js-->
   <script type="text/javascript" src="${imgvids}/static/lib/js/materialize.min.js"></script>
   <!--prism-->

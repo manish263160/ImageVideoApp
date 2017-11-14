@@ -20,10 +20,11 @@
 		<div class="section">
 			<p class="caption">All Videos that uploaded by ${user.name }</p>
 			<div class="row">
-				<p class="col s3">
+				<!-- <p class="col s3">
 					<a class="waves-effect waves-light btn tooltipped modal-trigger"
 						href="#modal1" data-position="bottom" data-delay="50"
 						data-tooltip="Delete all Videos">Delete All Video</a>
+						</p> -->
 				<p class="col s3">
 					<a href="${imgvids}/user/uploadVideo"
 						class="btn-floating btn-large waves-effect waves-light green accent-3 tooltipped"
