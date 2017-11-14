@@ -78,7 +78,7 @@ public class ImgVidsRestController {
 	
 	@RequestMapping(value = "/fetchBunchOfImage", method = RequestMethod.GET ,consumes="application/json")
     public ResponseEntity<List<UploadedImage>> fetchBunchOfImage(@RequestParam String  start,@RequestParam String  end
-    		,@RequestParam String  categoryName) {
+    		,@RequestParam(required=false) String  categoryName) {
 		List<UploadedImage> getData = adminService.fetchBunchOfImage(categoryName, start, end);
 		return new ResponseEntity<List<UploadedImage>>(getData, HttpStatus.OK);
 	}
