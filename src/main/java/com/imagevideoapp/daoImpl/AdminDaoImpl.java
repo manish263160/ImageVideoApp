@@ -134,21 +134,27 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 
 		List<UploadedImage> getData = null;
 		try {
-			StringBuffer query = new StringBuffer(
-					"select * from ( select @s:=@s+1 serial_number,ui.*, cat.name as category_name , (select count(*) from uploaded_image where category_id = cat.id  ) total_image_count from uploaded_image ui ");
+			StringBuffer query = new StringBuffer();
+			if(categoryName != null && !categoryName.equals("all")) {
+			query.append("select * from ( select @s:=@s+1 serial_number,ui.*, cat.name as category_name , (select count(*) from uploaded_image where category_id = cat.id  ) total_image_count from uploaded_image ui ");
 			query.append("left join categories cat on ui.category_id = cat.id , (SELECT @s:= 0) AS s ");
-			if(categoryName != null && !categoryName.equals("all"))
 			query.append(" where cat.name=? and cat.cat_for=" + STATUS.IMAGE.ID + " and ui.user_id = 3) tbl");
-			else
-				query.append(" where cat.cat_for=" + STATUS.IMAGE.ID + " and ui.user_id = 3) tbl");	
+			}
+			else {
+				query.append("select * from ( select @s:=@s+1 serial_number,ui.*, (select count(*) from uploaded_image ) total_image_count from uploaded_image ui ");
+			     query.append(" , (SELECT @s:= 0) AS s ");
+				query.append(" where  ui.user_id = 3) tbl");
+			}
 			query.append(" where tbl.serial_number between ? and ? ;");
 			logger.info("fetchBunchOfImage query ===" + query);	
-			if(categoryName != null && !categoryName.equals("all"))
+			if(categoryName != null && !categoryName.equals("all")) {
 			getData = getJdbcTemplate().query(query.toString(),
 					new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class), categoryName, start, end);
-			else
+			}
+			else {
 				getData = getJdbcTemplate().query(query.toString(),
-						new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class),  start, end);
+						new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class), start, end);
+			}
 			logger.info("size of the list data===" + getData.size());
 		} catch (EmptyResultDataAccessException e) {
 			logger.error(" EmptyResultDataAccessException");

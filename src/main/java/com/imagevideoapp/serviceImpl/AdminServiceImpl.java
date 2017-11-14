@@ -278,11 +278,13 @@ public class AdminServiceImpl implements AdminService {
 //		User user = GenUtilitis.getLoggedInUser();
 		List<UploadedImage>  getdata=adminDao.fetchBunchOfImage(categoryName , start, end);
 		
+		if(getdata != null) {
 		getdata.forEach((ll) -> {
 			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
 			+ this.applicationProperties.getProperty("uploadVideoFolder") + ll.getImageUrl();
 			ll.setImageUrl(url);
 		});
+		}
 		return getdata;
 	}
 
