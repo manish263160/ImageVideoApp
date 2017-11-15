@@ -71,7 +71,7 @@ height: 100px;
 	            
 	             <div class="row section">
                   <div class="col s12 m2 l3">
-	                <p>Category</p>
+	                <p>Category <span style="font-size: 10px">(Please use CTRL+click for multiselect)</span> </p>
 	              </div>
                   <div class="input-field col s12 m3 l3">
                     <select name="categoryId" id="categoryId" class="validate browser-default" required multiple onchange="changeSelect()">
