@@ -281,7 +281,7 @@ public class AdminServiceImpl implements AdminService {
 		if(getdata != null) {
 		getdata.forEach((ll) -> {
 			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
-			+ this.applicationProperties.getProperty("uploadVideoFolder") + ll.getImageUrl();
+			+ this.applicationProperties.getProperty("uploadImageFolder") + ll.getImageUrl();
 			ll.setImageUrl(url);
 		});
 		}
