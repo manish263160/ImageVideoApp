@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.imagevideoapp.dao.AdminDao;
-import com.imagevideoapp.daoImpl.AdminDaoImpl;
+import com.imagevideoapp.models.ApplicationPropertyKeyVal;
 import com.imagevideoapp.models.CategrySeriesModels;
 import com.imagevideoapp.models.FetchVideoJson;
 import com.imagevideoapp.models.GetVideoByCatSerDto;
@@ -294,6 +294,56 @@ public class AdminServiceImpl implements AdminService {
 		list.forEach((ll) -> {
 			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
 			+ this.applicationProperties.getProperty("uploadVideoFolder") + ll.getVideoThumbnail();
+			ll.setVideoThumbnail(url);
+		});
+		return list;
+	}
+
+	@Override
+	public List<UploadedVideo> getAllVidsForUI(String categoryOrSeriesName, String tablename) {
+
+		List<UploadedVideo> list = adminDao.getAllVidsForUI(categoryOrSeriesName , tablename);
+		list.forEach((ll) -> {
+			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
+			+ this.applicationProperties.getProperty("uploadVideoFolder") + ll.getVideoThumbnail();
+			ll.setVideoThumbnail(url);
+		});
+		return list;
+	}
+
+	@Override
+	public List<ApplicationPropertyKeyVal> getAllProperties() {
+		return adminDao.getAllProperties();
+	}
+
+	@Override
+	public List<UploadedImage> searchImage(String text) {
+		List<UploadedImage> list= adminDao.searchImage(text);
+		list.forEach((ll) -> {
+			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
+					+ this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_IMAGE) + ll.getImageUrl();
+			ll.setImageUrl(url);
+		});
+		return list;
+	}
+
+	@Override
+	public List<UploadedImage> getAllImageForUI(String categoryOrSeriesName) {
+		List<UploadedImage> list = adminDao.getAllImageForUI(categoryOrSeriesName);
+		list.forEach((ll) -> {
+			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
+			+ this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_IMAGE) + ll.getImageUrl();
+			ll.setImageUrl(url);
+		});
+		return list;
+	}
+
+	@Override
+	public List<UploadedVideo> getAllWebSeriesVideo() {
+		List<UploadedVideo> list = adminDao.getAllWebSeriesVideo();
+		list.forEach((ll) -> {
+			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
+			+ this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_VIDEO) + ll.getVideoThumbnail();
 			ll.setVideoThumbnail(url);
 		});
 		return list;

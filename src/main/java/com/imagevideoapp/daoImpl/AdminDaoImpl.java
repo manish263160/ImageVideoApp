@@ -1,5 +1,7 @@
 package com.imagevideoapp.daoImpl;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -8,10 +10,12 @@ import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.imagevideoapp.Enums.STATUS;
 import com.imagevideoapp.dao.AdminDao;
+import com.imagevideoapp.models.ApplicationPropertyKeyVal;
 import com.imagevideoapp.models.CategrySeriesModels;
 import com.imagevideoapp.models.GetVideoByCatSerDto;
 import com.imagevideoapp.models.UploadedImage;
@@ -121,6 +125,7 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 			get = getJdbcTemplate().query(query,
 					new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class), "%" + data + "%",
 					"%" + data + "%", "%" + data + "%", "%" + data + "%");
+			logger.info("SearchVuds query==="+query);
 		} catch (EmptyResultDataAccessException e) {
 			logger.error(" EmptyResultDataAccessException");
 		} catch (DataAccessException e) {
@@ -175,11 +180,19 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 				query = new StringBuffer(
 						"select * from (select  @s:=@s+1 serial_number, uv.*, cat.name as category_name , (select count(*) from uploaded_video where category_id = cat.id  ) total_video_count from uploaded_video uv ");
 				query.append("left join categories cat on uv.category_id = cat.id , (SELECT @s:= 0) AS s ");
+				if(categoryOrSeriesName != null && !categoryOrSeriesName.equals("")) {
 				query.append("where cat.name=? and cat.cat_for=" + STATUS.VIDEO.ID + " and uv.user_id = 3) tbl ");
 				query.append(" where tbl.serial_number between ? and ? ;");
 				getData = getJdbcTemplate().query(query.toString(),
 						new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class), categoryOrSeriesName, start,
 						end);
+				}else if(categoryOrSeriesName == null) {
+					query.append("where cat.cat_for=" + STATUS.VIDEO.ID + " and uv.user_id = 3) tbl ");
+					query.append(" where tbl.serial_number between ? and ? ;");
+					getData = getJdbcTemplate().query(query.toString(),
+							new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class), start,
+							end);
+				}
 			} else if (queryFor.equals("series")) {
 				query = new StringBuffer(
 						"select * from (select  @s:=@s+1 serial_number, uv.*, ser.name as series_name , (select count(*) from uploaded_video where series_id = ser.id  ) total_video_count from uploaded_video uv ");
@@ -199,6 +212,107 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 		}
 		return getData;
 	}
+
+	@Override
+	public List<UploadedVideo> getAllVidsForUI(String categoryOrSeriesName , String tablename) {
+		String query =null;
+		if(tablename.equals("video")) {
+			tablename = "uploaded_video";
+		}else {
+			tablename = "uploaded_image";
+		}
+		List<UploadedVideo> list =null;
+		try {
+			if(categoryOrSeriesName != null && !categoryOrSeriesName.trim().equals("")) {
+				query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id where ct.name=? order by uv.created_on desc";
+				list = getJdbcTemplate().query(query.toString(),
+						new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class ) , categoryOrSeriesName.trim());
+			}else {
+			query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id order by uv.created_on desc";
+			list = getJdbcTemplate().query(query.toString(),
+					new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class));
+			}
+		} catch (EmptyResultDataAccessException e) {
+			logger.error(" EmptyResultDataAccessException");
+		} catch (DataAccessException e) {
+			logger.error(" DataAccessException");
+		}
+		return list;
+	}
+
+	@Override
+	public List<ApplicationPropertyKeyVal> getAllProperties() {
+		
+		String query ="select ap.name,ap.value from application_properties ap";
+		List<ApplicationPropertyKeyVal> allPropertiesFromDb = getJdbcTemplate().query(query, new RowMapper<ApplicationPropertyKeyVal>() {
+			public ApplicationPropertyKeyVal mapRow(ResultSet rs, int rowNum) throws SQLException {
+				ApplicationPropertyKeyVal applicationProperty = new ApplicationPropertyKeyVal();
+				applicationProperty.setKey(rs.getString("name"));
+				applicationProperty.setValue(rs.getString("value"));
+				return applicationProperty;
+			}
+		});
+		
+		return allPropertiesFromDb;
+	}
+
+	@Override
+	public List<UploadedImage> searchImage(String text) {
+		List<UploadedImage> get = null;
+		try {
+			String query = "SELECT ui.*,c.name as categoryName FROM uploaded_image ui left join categories c on ui.category_id =c.id where ui.image_description like ? or c.name like ?;";
+			get = getJdbcTemplate().query(query,
+					new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class), "%" + text + "%",
+					"%" + text + "%");
+		} catch (EmptyResultDataAccessException e) {
+			logger.error(" EmptyResultDataAccessException");
+		} catch (DataAccessException e) {
+			logger.error(" DataAccessException");
+		}
+		return get;
+	}
+
+	@Override
+	public List<UploadedImage> getAllImageForUI(String categoryOrSeriesName) {
+		String query =null;
+		
+			String tablename = "uploaded_image";
+		List<UploadedImage> list =null;
+		try {
+			if(categoryOrSeriesName != null && !categoryOrSeriesName.trim().equals("")) {
+				query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id where ct.name=? order by uv.created_on desc";
+				list = getJdbcTemplate().query(query.toString(),
+						new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class ) , categoryOrSeriesName.trim());
+			}else {
+			query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id order by uv.created_on desc";
+			list = getJdbcTemplate().query(query.toString(),
+					new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class));
+			}
+		} catch (EmptyResultDataAccessException e) {
+			logger.error(" EmptyResultDataAccessException");
+		} catch (DataAccessException e) {
+			logger.error(" DataAccessException");
+		}
+		return list;
+	}
+
+	@Override
+	public List<UploadedVideo> getAllWebSeriesVideo() {
+		List<UploadedVideo> list =null;
+		try {
+			
+			String query ="select s.name as series_name ,uv.* from uploaded_video uv left join series s on uv.series_id =s.id  order by uv.created_on desc;";
+			list = getJdbcTemplate().query(query.toString(),
+					new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class));
+		} catch (EmptyResultDataAccessException e) {
+			logger.error(" EmptyResultDataAccessException");
+		} catch (DataAccessException e) {
+			logger.error(" DataAccessException");
+		}
+		return list;
+	}
+	
+	
 	
 
 }

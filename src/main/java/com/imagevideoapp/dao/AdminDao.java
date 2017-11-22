@@ -2,6 +2,7 @@ package com.imagevideoapp.dao;
 
 import java.util.List;
 
+import com.imagevideoapp.models.ApplicationPropertyKeyVal;
 import com.imagevideoapp.models.CategrySeriesModels;
 import com.imagevideoapp.models.GetVideoByCatSerDto;
 import com.imagevideoapp.models.UploadedImage;
@@ -26,6 +27,16 @@ public interface AdminDao {
 	List<UploadedImage> fetchBunchOfImage( String categoryName, String start, String end);
 
 	List<UploadedVideo> fetchVideoByCatSeries(String categoryOrSeriesName, String start, String end, String queryFor);
+
+	<T> List<T> getAllVidsForUI(String categoryOrSeriesName, String tablename);
+
+	List<ApplicationPropertyKeyVal> getAllProperties();
+
+	List<UploadedImage> searchImage(String text);
+
+	List<UploadedImage> getAllImageForUI(String categoryOrSeriesName);
+
+	List<UploadedVideo> getAllWebSeriesVideo();
 
 
 }

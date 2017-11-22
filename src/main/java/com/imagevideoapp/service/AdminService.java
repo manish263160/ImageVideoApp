@@ -1,9 +1,8 @@
 package com.imagevideoapp.service;
 
 import java.util.List;
-import java.util.Map;
 
-import com.google.gson.JsonObject;
+import com.imagevideoapp.models.ApplicationPropertyKeyVal;
 import com.imagevideoapp.models.CategrySeriesModels;
 import com.imagevideoapp.models.FetchVideoJson;
 import com.imagevideoapp.models.GetVideoByCatSerDto;
@@ -30,6 +29,16 @@ public interface AdminService {
 	List<UploadedImage> fetchBunchOfImage(String categoryName, String start, String end);
 
 	List<UploadedVideo> fetchVideoByCatSeries(String categoryOrSeriesName, String start, String end, String queryFor);
+
+	List<UploadedVideo> getAllVidsForUI(String categoryOrSeriesName, String tablename);
+
+	List<ApplicationPropertyKeyVal> getAllProperties();
+
+	List<UploadedImage> searchImage(String text);
+
+	List<UploadedImage> getAllImageForUI(String categoryOrSeriesName);
+
+	List<UploadedVideo> getAllWebSeriesVideo(); 
 
 
 }
