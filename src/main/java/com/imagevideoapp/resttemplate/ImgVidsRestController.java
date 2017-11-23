@@ -101,10 +101,10 @@ public class ImgVidsRestController {
 	public ResponseEntity<List<CategrySeriesModels>> getRestAllCategory(@RequestParam String token) {
 		List<CategrySeriesModels> getCat =null;
 		if(token.equals("video")) {
-		getCat = adminService.getAllCategoryForImagesVideo(STATUS.VIDEO.ID , "uploaded_video"); 
+		getCat = adminService.getAllCategoryForImagesVideo(STATUS.VIDEO.ID); 
 		}
 		if(token.equals("image")) {
-			getCat = adminService.getAllCategoryForImagesVideo(STATUS.IMAGE.ID ,"uploaded_image");	
+			getCat = adminService.getAllCategoryForImagesVideo(STATUS.IMAGE.ID);	
 		}
 		return new ResponseEntity<List<CategrySeriesModels>>(getCat, HttpStatus.OK);
 	}

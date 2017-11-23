@@ -38,9 +38,5 @@ public interface AdminDao {
 
 	List<UploadedVideo> getAllWebSeriesVideo();
 
-	List<CategrySeriesModels> getAllCategoryForImagesVideo(User user, int catFor, String table);
-
-	List<UploadedVideo> allCategorywiseVidsForUI(String catId);
-
 
 }

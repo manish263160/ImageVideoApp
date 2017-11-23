@@ -103,7 +103,7 @@ public class UserController {
 		model.addAttribute("user", user);
 		model.addAttribute("error", error);
 		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
-		List<CategrySeriesModels> categorylist=adminService.getAllCategoryForImagesVideo(STATUS.IMAGE.ID , "uploaded_image");
+		List<CategrySeriesModels> categorylist=adminService.getAllCategoryForImagesVideo(STATUS.IMAGE.ID);
 		model.addAttribute("categorylist", categorylist);
 		return "imageUpload/uploadImage";
 	}

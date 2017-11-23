@@ -13,7 +13,7 @@ public interface AdminService {
 
 	List<CategrySeriesModels> getAllCategorySeries(String fetchTable, String fromController);
 
-	List<CategrySeriesModels> getAllCategoryForImagesVideo(int catFor , String table);
+	List<CategrySeriesModels> getAllCategoryForImagesVideo(int catFor);
 	boolean insertCategory(String value ,String name, String catFor);
 
 	boolean deleteCatSer(String value, int id);
@@ -38,9 +38,7 @@ public interface AdminService {
 
 	List<UploadedImage> getAllImageForUI(String categoryOrSeriesName);
 
-	List<UploadedVideo> getAllWebSeriesVideo();
-
-	List<UploadedVideo> allCategorywiseVidsForUI(String catId); 
+	List<UploadedVideo> getAllWebSeriesVideo(); 
 
 
 }
