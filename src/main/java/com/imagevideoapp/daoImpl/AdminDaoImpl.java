@@ -311,6 +311,40 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 		}
 		return list;
 	}
+
+	@Override
+	public List<CategrySeriesModels> getAllCategoryForImagesVideo(User user, int catFor, String table) {
+		String query = "select c.* from "+table+" u  left join categories c on u.category_id =c.id  "
+				       + "where c.user_id=? and c.cat_for=? group by c.name ";
+		logger.info("getAllCategoryForImagesVideo query ===="+query);
+		List<CategrySeriesModels> list = getJdbcTemplate().query(query,
+				new BeanPropertyRowMapper<CategrySeriesModels>(CategrySeriesModels.class), user.getUserId(),catFor);
+		return list;
+	}
+
+	@Override
+	public List<UploadedVideo> allCategorywiseVidsForUI(String catId) {
+		String	tablename = "uploaded_video";
+		String query ="";
+		List<UploadedVideo> list =null;
+		try {
+			if(catId != null && !catId.trim().equals("")) {
+				query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id where ct.id=? order by uv.created_on desc";
+				list = getJdbcTemplate().query(query.toString(),
+						new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class ) , catId);
+			}else {
+			query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id order by uv.created_on desc";
+			list = getJdbcTemplate().query(query.toString(),
+					new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class));
+			}
+			logger.info("=allCategorywiseVidsForUI query=="+query);
+		} catch (EmptyResultDataAccessException e) {
+			logger.error(" EmptyResultDataAccessException");
+		} catch (DataAccessException e) {
+			logger.error(" DataAccessException");
+		}
+		return list;
+	}
 	
 	
 	

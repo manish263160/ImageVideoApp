@@ -43,13 +43,13 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<CategrySeriesModels> getAllCategoryForImagesVideo(int catFor) {
+	public List<CategrySeriesModels> getAllCategoryForImagesVideo(int catFor, String table) {
 		User user = GenUtilitis.getLoggedInUser();
 		if(user == null) {
 			user =new User();
 			user.setUserId(new Long(3));
 		}
-		return adminDao.getAllCategoryForImages(user,catFor);
+		return adminDao.getAllCategoryForImagesVideo(user,catFor, table);
 	}
 	
 	@Override
@@ -344,6 +344,17 @@ public class AdminServiceImpl implements AdminService {
 		list.forEach((ll) -> {
 			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
 			+ this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_VIDEO) + ll.getVideoThumbnail();
+			ll.setVideoThumbnail(url);
+		});
+		return list;
+	}
+
+	@Override
+	public List<UploadedVideo> allCategorywiseVidsForUI(String catId) {
+		List<UploadedVideo> list = adminDao.allCategorywiseVidsForUI(catId);
+		list.forEach((ll) -> {
+			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
+			+ this.applicationProperties.getProperty("uploadVideoFolder") + ll.getVideoThumbnail();
 			ll.setVideoThumbnail(url);
 		});
 		return list;
