@@ -68,9 +68,9 @@ public class ImgVidsRestController {
     }
 	
 	@RequestMapping(value = "/Search", method = RequestMethod.GET ,consumes="application/json")
-    public ResponseEntity<List<GetVideoByCatSerDto>> SearchVuds(@RequestParam(value="data") String data) {
+    public ResponseEntity<List<GetVideoByCatSerDto>> searchVideo(@RequestParam(value="data") String data) {
 		
-		List<GetVideoByCatSerDto> getdata=adminService.SearchVuds(data);
+		List<GetVideoByCatSerDto> getdata=adminService.searchVideo(data);
 		
 		return new ResponseEntity<List<GetVideoByCatSerDto>>(getdata, HttpStatus.OK);
 		
