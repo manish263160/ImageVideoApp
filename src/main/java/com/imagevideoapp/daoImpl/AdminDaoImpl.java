@@ -116,12 +116,12 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 	}
 
 	@Override
-	public List<GetVideoByCatSerDto> SearchVuds(String data) {
+	public List<GetVideoByCatSerDto> searchVideo(String data) {
 		List<GetVideoByCatSerDto> get = null;
 		try {
 			String query = "select c.name as category_name,s.name as series_name ,uv.* from  uploaded_video uv left join categories c on uv.category_id = c.id left outer join series s on uv.series_id = s.id where "
-					+ "uv.title like ? or uv.description like ? or c.name like ? or s.name like ? "
-					+ " order by uv.title,uv.description ,c.name , s.name;";
+					+ " uv.title like ? or uv.description like ? or c.name like ? or s.name like ? "
+					+ " order by uv.created_on desc;";
 			get = getJdbcTemplate().query(query,
 					new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class), "%" + data + "%",
 					"%" + data + "%", "%" + data + "%", "%" + data + "%");
@@ -224,11 +224,11 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 		List<UploadedVideo> list =null;
 		try {
 			if(catId != null && !catId.trim().equals("")) {
-				query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id where ct.id=? order by uv.created_on desc";
+				query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id where ct.id=? group by uv.id order by uv.created_on desc";
 				list = getJdbcTemplate().query(query.toString(),
 						new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class ) , catId.trim());
 			}else {
-			query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id order by uv.created_on desc";
+			query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id group by uv.id order by uv.created_on desc";
 			list = getJdbcTemplate().query(query.toString(),
 					new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class));
 			}

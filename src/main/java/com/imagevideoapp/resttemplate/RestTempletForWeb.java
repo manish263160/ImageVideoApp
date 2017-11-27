@@ -75,10 +75,10 @@ public class RestTempletForWeb {
         return new ResponseEntity<Map<String, List<FetchVideoJson>>> (finalmap, HttpStatus.OK);
     }
 	
-	@RequestMapping(value = "/Search", method = RequestMethod.GET )
-    public ResponseEntity<List<GetVideoByCatSerDto>> SearchVuds(@RequestParam(value="data") String data) {
+	@RequestMapping(value = "/searchVideo", method = RequestMethod.GET )
+    public ResponseEntity<List<GetVideoByCatSerDto>> searchVideo(@RequestParam(value="data") String data) {
 		
-		List<GetVideoByCatSerDto> getdata=adminService.SearchVuds(data);
+		List<GetVideoByCatSerDto> getdata=adminService.searchVideo(data);
 		
 		return new ResponseEntity<List<GetVideoByCatSerDto>>(getdata, HttpStatus.OK);
 		

@@ -263,11 +263,11 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<GetVideoByCatSerDto> SearchVuds(String data) {
-		List<GetVideoByCatSerDto> list = adminDao.SearchVuds(data);
+	public List<GetVideoByCatSerDto> searchVideo(String data) {
+		List<GetVideoByCatSerDto> list = adminDao.searchVideo(data);
 		list.forEach((ll) -> {
 			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
-					+ this.applicationProperties.getProperty("uploadVideoFolder") + ll.getVideoThumbnail();
+					+ this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_VIDEO) + ll.getVideoThumbnail();
 			ll.setVideoThumbnail(url);
 		});
 		return list;
@@ -281,7 +281,7 @@ public class AdminServiceImpl implements AdminService {
 		if(getdata != null) {
 		getdata.forEach((ll) -> {
 			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
-			+ this.applicationProperties.getProperty("uploadImageFolder") + ll.getImageUrl();
+			+ this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_IMAGE) + ll.getImageUrl();
 			ll.setImageUrl(url);
 		});
 		}
@@ -293,7 +293,7 @@ public class AdminServiceImpl implements AdminService {
 		List<UploadedVideo> list=adminDao.fetchVideoByCatSeries(categoryOrSeriesName, start, end , queryFor);
 		list.forEach((ll) -> {
 			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
-			+ this.applicationProperties.getProperty("uploadVideoFolder") + ll.getVideoThumbnail();
+			+ this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_VIDEO) + ll.getVideoThumbnail();
 			ll.setVideoThumbnail(url);
 		});
 		return list;
@@ -305,7 +305,7 @@ public class AdminServiceImpl implements AdminService {
 		List<UploadedVideo> list = adminDao.getAllVidsForUI(catId );
 		list.forEach((ll) -> {
 			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
-			+ this.applicationProperties.getProperty("uploadVideoFolder") + ll.getVideoThumbnail();
+			+ this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_VIDEO) + ll.getVideoThumbnail();
 			ll.setVideoThumbnail(url);
 		});
 		return list;

@@ -24,7 +24,7 @@ public interface AdminService {
 	
 	List<FetchVideoJson> fetchAllVids(String token, String start, String end);
 
-	List<GetVideoByCatSerDto> SearchVuds(String data);
+	List<GetVideoByCatSerDto> searchVideo(String data);
 
 	List<UploadedImage> fetchBunchOfImage(String categoryName, String start, String end);
 
