@@ -28,7 +28,7 @@ public interface AdminDao {
 
 	List<UploadedVideo> fetchVideoByCatSeries(String categoryOrSeriesName, String start, String end, String queryFor);
 
-	<T> List<T> getAllVidsForUI(String categoryOrSeriesName, String tablename);
+	<T> List<T> getAllVidsForUI(String catId);
 
 	List<ApplicationPropertyKeyVal> getAllProperties();
 
@@ -37,6 +37,8 @@ public interface AdminDao {
 	List<UploadedImage> getAllImageForUI(String categoryOrSeriesName);
 
 	List<UploadedVideo> getAllWebSeriesVideo();
+
+	List<CategrySeriesModels> getRestAllCategory(User user, int catFor ,String table );
 
 
 }

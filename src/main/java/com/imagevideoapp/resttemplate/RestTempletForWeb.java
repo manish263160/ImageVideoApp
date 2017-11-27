@@ -45,7 +45,7 @@ public class RestTempletForWeb {
 	}
 	
 	@RequestMapping(value = "/getALlImages", method = RequestMethod.GET )
-    public ResponseEntity<List<UploadedImage>> listAllUsers() {
+    public ResponseEntity<List<UploadedImage>> getALlImages() {
 		Long userId=3l;//This is for showofff.hello@gmail.com (null,"uploaded_image" "all")
         List<UploadedImage> uploadedimage = userService.getAllImages(userId,"uploaded_image", "all");
         if(uploadedimage.isEmpty()){
@@ -109,10 +109,12 @@ public class RestTempletForWeb {
 	public ResponseEntity<List<CategrySeriesModels>> getRestAllCategory(@RequestParam String token) {
 		List<CategrySeriesModels> getCat =null;
 		if(token.equals("video")) {
-		getCat = adminService.getAllCategoryForImagesVideo(STATUS.VIDEO.ID); 
+			String table="uploaded_video";
+			getCat = adminService.getRestAllCategory(STATUS.VIDEO.ID, table); 
 		}
 		if(token.equals("image")) {
-			getCat = adminService.getAllCategoryForImagesVideo(STATUS.IMAGE.ID);	
+			String table="uploaded_image";
+			getCat = adminService.getRestAllCategory(STATUS.IMAGE.ID, table);	
 		}
 		return new ResponseEntity<List<CategrySeriesModels>>(getCat, HttpStatus.OK);
 	}
@@ -126,11 +128,9 @@ public class RestTempletForWeb {
 	}
 	
 	@RequestMapping(value = "/allCategorywiseVidsForUI", method = RequestMethod.GET )
-	public ResponseEntity<List<UploadedVideo>> allCategoryVidsImageForUI(@RequestParam(required = false) String categoryOrSeriesName,
-			@RequestParam String tablename
-			) {
+	public ResponseEntity<List<UploadedVideo>> allCategorywiseVidsForUI(@RequestParam(required = false) String catId) {
 		
-		List<UploadedVideo> list=adminService.getAllVidsForUI(categoryOrSeriesName , tablename);
+		List<UploadedVideo> list=adminService.getAllVidsForUI(catId);
 		
 		return new ResponseEntity<List<UploadedVideo>>(list, HttpStatus.OK);
 	}

@@ -30,7 +30,7 @@ public interface AdminService {
 
 	List<UploadedVideo> fetchVideoByCatSeries(String categoryOrSeriesName, String start, String end, String queryFor);
 
-	List<UploadedVideo> getAllVidsForUI(String categoryOrSeriesName, String tablename);
+	List<UploadedVideo> getAllVidsForUI(String catId);
 
 	List<ApplicationPropertyKeyVal> getAllProperties();
 
@@ -38,7 +38,9 @@ public interface AdminService {
 
 	List<UploadedImage> getAllImageForUI(String categoryOrSeriesName);
 
-	List<UploadedVideo> getAllWebSeriesVideo(); 
+	List<UploadedVideo> getAllWebSeriesVideo();
+
+	List<CategrySeriesModels> getRestAllCategory(int catFor, String table); 
 
 
 }

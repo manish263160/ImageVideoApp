@@ -214,19 +214,19 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 	}
 
 	@Override
-	public List<UploadedVideo> getAllVidsForUI(String categoryOrSeriesName , String tablename) {
+	public List<UploadedVideo> getAllVidsForUI(String catId ) {
 		String query =null;
-		if(tablename.equals("video")) {
-			tablename = "uploaded_video";
-		}else {
+//		if(tablename.equals("video")) {
+			String tablename = "uploaded_video";
+/*		}else {
 			tablename = "uploaded_image";
-		}
+		}*/
 		List<UploadedVideo> list =null;
 		try {
-			if(categoryOrSeriesName != null && !categoryOrSeriesName.trim().equals("")) {
-				query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id where ct.name=? order by uv.created_on desc";
+			if(catId != null && !catId.trim().equals("")) {
+				query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id where ct.id=? order by uv.created_on desc";
 				list = getJdbcTemplate().query(query.toString(),
-						new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class ) , categoryOrSeriesName.trim());
+						new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class ) , catId.trim());
 			}else {
 			query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id order by uv.created_on desc";
 			list = getJdbcTemplate().query(query.toString(),
@@ -309,6 +309,14 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 		} catch (DataAccessException e) {
 			logger.error(" DataAccessException");
 		}
+		return list;
+	}
+
+	@Override
+	public List<CategrySeriesModels> getRestAllCategory(User user, int catFor, String table) {
+		String query = "select  c.* from "+table+" u left join categories c  on u.category_id=c.id  where c.user_id=? and c.cat_for=? group by c.id order by c.name;" ;
+		List<CategrySeriesModels> list = getJdbcTemplate().query(query,
+				new BeanPropertyRowMapper<CategrySeriesModels>(CategrySeriesModels.class), user.getUserId(),catFor);
 		return list;
 	}
 	

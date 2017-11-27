@@ -300,9 +300,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<UploadedVideo> getAllVidsForUI(String categoryOrSeriesName, String tablename) {
+	public List<UploadedVideo> getAllVidsForUI(String catId) {
 
-		List<UploadedVideo> list = adminDao.getAllVidsForUI(categoryOrSeriesName , tablename);
+		List<UploadedVideo> list = adminDao.getAllVidsForUI(catId );
 		list.forEach((ll) -> {
 			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
 			+ this.applicationProperties.getProperty("uploadVideoFolder") + ll.getVideoThumbnail();
@@ -347,6 +347,16 @@ public class AdminServiceImpl implements AdminService {
 			ll.setVideoThumbnail(url);
 		});
 		return list;
+	}
+
+	@Override
+	public List<CategrySeriesModels> getRestAllCategory(int catFor , String table) {
+		User user = GenUtilitis.getLoggedInUser();
+		if(user == null) {
+			user =new User();
+			user.setUserId(new Long(3));
+		}
+		return adminDao.getRestAllCategory(user,catFor, table);
 	}
 
 
