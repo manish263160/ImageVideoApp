@@ -315,7 +315,7 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 
 	@Override
 	public List<CategrySeriesModels> getRestAllCategory(User user, int catFor, String table) {
-		String query = "select  c.* from "+table+" u left join categories c  on u.category_id=c.id  where c.user_id=? and c.cat_for=? group by c.id order by c.name;" ;
+		String query = "select  c.* from "+table+" u left join categories c  on u.category_id=c.id  where c.user_id=? and c.cat_for=? group by c.id order by c.id;" ;
 		List<CategrySeriesModels> list = getJdbcTemplate().query(query,
 				new BeanPropertyRowMapper<CategrySeriesModels>(CategrySeriesModels.class), user.getUserId(),catFor);
 		return list;
