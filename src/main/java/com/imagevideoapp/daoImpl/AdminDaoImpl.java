@@ -224,11 +224,11 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 		List<UploadedVideo> list =null;
 		try {
 			if(catId != null && !catId.trim().equals("")) {
-				query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id where ct.id=? group by uv.id order by uv.created_on desc limit 500";
+				query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id where ct.id=? group by uv.video_link order by uv.created_on desc limit 500";
 				list = getJdbcTemplate().query(query.toString(),
 						new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class ) , catId.trim());
 			}else {
-			query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id group by uv.id order by uv.created_on desc limit 500";
+			query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id group by uv.video_link order by uv.created_on desc limit 500";
 			list = getJdbcTemplate().query(query.toString(),
 					new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class));
 			}
