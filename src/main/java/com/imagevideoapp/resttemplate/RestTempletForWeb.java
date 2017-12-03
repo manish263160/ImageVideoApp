@@ -1,5 +1,6 @@
 package com.imagevideoapp.resttemplate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,9 +146,7 @@ public class RestTempletForWeb {
 	}
 	
 	@RequestMapping(value = "/allCategoryWiseImageForUI", method = RequestMethod.GET )
-	public ResponseEntity<List<UploadedImage>> allCategoryWiseImageForUI(@RequestParam(required = false) String categoryOrSeriesName
-			
-			) {
+	public ResponseEntity<List<UploadedImage>> allCategoryWiseImageForUI(@RequestParam(required = false) String categoryOrSeriesName) {
 		
 		List<UploadedImage> list=adminService.getAllImageForUI(categoryOrSeriesName );
 		
@@ -162,4 +161,24 @@ public class RestTempletForWeb {
 		
 		return new ResponseEntity<List<FetchVideoJson>>(seriesWise, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value = "/getSpecificVids", method = RequestMethod.GET )
+	public ResponseEntity<List<UploadedVideo>> getSpecificVids(int id) {
+		
+		 String tableName ="uploaded_video";
+		 List<UploadedVideo> finallist=new ArrayList<UploadedVideo>();
+		UploadedVideo seriesWise = userService.getImageByImgId(id , tableName , false);
+		finallist.add(seriesWise);
+		return new ResponseEntity<List<UploadedVideo>>(finallist, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/getSpecificImage", method = RequestMethod.GET )
+	public ResponseEntity<List<UploadedImage>> getSpecificImage(int id) {
+		 List<UploadedImage> finallist=new ArrayList<UploadedImage>();
+		 String tableName ="uploaded_image";
+		 UploadedImage seriesWise = userService.getImageByImgId(id , tableName , false);
+		 finallist.add(seriesWise);
+		return new ResponseEntity<List<UploadedImage>>(finallist, HttpStatus.OK);
+	}
+	
 }
