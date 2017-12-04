@@ -19,12 +19,14 @@ public class SeedDataServiceImpl implements SeedDataService {
 	private @Autowired ApplicationProperties applicationProperties;
 	
 	public List<Country> getAllCountries(){
-		return applicationProperties.getAllCountries();
+//		return applicationProperties.getAllCountries();
+		return null;
 		//return seedDao.getAllCountries(); 
 	}
 	
 	public List<CitySeed> getAllCitiesFromCountryId(long countryId){
-		return applicationProperties.getAllCitiesByCountryId(countryId);
+//		return applicationProperties.getAllCitiesByCountryId(countryId);
+		return null;
 		//return seedDao.getAllCitiesFromCountryId(countryId);
 	}
 
