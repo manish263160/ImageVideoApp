@@ -150,7 +150,7 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 			     query.append(" , (SELECT @s:= 0) AS s ");
 				query.append(" where  ui.user_id = 3) tbl");
 			}
-			query.append(" where tbl.serial_number between ? and ? ;");
+			query.append(" where tbl.serial_number between ? and ? order by tbl.created_on desc;");
 			logger.info("fetchBunchOfImage query ===" + query);	
 			if(categoryName != null && !categoryName.equals("all")) {
 			getData = getJdbcTemplate().query(query.toString(),
