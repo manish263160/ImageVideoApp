@@ -76,6 +76,18 @@ public class RestTempletForWeb {
         return new ResponseEntity<Map<String, List<FetchVideoJson>>> (finalmap, HttpStatus.OK);
     }
 	
+	@RequestMapping(value = "/webSeries", method = RequestMethod.GET )
+    public ResponseEntity<List<FetchVideoJson>> webSeries(@RequestParam(required = false)String start ,@RequestParam(required = false) String end) {
+		
+		String token="categoryWise";
+		String token1="seriesWise";
+		
+//		List<FetchVideoJson> categoriesWise = adminService.fetchAllVids(token,start,end);
+		List<FetchVideoJson> seriesWise = adminService.fetchAllVids(token1,start,end);
+		
+        return new ResponseEntity<List<FetchVideoJson>> (seriesWise, HttpStatus.OK);
+    }
+	
 	@RequestMapping(value = "/searchVideo", method = RequestMethod.GET )
     public ResponseEntity<List<GetVideoByCatSerDto>> searchVideo(@RequestParam(value="data") String data) {
 		

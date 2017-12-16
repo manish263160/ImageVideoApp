@@ -242,6 +242,7 @@ public class AdminServiceImpl implements AdminService {
 								vid.setTitle(ll.getTitle());
 								vid.setDescription(ll.getDescription());
 								vid.setCreatedBy(ll.getCreatedBy());
+								vid.setSerID(ll.getSerID());
 								getvidsobj.add(vid);
 							}
 						}
