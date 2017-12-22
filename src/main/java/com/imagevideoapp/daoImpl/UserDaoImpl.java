@@ -239,8 +239,8 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 			if(tablename.equals("uploaded_image")){
 			StringBuilder query = new StringBuilder();
 			if(userId == null && date.equals("all")){
-				query.append("select * from uploaded_image where created_on between date_add('"+exactDate+"', interval - 8 day) and '"+exactDate+"' ").append(" order by created_on desc ;");
-				logger.info("query---"+query.toString());
+				query.append("select * from uploaded_image where created_on < (DATE_SUB('"+exactDate+"', INTERVAL 8 DAY))").append(" order by created_on desc ;");
+				logger.info("query- for cron situation----"+query.toString());
 				List<UploadedImage> listImg = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class));
 				return (List<T>) listImg; 
 			
@@ -413,6 +413,8 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 					sql.append("delete from  uploaded_video where  created_on < (DATE_SUB('"+currentTime+" 23:59:59', INTERVAL 8 DAY));");
 				}
 			rowcount = getJdbcTemplate().update(sql.toString());
+			logger.info("sql in cron==="+sql.toString());
+			logger.info("rowcount in chron==="+rowcount);
 
 		} else {
 			if(tableName.equals("uploaded_image")){
