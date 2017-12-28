@@ -9,7 +9,7 @@ public class UploadedVideo implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private long id;
-	private long userId;
+	private Long userId;
 	private String  videoLink;
 	private String videoThumbnail;
 	private String categoryId;
@@ -43,11 +43,15 @@ public class UploadedVideo implements Serializable{
 	public void setId(long id) {
 		this.id = id;
 	}
-	public long getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
-	public void setUserId(long userId) {
+	public void setUserId(Long userId) {
+		if(userId != null)
 		this.userId = userId;
+		else
+		 this.userId = new Long(1);
+			
 	}
 	public String getVideoLink() {
 		return videoLink;
@@ -111,7 +115,10 @@ public class UploadedVideo implements Serializable{
 		return categoryName;
 	}
 	public void setCategoryName(String categoryName) {
+		if(categoryName !=null)
 		this.categoryName = categoryName;
+		else
+			this.categoryName = "";	
 	}
 	public String getSeriesName() {
 		return seriesName;
