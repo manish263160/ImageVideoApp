@@ -30,6 +30,7 @@ public class SpringWebAppInitializer implements WebApplicationInitializer {
         dispatcher.addMapping("*.json");
         dispatcher.addMapping("*.do");
         dispatcher.addMapping("*.htm");
+        dispatcher.addMapping("*.txt");
         
         EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD);
         CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();

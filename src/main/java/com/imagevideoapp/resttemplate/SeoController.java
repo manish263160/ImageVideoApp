@@ -1,31 +1,37 @@
-package com.imagevideoapp.controller;
+package com.imagevideoapp.resttemplate;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
-import org.apache.solr.common.util.Hash;
+import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.ui.velocity.VelocityEngineUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.imagevideoapp.models.UploadedImage;
 import com.imagevideoapp.models.UploadedVideo;
 import com.imagevideoapp.service.UserService;
 
-@Controller
-public class ShareController {
 
+@Controller
+public class SeoController {
+
+	private static final Logger logger = Logger.getLogger(SeoController.class);
 	@Autowired
 	UserService userService;
 	
-	private static final Logger logger = Logger.getLogger(UserController.class);
+	private @Autowired VelocityEngine velocityEngine;
 	
 	@RequestMapping(value = "/PrerenderWeb/{specific}/{id}", method = RequestMethod.GET)
-	public String sayHelloAgain(ModelMap model,@PathVariable String specific , @PathVariable String id) {
+	public String sayHelloAgain(ModelMap model,@PathVariable String specific , @PathVariable String id ) {
 		
 	logger.info("id got heree iss specific ====="+specific+"===================================="+id);
 	int idfor;
@@ -35,7 +41,7 @@ public class ShareController {
 		idfor =0;
 	}
 	logger.info("the value of Idfor ====="+idfor);
-	String hostUrl= "http://205.147.101.198/";
+	String hostUrl= "http://showoff.tv/";
 	String tableName ="";
 	Map<String, String> ogmap = new HashMap<String, String>();
 		if(specific.equals("specificVideo")) {
@@ -55,5 +61,14 @@ public class ShareController {
 		}
 		model.addAttribute("ogmap", ogmap);
 		return "sharedpaage";
+	}
+	
+	@RequestMapping(value = "/robots.txt", method = RequestMethod.GET)
+	@ResponseBody
+	public String robot(HttpServletResponse response) {
+		response.setContentType("text/plain");
+		response.setCharacterEncoding("UTF-8");
+		return VelocityEngineUtils.mergeTemplateIntoString(velocityEngine,
+				"email_Templates/robots.vm", "UTF-8", null);
 	}
 }

@@ -59,7 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // The pages does not require login
     	http.addFilterBefore(new CORSFilter(), ChannelProcessingFilter.class);   
         http.authorizeRequests().antMatchers("/","/games","http://203.115.105.98:7070/**", "/welcome", "/login", "/logout","/user/insertUser","/user/generateNewPass/**","/user/newGenPassword/**","/restcontroller/**"
-        		,"/forgotpassword.json").permitAll();
+        		,"/forgotpassword.json","/robots.txt","/PrerenderWeb/**").permitAll();
         http.authorizeRequests().antMatchers("/user/userregistration").anonymous();
         http.authorizeRequests().antMatchers("/restTempletForWeb/**").permitAll();
         http.authorizeRequests().antMatchers("/sharePage/**").anonymous();
