@@ -9,13 +9,15 @@
 <meta property="og:url" content="${ogmap.ogurl }" />
 <meta property="og:title" content="${ogmap.ogtitle }" />
 <meta property="og:image" content="${ogmap.ogimage }" />
+<meta property="og:image:width" content="400" />
+<meta property="og:image:height" content="300" />
 <meta property="og:description" content="${ogmap.description}" />
 
-<meta property="twitter:card" content="summary" />
-<meta property="twitter:url" content="http://205.147.101.198/video" />
-<meta property="twitter:title" content="web site" />
-<meta property="twitter:description" content="description wise" />
-<meta property="twitter:image" content="http://www.newmeis.com/new.png" />
+ <meta property="twitter:card" content="summary" />
+<meta property="twitter:url" content="${ogmap.ogurl }" />
+<meta property="twitter:title" content="${ogmap.ogtitle }" />
+<meta property="twitter:description" content="${ogmap.description}" />
+<meta property="twitter:image" content="${ogmap.ogimage }" /> 
 
 <title>Prerender Website</title>
 </head>
