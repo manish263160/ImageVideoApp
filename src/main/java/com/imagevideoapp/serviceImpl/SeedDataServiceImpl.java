@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.imagevideoapp.dao.SeedDataDao;
 import com.imagevideoapp.models.CitySeed;
 import com.imagevideoapp.models.Country;
 import com.imagevideoapp.service.SeedDataService;

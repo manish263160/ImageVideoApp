@@ -147,7 +147,7 @@ public class UserController {
 			}
 
 		});
-		logger.info("dataoooooooooooo==" + uniqueDate);
+		logger.debug("dataoooooooooooo==" + uniqueDate);
 		model.addAttribute("user", user);
 		model.addAttribute("error", error);
 		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
@@ -178,8 +178,8 @@ public class UserController {
 		List<FetchVideoJson> categoriesWise = adminService.fetchAllVidsWeb(token);
 		List<FetchVideoJson> seriesWise = adminService.fetchAllVidsWeb(token1);
 		LinkedHashSet<String> uniqueDate = new LinkedHashSet<String>();
-		logger.info("categoriesWise data----"+ categoriesWise.toString());
-		logger.info("seriesWise data----"+ seriesWise.toString());
+		logger.debug("categoriesWise data----"+ categoriesWise.toString());
+		logger.debug("seriesWise data----"+ seriesWise.toString());
 		model.addAttribute("user", user);
 		model.addAttribute("error", error);
 		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
@@ -202,7 +202,7 @@ public class UserController {
 			String accesstoken=AESEncrypter.decrypt(token);
 			String getaccess=URLDecoder.decode(accesstoken, "UTF-8");
 			String userId=getaccess.split("##")[1];
-			logger.info("userId===="+userId);
+			logger.debug("userId===="+userId);
 			if(userId!=null){
 			String getpassGenToken=userService.getpassGenToken(Long.parseLong(userId));
 			if(getpassGenToken.equals(token)){

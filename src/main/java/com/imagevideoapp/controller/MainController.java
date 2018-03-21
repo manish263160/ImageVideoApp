@@ -89,7 +89,7 @@ public class MainController {
 	@ResponseBody
 	public String deleteImages(@RequestParam("email") String email , @RequestParam(value="newpassword",required=false) String newpassword,HttpServletRequest request) throws IOException {
 		try {
-			logger.info("email for forgot password==="+email+" newpassword ="+newpassword);
+			logger.debug("email for forgot password==="+email+" newpassword ="+newpassword);
 			 User existuser= userService.checkUserByEmailorID(email);
 			 boolean bool=false;
 			 if(existuser == null){
@@ -101,7 +101,7 @@ public class MainController {
 					 String token = AESEncrypter.encrypt(plainText);
 					 String url=applicationProperties.getProperty("appUrl");
 					 url+="/user/generateNewPass/"+URLEncoder.encode(token, "UTF-8");
-					 logger.info("url for mail ==="+url);
+					 logger.debug("url for mail ==="+url);
 					 userService.insertPassGenToken(existuser.getUserId(),token);
 						Map<String, Object> storemap = new HashMap<String, Object>();
 						storemap.put("fromUserName", ApplicationConstants.TEAM_NAME);

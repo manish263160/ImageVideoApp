@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional(rollbackFor = Throwable.class)
 	public long insertUser(User user) throws GenericException {
-		logger.info("::userRegistration()");
+		logger.debug("::userRegistration()");
 		User checkUser = checkUserByEmailorID(user.getEmail());
 		if (checkUser != null) {
 			GenericException exception = new GenericException();
@@ -174,7 +174,7 @@ public class UserServiceImpl implements UserService {
 				imgObj.setNewSetDate((new SimpleDateFormat("dd-MM-yyyy")).format(imgObj.getCreatedOn()));
 			}
 
-			logger.info("-------------" + imgObj.getImageUrl() + "-----newDateFormat===" + imgObj.getNewSetDate());
+//			logger.debug("-------------" + imgObj.getImageUrl() + "-----newDateFormat===" + imgObj.getNewSetDate());
 				
 		}
 		);
@@ -201,7 +201,7 @@ public class UserServiceImpl implements UserService {
 					vidObj.setNewSetDate((new SimpleDateFormat("dd-MM-yyyy")).format(vidObj.getCreatedOn()));
 				}
 
-				logger.info("-------------" + vidObj.getVideoThumbnail() + "-----newDateFormat===" + vidObj.getNewSetDate());
+//				logger.debug("-------------" + vidObj.getVideoThumbnail() + "-----newDateFormat===" + vidObj.getNewSetDate());
 					
 			}
 			);

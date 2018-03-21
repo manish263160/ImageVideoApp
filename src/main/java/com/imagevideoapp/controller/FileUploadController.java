@@ -108,7 +108,7 @@ public class FileUploadController {
 
 			return "imageUpload/uploadSuccessFull";
 		} catch (Exception arg16) {
-			logger.info("error in file upload==" + arg16);
+			logger.error("error in file upload==" + arg16);
 			return "redirect:user/uploadImage?error=" + arg16.getMessage();
 		}
 	}
@@ -170,7 +170,7 @@ public class FileUploadController {
 
 			return "videoUpload/uploadVideoSuccessFull";
 		} catch (Exception e) {
-			logger.info("error in file upload==" + e);
+			logger.error("error in file upload==" + e);
 			return "redirect:user/uploadVideo?error=" + e.getMessage();
 		}
 	}
@@ -361,7 +361,7 @@ public class FileUploadController {
 			String imagePath = this.applicationProperties.getProperty("imageFolder");
 			(new StringBuilder()).append(imagePath).append(e.getUserId())
 					.append(this.applicationProperties.getProperty("uploadImageFolder")).toString();
-			logger.info("searchDate=====" + searchDate);
+			logger.debug("searchDate=====" + searchDate);
 			List allfileList = this.userService.getAllImages(e.getUserId(),"uploaded_image", searchDate);
 			return allfileList;
 		} catch (EmptyResultDataAccessException arg5) {
@@ -377,7 +377,7 @@ public class FileUploadController {
 	@ResponseBody
 	public boolean checkVideoLink(@RequestParam String urllink ,@RequestParam String from) throws GenericException {
 
-		logger.info("urllink is ===" + urllink +" from ="+from);
+		logger.debug("urllink is ===" + urllink +" from ="+from);
 		boolean result = false;
 		result = notificationService.checkVideoLink(urllink,from);
 		return result;

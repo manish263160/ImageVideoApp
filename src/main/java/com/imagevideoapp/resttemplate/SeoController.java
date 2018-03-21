@@ -33,14 +33,14 @@ public class SeoController {
 	@RequestMapping(value = "/PrerenderWeb/{specific}/{id}", method = RequestMethod.GET)
 	public String sayHelloAgain(ModelMap model,@PathVariable String specific , @PathVariable String id ) {
 		
-	logger.info("id got heree iss specific ====="+specific+"===================================="+id);
+	logger.debug("id got heree iss specific ====="+specific+"===================================="+id);
 	int idfor;
 	if(id != null) {
 		idfor = Integer.parseInt(id);
 	}else {
 		idfor =0;
 	}
-	logger.info("the value of Idfor ====="+idfor);
+	logger.debug("the value of Idfor ====="+idfor);
 	String hostUrl= "http://showoff.tv/";
 	String tableName ="";
 	Map<String, String> ogmap = new HashMap<String, String>();

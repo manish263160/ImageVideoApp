@@ -22,7 +22,7 @@ public class RestorentDaoImpl extends ImageVideoJdbcDaoSupport implements Restor
 
 	public boolean insertRestorent(final User user,final long getuserId){
         
-		logger.info( "::insertRestorent()");
+		logger.debug( "::insertRestorent()");
 		final String query="INSERT INTO restorent(user_id,restorent_email,restorent_phone,shop_name,shop_address,shop_type,status,created_on,created_by) VALUES  "
 								+ " (?,?,?,?,?,?,?,now(),?) ";
 
@@ -49,7 +49,7 @@ public class RestorentDaoImpl extends ImageVideoJdbcDaoSupport implements Restor
 		/*} catch (DataAccessException e) {
 			logger.println(IMessage.ERROR, new StringBuilder(CLASS_NAME).append("::insertRestorent() has exception.... "+e.getMessage()));
 		}*/
-		logger.info( "::insertRestorent() ends  employmentId.... ");
+		logger.debug( "::insertRestorent() ends  employmentId.... ");
 		return true;
 	}
 

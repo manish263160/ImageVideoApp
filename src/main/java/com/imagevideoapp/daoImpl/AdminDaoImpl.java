@@ -94,7 +94,7 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 					query += " where uv.id >= " + start + " and uv.id <=" + end;
 				}
 				query += " order by c.id;";
-				logger.info("fetchAllVids query "+query);
+				logger.debug("fetchAllVids query "+query);
 				get = getJdbcTemplate().query(query,
 						new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class));
 			} else if (token.equals("seriesWise")) {
@@ -103,7 +103,7 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 					query += " where uv.id >= " + start + " and uv.id <=" + end;
 				}
 				query += " order by s.id desc;";
-				logger.info("fetchAllVids query "+query);
+				logger.debug("fetchAllVids query "+query);
 				get = getJdbcTemplate().query(query,
 						new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class));
 			}
@@ -125,7 +125,7 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 			get = getJdbcTemplate().query(query,
 					new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class), "%" + data + "%",
 					"%" + data + "%", "%" + data + "%", "%" + data + "%");
-			logger.info("SearchVuds query==="+query);
+			logger.debug("SearchVuds query==="+query);
 		} catch (EmptyResultDataAccessException e) {
 			logger.error(" EmptyResultDataAccessException");
 		} catch (DataAccessException e) {
@@ -151,7 +151,7 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 				query.append(" where  ui.user_id = 3) tbl");
 			}
 			query.append(" where tbl.serial_number between ? and ? order by tbl.created_on desc;");
-			logger.info("fetchBunchOfImage query ===" + query);	
+			logger.debug("fetchBunchOfImage query ===" + query);	
 			if(categoryName != null && !categoryName.equals("all")) {
 			getData = getJdbcTemplate().query(query.toString(),
 					new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class), categoryName, start, end);
@@ -160,7 +160,7 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 				getData = getJdbcTemplate().query(query.toString(),
 						new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class), start, end);
 			}
-			logger.info("size of the list data===" + getData.size());
+			logger.debug("size of the list data===" + getData.size());
 		} catch (EmptyResultDataAccessException e) {
 			logger.error(" EmptyResultDataAccessException");
 		} catch (DataAccessException e) {
@@ -203,8 +203,8 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 						new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class), categoryOrSeriesName, start,
 						end);
 			}
-			logger.info("query===" + query.toString());
-			logger.info("size of the list data===" + getData.size());
+			logger.debug("query===" + query.toString());
+			logger.debug("size of the list data===" + getData.size());
 		} catch (EmptyResultDataAccessException e) {
 			logger.error(" EmptyResultDataAccessException");
 		} catch (DataAccessException e) {
@@ -232,7 +232,7 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 			list = getJdbcTemplate().query(query,
 					new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class));
 			}
-			logger.info("getAllVidsForUI=====query====="+query);
+			logger.debug("getAllVidsForUI=====query====="+query);
 		} catch (EmptyResultDataAccessException e) {
 			logger.error(" EmptyResultDataAccessException");
 		} catch (DataAccessException e) {

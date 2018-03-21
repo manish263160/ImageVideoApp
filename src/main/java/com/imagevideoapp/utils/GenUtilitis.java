@@ -200,7 +200,7 @@ public class GenUtilitis {
 	}
 
 	public static File uploadFile(String path, String fileName, MultipartFile file) {
-		logger.info("uploadFile() start");
+		logger.debug("uploadFile() start");
 		InputStream inputStream = null;
 		FileOutputStream outputStream = null;
 		File newFile = null;
@@ -267,7 +267,7 @@ public class GenUtilitis {
 	}
 
 	public static void resizeImage(File file, String fileExtension, int width, int height) {
-		logger.info("resizeFile() start");
+		logger.debug("resizeFile() start");
 
 		try {
 			fileExtension = fileExtension.replaceFirst("\\.", "");
@@ -374,7 +374,7 @@ public class GenUtilitis {
 
 	public static boolean fileFolderdeteUtils(File directory) throws IOException {
 		if (!directory.exists()) {
-			logger.info("Directory does not exist.");
+			logger.debug("Directory does not exist.");
 			return false;
 		} else {
 			try {
@@ -391,7 +391,7 @@ public class GenUtilitis {
 		if (file.isDirectory()) {
 			if (file.list().length == 0) {
 				file.delete();
-				logger.info("Directory is deleted : " + file.getAbsolutePath());
+				logger.debug("Directory is deleted : " + file.getAbsolutePath());
 			} else {
 				String[] files = file.list();
 				String[] arg1 = files;
@@ -405,12 +405,12 @@ public class GenUtilitis {
 
 				if (file.list().length == 0) {
 					file.delete();
-					logger.info("Directory is deleted : " + file.getAbsolutePath());
+					logger.debug("Directory is deleted : " + file.getAbsolutePath());
 				}
 			}
 		} else {
 			file.delete();
-			logger.info("File is deleted : " + file.getAbsolutePath());
+			logger.debug("File is deleted : " + file.getAbsolutePath());
 		}
 
 	}

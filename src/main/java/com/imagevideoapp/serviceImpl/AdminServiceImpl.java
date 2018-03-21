@@ -156,7 +156,7 @@ public class AdminServiceImpl implements AdminService {
 					}
 				});
 				/*for (GetVideoByCatSerDto st : getvidsobj) {
-					logger.info("dates======" + st.getCategoryName() + "   ----" + st.getCreatedOn());
+					logger.debug("dates======" + st.getCategoryName() + "   ----" + st.getCreatedOn());
 
 				}*/
 				if (token.equals("categoryWise")) {
@@ -182,7 +182,7 @@ public class AdminServiceImpl implements AdminService {
 		List<GetVideoByCatSerDto> list = adminDao.fetchAllVids(token, start, end);
 		Set<String> catset = new LinkedHashSet<String>();
 
-		logger.info("list size object==="+list);
+		logger.debug("list size object==="+list);
 		if(list!=null && !list.isEmpty()) {
 		list.forEach((ll) -> {
 			if (token.equals("categoryWise")) {

@@ -73,7 +73,7 @@ public class ApplicationContextConfig {
       dataSource.setUsername(env.getProperty("ds.username"));
       dataSource.setPassword(env.getProperty("ds.password"));
  
-      logger.info("## getDataSource: " + dataSource);
+      logger.debug("## getDataSource: " + dataSource);
  
       return dataSource;
   }

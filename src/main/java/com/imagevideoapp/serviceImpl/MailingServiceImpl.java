@@ -39,7 +39,7 @@ public class MailingServiceImpl implements MailingService {
 	 * method sends mail using applicationProperties by parameters from,to,cc,subject,msg
 	 */
 	public boolean sendMail(final String from, final String[] to, final String[] cc, final String subject, final String msg) {
-        logger.debug("from  "+from+"   to  "+to.length);
+        logger.info("from  "+from+"   to  "+to.length);
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
 				try {
@@ -54,7 +54,7 @@ public class MailingServiceImpl implements MailingService {
 					mailSender.send(mimeMessage);
 				} catch (Exception e) {
 					e.printStackTrace();
-					logger.info( " sendMail() MailException");
+					logger.error( " sendMail() MailException");
 				}
 			}
 		});
@@ -95,7 +95,7 @@ public class MailingServiceImpl implements MailingService {
 					emailDTO.setSubject(msg.getSubject());
 					emailDTO.setText(VelocityEngineUtils.mergeTemplateIntoString(velocityEngine, templateFileName, "", hTemplateVariablesConverted));
 				} catch(Throwable t) {
-					logger.info("got error!!!!");
+					logger.error("got error!!!!");
 					t.printStackTrace();
 				}
 			}

@@ -48,7 +48,7 @@ public class Cronjob {
 				getallImg.forEach((imgObj) -> {
 					String imagepaths =path+"/"+ imgObj.getImageName();
 //					String imagepaths=imgObj.getImageUrl();
-					logger.info("image path to delet=="+imagepaths);
+					logger.debug("image path to delet=="+imagepaths);
 					File file=new File(imagepaths);
 					try {
 						GenUtilitis.fileFolderdeteUtils(file);
@@ -65,7 +65,7 @@ public class Cronjob {
 
 				getallImg.forEach((imgObj) -> {
 					String videopaths = imgObj.getVideoThumbnail();
-					logger.info("video path to delet==" + videopaths );
+					logger.debug("video path to delet==" + videopaths );
 					File file = new File(videopaths);
 					try {
 						GenUtilitis.fileFolderdeteUtils(file);
@@ -86,7 +86,7 @@ public class Cronjob {
 //	@Scheduled(cron="0 0 2 1/1 * ?")
 //	@Scheduled(fixedRate=60*1000)
 	public void pushNotificationCron() throws GenericException{
-		logger.info("*****************************pushNotificationCron started this time***************************");
+		logger.debug("*****************************pushNotificationCron started this time***************************");
 		try {
 			
 			notificationService.pushNotificationCron();

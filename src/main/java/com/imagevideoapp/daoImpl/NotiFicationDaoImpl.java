@@ -28,7 +28,7 @@ public class NotiFicationDaoImpl  extends ImageVideoJdbcDaoSupport implements No
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 		Date curdate=new Date();
 		String currentTime = sdf.format(curdate);
-		logger.info("::sendNotification()  start");
+		logger.debug("::sendNotification()  start");
 		try {
 			String query = "INSERT INTO ImageVideoApp.notification_details (title, type, description, device_id, scheduling_type, schedule_time, created_on) VALUES (?,?,?,?,?,?,?) ;";
 			getJdbcTemplate().update(query, notificationDetails.getTitle(),notificationDetails.getType(), notificationDetails.getDescription(),
@@ -44,7 +44,7 @@ public class NotiFicationDaoImpl  extends ImageVideoJdbcDaoSupport implements No
 
 	@Override
 	public List<String> getAllDeviceId() {
-		logger.info("getAllDeviceId started");
+		logger.debug("getAllDeviceId started");
 		String query = "select * from mobile_device_id;";
 
 		List<String> list = getJdbcTemplate().query(query, new RowMapper<String>() {
@@ -60,7 +60,7 @@ public class NotiFicationDaoImpl  extends ImageVideoJdbcDaoSupport implements No
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
 		Date curdate=new Date();
 		String currentTime = sdf.format(curdate);
-		logger.info("::insertDevice()  start");
+		logger.debug("::insertDevice()  start");
 		try {
 			String query = "insert into mobile_device_id(device_id,created_on) values (?,?)";
 			getJdbcTemplate().update(query, deviceId,currentTime);
@@ -75,12 +75,12 @@ public class NotiFicationDaoImpl  extends ImageVideoJdbcDaoSupport implements No
 
 	@Override
 	public List<NotificationDetails> getAllScheduleTask(String currentTime) {
-		logger.info("::getAllScheduleTask()  start");
+		logger.debug("::getAllScheduleTask()  start");
 		StringBuilder query=new StringBuilder();
 		List<NotificationDetails> alltask=null;
 		try {
 			query.append("select * from notification_details where schedule_time between '"+currentTime+":00' and  '"+currentTime+":59' ").append(" and scheduling_type = 2 order by schedule_time desc ;");
-			logger.info("query---"+query.toString());
+			logger.debug("query---"+query.toString());
 			alltask = getJdbcTemplate().query(query.toString(), new BeanPropertyRowMapper<NotificationDetails>(NotificationDetails.class));
 			return alltask; 
 		} catch (EmptyResultDataAccessException e) {

@@ -116,7 +116,7 @@ public class NotificationServiceImpl implements NotificationService{
 	boolean notificationPush(List<NotificationDetails> listnotificationDetails){
 		
 		List<String> getAllDevice = getAllDeviceId();
-		logger.info("size of getAllDevice==="+getAllDevice.size());
+		logger.debug("size of getAllDevice==="+getAllDevice.size());
 		
 		int partitionSize = 1000;
 		
@@ -145,7 +145,7 @@ public class NotificationServiceImpl implements NotificationService{
 						.delayWhileIdle(true).addData(MESSAGE_KEY, userMessage).build();
 				for (int i = 0; i < partitions.size(); i ++) {
 				result = sender.send(message,partitions.get(i), retries);
-				logger.info("result=="+result.toString());
+				logger.debug("result=="+result.toString());
 				}
 				
 			}
