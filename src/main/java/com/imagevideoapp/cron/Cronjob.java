@@ -42,7 +42,7 @@ public class Cronjob {
 			String path=this.applicationProperties.getProperty("imageFolder") +userId+ this.applicationProperties.getProperty("uploadImageFolder");
 			List<UploadedImage> getallImg=userService.getAllImages(null,image,"all"); 
 			boolean deletmsg=userService.deleteImages(cronStart,image);
-//			boolean deletVidmsg=userService.deleteImages(cronStart,video);
+			boolean deletVidmsg=userService.deleteImages(cronStart,video);
 			if(deletmsg){
 				logger.info("deleted file list size===="+getallImg.size());
 				getallImg.forEach((imgObj) -> {
@@ -58,13 +58,12 @@ public class Cronjob {
 
 				});
 			}
-/*		
- * commenting as per requirement on 28 aug.
- * 	if (deletVidmsg) {
-				List<UploadedVideo> getallImg = userService.getAllImages(null, video, "all");
+// commenting as per requirement on 28 aug.
+ 	if (deletVidmsg) {
+				List<UploadedVideo> getallVids = userService.getAllImages(null, video, "all");
 
-				getallImg.forEach((imgObj) -> {
-					String videopaths = imgObj.getVideoThumbnail();
+				getallVids.forEach((vidObj) -> {
+					String videopaths = vidObj.getVideoThumbnail();
 					logger.debug("video path to delet==" + videopaths );
 					File file = new File(videopaths);
 					try {
@@ -74,7 +73,7 @@ public class Cronjob {
 					}
 
 				});
-			}*/   
+			}  
 		} catch(EmptyResultDataAccessException e){
 			logger.error(" taskScheduler() EmptyResultDataAccessException"+e.getMessage());
 		}catch(DataAccessException e){
