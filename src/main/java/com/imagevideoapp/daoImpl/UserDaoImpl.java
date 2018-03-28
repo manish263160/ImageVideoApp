@@ -410,7 +410,7 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 				sql.append("delete from  uploaded_image where  created_on < (DATE_SUB('"+currentTime+" 23:59:59', INTERVAL 8 DAY));");
 				}
 				if(tableName.equals("uploaded_video")){
-					sql.append("delete from  uploaded_video where  created_on < (DATE_SUB('"+currentTime+" 23:59:59', INTERVAL 10 DAY));");
+					sql.append("delete from  uploaded_video where  created_on < (DATE_SUB('"+currentTime+" 23:59:59', INTERVAL 14 DAY));");
 				}
 			rowcount = getJdbcTemplate().update(sql.toString());
 			logger.debug("sql in cron==="+sql.toString());
