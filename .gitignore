@@ -1,2 +1,5 @@
 /target/
-src/main/webapp/static/UPLOAD_IMAGES/*
+/static/uploaded_content/*
+.project
+.classpath
+.settings

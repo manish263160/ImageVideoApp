@@ -1,7 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-  <groupId>com.imagevideoapp</groupId>
+	<groupId>com.imagevideoapp</groupId>
 	<artifactId>ImageVideoApp</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
@@ -9,7 +10,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>8</java.version>
 		<spring.version>4.3.12.RELEASE</spring.version>
 		<spring.security.version>4.0.4.RELEASE</spring.security.version>
 		<jackson.version>1.9.10</jackson.version>
@@ -104,11 +105,11 @@
 			<artifactId>spring-security-web</artifactId>
 			<version>${spring.security.version}</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.8.5</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
@@ -117,19 +118,19 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.2.3</version>
+			<version> 2.10.0</version>
 		</dependency>
 		<!-- Jackson 2.x Annotations -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>2.2.3</version>
+			<version>2.10.0</version>
 		</dependency>
 		<!-- Jackson 2.x Databind -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.2.3</version>
+			<version>2.10.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -269,26 +270,31 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/springmvc.breadcrumb-0.0.1-SNAPSHOT.jar</systemPath>
 		</dependency>
-	<!-- this is for GCM for google mobile notification -->
-	<dependency>
-		<groupId>com.ganyo</groupId>
-		<artifactId>gcm-server</artifactId>
-		<version>1.0.2</version>
-	</dependency>
-		
+		<!-- this is for GCM for google mobile notification -->
+		<dependency>
+			<groupId>com.ganyo</groupId>
+			<artifactId>gcm-server</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+		<!-- it done after java upgrade to 11 -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
-	
+
 		<finalName>ImageVideoApp</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.2</version>
+				<version>3.6.2</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>8</source>
+					<target>8</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -300,7 +306,32 @@
 					<warName>ImageVideoApp</warName>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
-			</plugin> 
+			</plugin>
+
+	<!-- <plugin>
+		<groupId>com.spotify</groupId>
+		<artifactId>docker-maven-plugin</artifactId>
+		<executions>
+			<execution>
+				<phase>install</phase>
+				<goals>
+					<goal>build</goal>
+				</goals>
+			</execution>
+		</executions>
+		<configuration>
+			<imageName>${project.build.finalName}:${project.version}
+			</imageName>
+			<baseImage>base-tomcat:1.0</baseImage>
+			<resources>
+				<resource>
+					<targetPath>/usr/local/tomcat/webapps/</targetPath>
+					<directory>${project.basedir}/target/</directory>
+					<include>${project.build.finalName}.war</include>
+				</resource>
+			</resources>
+		</configuration>
+	</plugin> -->
 		</plugins>
 	</build>
 
