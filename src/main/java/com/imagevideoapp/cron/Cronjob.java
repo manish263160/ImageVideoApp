@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.imagevideoapp.exception.GenericException;
@@ -30,7 +29,7 @@ public class Cronjob {
 	private NotificationService notificationService;
 	
 	private static final Logger logger = Logger.getLogger(Cronjob.class);
-	@Scheduled(cron="0 0 2 1/1 * ?")
+//	@Scheduled(cron="0 0 2 1/1 * ?")
 //	@Scheduled(fixedDelay=20000)
 	public void taskScheduler() throws IOException{
 		logger.info("*****************************cron has started this time***************************");

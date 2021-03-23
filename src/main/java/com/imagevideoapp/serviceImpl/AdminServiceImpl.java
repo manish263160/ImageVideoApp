@@ -360,5 +360,10 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.getRestAllCategory(user,catFor, table);
 	}
 
+	@Override
+	public boolean updateVideoTitle(String id, String title, String c_date) {
+		return adminDao.updateVideoTitle(id, title,c_date);
+	}
+
 
 }

@@ -48,6 +48,18 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-module-junit4</artifactId>
+				<version>1.7.4</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-api-mockito</artifactId>
+				<version>1.7.4</version>
+				<scope>test</scope>
+			</dependency>
 		<!-- Servlet Api -->
 		<dependency>
 			<groupId>javax.servlet</groupId>

@@ -41,7 +41,7 @@
 	                    </div>
 	<form action="${imgvids}/insertVideo" method="post"
 	modelAttribute="UploadedVideo" enctype="multipart/form-data" id="formupload">
-	 <div class="divider"></div>
+	      <div class="divider"></div>
 	            <div class="row section">
 	              <div class="col s12 m4 l3">
 	                <p>Select An Image for Thumbnail (Max 2MB)</p>
@@ -61,20 +61,20 @@
                           <label for="videoLink" class="">Video Link</label>
                         </div>
                   
-                  <div class="col s12 m3 l3">
+                  <!-- <div class="col s12 m3 l3">
 	                <p>Time Length</p>
 	              </div>
                   <div class="input-field col s12 m3 l3">
                           <input id="timeLength" type="text" class="validate" autocomplete="off" name="timeLength">
                           <label for="timeLength" class="">Time Length</label>
-                        </div>
+                        </div> -->
                         </div>
                  <div class="row section">
                   <div class="col s12 m2 l3">
 	                <p>Category <span style="font-size: 10px">(Please use CTRL+click for multiselect)</span></p>
 	              </div>
                   <div class="input-field col s12 m3 l3">
-                    <select name="categoryId" id="categoryId" class="validate browser-default" required multiple="multiple" onchange="changeSelect()">
+                    <select name="categoryId" id="categoryId" class="validate browser-default" required multiple="multiple" >
 					<option disabled="disabled" selected>Select Category</option>
                     <c:forEach items="${categorylist }" var="cat">
 						<option value="${cat.id }">${cat.name }</option>
@@ -82,7 +82,7 @@
 					</select>
                         </div>
                         
-                  <div class="col s12 m3 l3">
+                 <%--  <div class="col s12 m3 l3">
 	                <p>Series</p>
 	              </div>
                   <div class="input-field col s12 m3 l3">
@@ -92,24 +92,26 @@
 							<option value="${sers.id }">${sers.name }</option>
 						</c:forEach>
 					</select>
-				</div>  
-				</div>
-	            
-	            <div class="row section">
-	             <div class="col s12 m4 l3">
-	                <p>Image Title</p>
+				</div>  --%> 
+				<div class="col s12 m2 l2">
+	                <p>Video Image Title</p>
 	              </div>
 	              
-	              <div class="input-field col s8 m4 l3">
+	              <div class="input-field col s8 m4 l4">
                           <input id="title" type="text" class="validate" autocomplete="off" maxlength="250" name="title">
                           <label for="title" class="">Image Title</label>
                         </div>
-	             <div class="col s12 m4 l3">
-	                <p>Description</p>
+				</div>
+	            
+	            <div class="row section">
+	             
+	             <div class="col s12 m2 l2">
+	                <p>Video Description</p>
 	              </div>
 	              
-	              <div class="input-field col s8 m4 l3">
-                          <textarea id="description" type="text" class="materialize-textarea" maxlength="250" autocomplete="off" name="description" ></textarea>
+	              <div class="input-field col s8 m10 l10">
+                          <textarea id="description" type="text" class="materialize-textarea" maxlength="1000" autocomplete="off" name="description" ></textarea>
+                          <span id="rchars">1000</span>/1000 Character(s) Remaining
                           <label for="email" class="">Description</label>
                         </div>
 	            </div>
@@ -162,7 +164,7 @@
 	                }, */
 	                file :{
 	                	required: true,
-	                },
+	                }, 
 	                videoLink :{
 	                	required: true,
 	                },
@@ -179,20 +181,16 @@
 	                	},
 	                }, */
 	                categoryId :{
-	                	required: function(){
-	                		if(($("#seriesId").val() !=='' && $("#seriesId").val() != null)  || ($("#categoryId").val() !=='' && $("#categoryId").val() !=null)){
-	                			return false;
-	                		}else {
-	                			return true;
-	                		}
-	                	},
+	                	required: {
+	                		required: true,
+	                	}
 	                },
 	                title :{
 	                	required: true,
 	                },
-	               /*  description :{
+	                description :{
 	                	required: true,
-	                }, */
+	                }, 
 	           },
 	            //For custom messages
 	            messages: {
@@ -225,10 +223,12 @@
 	            });
 	        	
 	        }
-	        
-	        function changeSelect(){
-	        	console.log("------",$("#categoryId").val());
-	        }
+	        var maxLength = 1000;
+	        $('textarea').keyup(function() {
+	          var textlen = maxLength - $(this).val().length;
+	          $('#rchars').text(textlen);
+	        });
+	       
 	    </script>
 
 	</body>

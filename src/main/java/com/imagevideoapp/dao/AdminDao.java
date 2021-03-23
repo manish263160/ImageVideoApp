@@ -40,5 +40,7 @@ public interface AdminDao {
 
 	List<CategrySeriesModels> getRestAllCategory(User user, int catFor ,String table );
 
+	boolean updateVideoTitle(String id, String title, String c_date);
+
 
 }

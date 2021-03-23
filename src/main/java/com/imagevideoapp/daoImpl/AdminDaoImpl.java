@@ -320,6 +320,20 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 				new BeanPropertyRowMapper<CategrySeriesModels>(CategrySeriesModels.class), user.getUserId(),catFor);
 		return list;
 	}
+
+	@Override
+	public boolean updateVideoTitle(String id, String title, String c_date) {
+	
+		String query = "update imagevideoapp.uploaded_video set title=? where created_on =?";
+		int val = 0;
+		try {
+			val= getJdbcTemplate().update(query , title, c_date);
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		}
+		
+		return val > 0 ? true :false;
+	}
 	
 	
 	

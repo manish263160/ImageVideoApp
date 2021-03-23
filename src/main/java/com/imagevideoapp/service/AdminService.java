@@ -40,7 +40,9 @@ public interface AdminService {
 
 	List<UploadedVideo> getAllWebSeriesVideo();
 
-	List<CategrySeriesModels> getRestAllCategory(int catFor, String table); 
+	List<CategrySeriesModels> getRestAllCategory(int catFor, String table);
+
+	boolean updateVideoTitle(String id, String title, String c_date); 
 
 
 }

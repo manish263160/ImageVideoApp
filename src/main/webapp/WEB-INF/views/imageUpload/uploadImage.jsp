@@ -52,7 +52,7 @@ height: 100px;
 	            </div>
 	            <div class="row section">
 	             <div class="col s12 m4 l3">
-	                <p>Image Link</p>
+	                <p>News Link</p>
 	              </div>
 	              
 	              <div class="input-field col s8 m4 l4">
@@ -71,7 +71,7 @@ height: 100px;
 	            
 	             <div class="row section">
                   <div class="col s12 m2 l3">
-	                <p>Category <span style="font-size: 10px">(Please use CTRL+click for multiselect)</span> </p>
+	                <p>News Category <span style="font-size: 10px">(Please use CTRL+click for multiselect)</span> </p>
 	              </div>
                   <div class="input-field col s12 m3 l3">
                     <select name="categoryId" id="categoryId" class="validate browser-default" required multiple onchange="changeSelect()">
@@ -89,7 +89,8 @@ height: 100px;
 	              </div>
 	              
 	              <div class="input-field col s8 m4 l7">
-                          <textarea id="imgDesc" type="text" class="materialize-textarea" maxlength="250" autocomplete="off" name="imageDescription" ></textarea>
+                          <textarea id="imgDesc" type="text" class="materialize-textarea" maxlength="1000" autocomplete="off" name="imageDescription" ></textarea>
+                           <span id="rchars">1000</span>/1000 Character(s) Remaining
                           <label for="email" class="">Image Description</label>
                         </div>
 	            </div>
@@ -174,6 +175,12 @@ height: 100px;
 	        function changeSelect(){
 	        	console.log("------",$("#categoryId").val());
 	        }
+	        
+	        var maxLength = 1000;
+	        $('textarea').keyup(function() {
+	          var textlen = maxLength - $(this).val().length;
+	          $('#rchars').text(textlen);
+	        });
 	    </script>
 
 	</body>

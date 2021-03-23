@@ -4,9 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -115,5 +118,15 @@ public class ImgVidsRestController {
 		String fetchTable="series";
 		List<CategrySeriesModels> serieslist=adminService.getAllCategorySeries(fetchTable , null);
 		return new ResponseEntity<List<CategrySeriesModels>>(serieslist, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/updateVideo", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<Boolean> updateVideo(@RequestBody Map<String, String> map, HttpServletRequest request) {
+		
+		String id = map.get("id");
+		String title = map.get("title");
+		String c_date = map.get("cdate");
+		boolean bool = adminService.updateVideoTitle(id, title,c_date);
+		return new ResponseEntity<Boolean>(bool, HttpStatus.OK);
 	}
 }
